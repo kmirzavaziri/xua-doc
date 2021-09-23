@@ -1,0 +1,86 @@
+# XUA Documentation - Compiler Handbook
+# Kamyar Mirzavaziri
+# Winter 1399
+
+# Doc Constants
+    # @python doc.constants.TITLE = "Compiler Handbook;"
+    # @python doc.constants.SUBTITLE = "The Blueprints"
+
+# Doc Configurations
+    # @python doc.renderComments = "doc"
+    # @python doc.renderCodes = "pure"
+
+# -- #########################################
+# # Tokens
+# $\text{ADRESS}$, $\text{ID}$, $number$, $string$, $\mathbf{true}$, $\mathbf{false}$, $\mathbf{null}$, brackets, parenthesis, comma, semi-colon, colon, etc.
+
+# -- #########################################
+# # XUA Syntax
+
+# ## Shared Syntax
+# $$\begin{eqnarray}
+# program & ::= & super ~ | ~ entity ~ | ~ method ~ | interface ~  \\
+# type & ::= & \text{ID} ([\![\text{ID} ~ = ~ const, ]\!]^*)\\
+# & | & \text{ID} (\text{ID} ~ = ~ const ~ [\![, \text{ID} ~ = ~ const ]\!]^*)\\
+# const & ::= & \text{ID} \\
+# & | & number \\
+# & | & string \\
+# & | & \mathbf{[} [\![ const, ]\!]^* \mathbf{]} \\
+# & | & \mathbf{[} const ~ [\![ , const ]\!]^* \mathbf{]} \\
+# & | & \mathbf{\{} [\![ string : const, ]\!]^* \mathbf{\}} \\
+# & | & \mathbf{\{} string : const ~ [\![ , string : const ]\!]^* \mathbf{\}} \\
+# & | & const + const \\
+# & | & const - const \\
+# & | & const * const \\
+# & | & const ~\hat{}~ const \\
+# & | & const ~/~ const \\
+# & | & const ~//~ const \\
+# & | & const ~\%~ const \\
+# & | & - const \\
+# & | & \mathbf{true} \\
+# & | & \mathbf{false} \\
+# & | & \mathbf{null}.
+# \end{eqnarray}$$
+
+# ## Super Syntax
+# $$\begin{eqnarray}
+# super & ::= & \mathbf{Super} ~ [\mathbf{extends} ~ \text{ID}] ~ ( ~ [\![ [\mathbf{const}] ~ \text{ID} : type ~ [= ~ const]; ]\!]^* ~ )
+# ~ \{ [\![ super\_content ]\!]^* \} \\
+# super\_content & ::= & \mathbf{Validation} ~ \{ ~ code ~ \} \\
+# & | & \mathbf{Predicate} ~ \{ ~ code ~ \} \\
+# & | & \mathbf{Marshal}<\text{ID}> ~ \{ ~ code ~ \} \\
+# & | & \mathbf{Unmarshal}<\text{ID}> ~ \{ ~ code ~ \} \\
+# & | & \mathbf{DatabaseType} ~ \{ ~ code ~ \}.
+# \end{eqnarray}$$
+
+# ## Entity Syntax
+# $$\begin{eqnarray}
+# entity & ::= & \mathbf{Entity} ~ [\mathbf{extends} ~ \text{ID}] ~ ( ~ [\![ \text{ID} : type ~ [= ~ const]; ]\!]^* ~ )
+# ~ \{ [\![ entity\_content ]\!]^* \} \\
+# entity\_content & ::= & \mathbf{Indexes} ~ \{ ~ [\![ \text{ID} :
+# ids\_list ; ]\!]^*
+# [*] ~ \} \\
+# & | & \mathbf{Validation} ~ \{ ~ code ~ \} \\
+# & | & \mathbf{Override}<
+# entity\_method
+# > ~ \{ ~ code ~ \} \\
+# ids\_list & ::= & \mathbf{(} [\![ ID, ]\!]^* \mathbf{)} \\
+# & | & \mathbf{(} ID ~ [\![ , ID ]\!]^* \mathbf{)} \\
+# entity\_method & ::= & \mathbf{newInstance} \\
+# & | & \mathbf{getOne} \\
+# & | & \mathbf{store} \\
+# & | & \mathbf{markToDelete} \\
+# & | & \mathbf{getMany} \\
+# & | & \mathbf{setMany} \\
+# & | & \mathbf{deleteMany}.
+# \end{eqnarray}$$
+
+# ## Method Syntax
+# $$\begin{eqnarray}
+# method & ::= & \\
+# \end{eqnarray}$$
+
+# ## Interface Syntax
+# $$\begin{eqnarray}
+# interface & ::= & \\
+# \end{eqnarray}$$
