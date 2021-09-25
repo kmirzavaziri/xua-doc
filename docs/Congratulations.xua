@@ -1,0 +1,20 @@
+# XUA Documentation - Congratulations
+# Kamyar Mirzavaziri
+# Winter 1399
+
+# Doc Constants
+    # @python doc.constants.TITLE = "Congratulations;"
+    # @python doc.constants.SUBTITLE = "Finis Coronat Opus"
+
+# Doc Configurations
+    # @python doc.renderComments = "doc"
+    # @python doc.renderCodes = "pure"
+
+# -- #########################################
+# # It's Over, It's Done
+
+# Nice to finally meet you here. Congratulations. We are thrilled that you took the time to read this e-book about the Xua Language and wish you to use this tool to build some great back-end applications.
+
+# Please keep in touch with the development team using [kmirzavaziri@gmail.com](mailto:kmirzavaziri@gmail.com) and let us know your opinions and comments.
+
+# We also appreciate it if you want to contribute to this project since this is an open-source project and cannot grow without your contributions.
