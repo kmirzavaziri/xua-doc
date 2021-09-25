@@ -1,6 +1,77 @@
 /* @TODO Clean this CSS file */
 
 /* ###################################################################### */
+/* Theme */
+.section, ul#menu li.section_name, div.button, td.logical_tab, .ui-state-active  { background-color: rgb(20, 20, 40); }
+
+body {
+    background-image: url('../images/bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
+}
+
+#header {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+#main h1.h1,
+ul#menu li.menu-item,
+div.button,
+td.logical_tab,
+.ui-state-active {
+    background-color: #38326d;
+    color: #fff;
+}
+
+::-moz-selection {
+    /* Code for Firefox */
+    color: #fff;
+    background: #38326d;
+}
+
+::selection {
+    color: #fff;
+    background: #38326d;
+}
+
+#header a, #index_content a {
+    color: #fff;
+}
+
+#header .menu-item:hover, #index_content .button:hover {
+    background-color: #fff;
+}
+
+#header .menu-item:hover a, #index_content .button:hover {
+    color: #38326d;
+}
+
+#main h2.h2,
+#main h3.h3,
+#main h4.h4,
+#main h5.h5,
+#main h6.h6 {
+    color: #38326d;
+}
+
+a:link {
+    color: #38326d;
+}
+
+a:visited {
+    color: #38326d;
+}
+
+a:active {
+    color: #38326d;
+}
+
+a:hover {
+    color: #0b0827;
+}
+
+/* ###################################################################### */
 /* General */
 body {
     padding: 0px 0px;
@@ -8,11 +79,8 @@ body {
     padding-left: 1em;
     background-color: white; 
     font-family: 'Open Sans', sans-serif;
-    background-repeat: no-repeat;
-    background-size: 100%;
     text-align: justify;
     background-attachment: fixed;
-    background-size: cover;
 }
 
 #page {
@@ -61,11 +129,10 @@ ul#menu {
 
 ul#menu li, div.button {
     display: inline-block;
-    background-color: white;
     padding: 5px;
     font-size: .70em;
     text-transform: uppercase;
-    width: 30%;
+    width: 22%;
     text-align: center;
     font-weight: 600;
 }
@@ -110,7 +177,7 @@ ul#menu a.hover li  {
     line-height: 100%;
     max-width: 760px;
     background-color: #ffffff;
-    margin: 0 auto; 
+    margin: 0 auto;
 }
 
 #main_home {
@@ -134,7 +201,6 @@ ul#menu a.hover li  {
     margin-bottom: 9px;
     margin-top: 18px;
     font-size : 125%;
-    color: #ffffff;
 }
 
 #main h1.h1 {
@@ -359,12 +425,12 @@ pre {
     overflow-x: auto;
     overflow-y: hidden;
     padding: 10px;
-    background-color: #efefef;
+    background-color: #e9e7ff;
     color: #1e1e1e;
 }
 
 code {
-    background-color: #efefef;
+    background-color: #e9e7ff;
     color: #1e1e1e;
 }
 
@@ -432,6 +498,10 @@ tr.infrulemiddle hr {
 
 .nowrap {
     white-space: nowrap;
+}
+
+#filler {
+    height: 90vh;
 }
 
 /* ###################################################################### */
@@ -904,72 +974,7 @@ body.sf_home #main_home {
     background-color: transparent;
 }
 
-/*   Background   */
-body {
-    background-image: url('../images/bg.jpg');
-}
-
-#header {
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
-#main h1.h1,
-ul#menu li.menu-item,
-div.button,
-td.logical_tab,
-.ui-state-active {
-    background-color: #1F473C;
-    color: #fff;
-}
-
-::-moz-selection {
-    /* Code for Firefox */
-    color: #fff;
-    background: #1F473C;
-}
-
-::selection {
-    color: #fff;
-    background: #1F473C;
-}
-
-#header a, #index_content a {
-    color: #fff;
-}
-
-#header .menu-item:hover, #index_content .button:hover {
-    background-color: #fff;
-}
-
-#header .menu-item:hover a, #index_content .button:hover {
-    color: #1F473C;
-}
-
-#main h2.h2,
-#main h3.h3,
-#main h4.h4,
-#main h5.h5,
-#main h6.h6 {
-    color: #1F473C;
-}
-
-a:link {
-    color: #1F473C;
-}
-
-a:visited {
-    color: #1F473C;
-}
-
-a:active {
-    color: #1F473C;
-}
-
-a:hover {
-    color: #001F00;
-}
-
-
+/* Additional Stuff */
 .table-bordered {
     border: 1px solid #dee2e6;
 }
@@ -1002,4 +1007,39 @@ img.figure {
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+.html-code {
+    display: block;
+    font-family: monospace;
+    font-size: 8pt;
+    padding: 10px;
+    white-space: pre;
+    margin: 1em 0px;
+    background-color: #434343;
+    color: #c2c2c2;
+}
+
+.html-code .color-white {
+    color: #ffffff;
+}
+
+.html-code .color-orange {
+    color: #ff9900;
+}
+
+.html-code .color-red {
+    color: #ff0000;
+}
+
+.html-code .color-blue {
+    color: #9fc5e8;
+}
+
+.html-code .color-green {
+    color: #93c47d;
+}
+
+.html-code .color-yellow {
+    color: #f1c232;
 }

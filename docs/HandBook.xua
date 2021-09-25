@@ -1,0 +1,89 @@
+# Xua Documentation - Hand Book
+# Kamyar Mirzavaziri
+# Winter 1399
+
+# Doc Constants
+    # @python doc.constants.TITLE = "Hand Book;"
+    # @python doc.constants.SUBTITLE = "The Compiler's Blueprint"
+
+# Doc Configurations
+    # @python doc.renderComments = "doc"
+    # @python doc.renderCodes = "pure"
+
+# -- #########################################
+# # Context-Free Grammar
+
+    # @python doc.renderComments = "doc"
+# <html><div class="html-code">\$ <b class="color-white">General.</b>
+# ‌     <span class="color-orange">xua&UnderBar;file</span> <b class="color-red">:=</b> <b class="color-red">[</b><span class="color-orange">use&UnderBar;block</span><b class="color-red">]</b> <b class="color-red">[</b><span class="color-orange">main&UnderBar;block</span><b class="color-red">]</b>
+# ‌    <span class="color-orange">use&UnderBar;block</span> <b class="color-red">:=</b> (USE FULL&UnderBar;SYMBOL <b class="color-red">[</b>AS SEMI&UnderBar;FULL&UnderBar;SYMBOL<b class="color-red">]</b>;)&ast;
+# ‌   <span class="color-orange">main&UnderBar;block</span> <b class="color-red">:=</b> super|entity|method|interface
+# ‌    <span class="color-orange">extension</span> <b class="color-red">:=</b> EXTENDS FULL&UnderBar;SYMBOL
+# ‌         <span class="color-orange">type</span> <b class="color-red">:=</b> FULL&UnderBar;SYMBOL((argument,)&ast;)
+# ‌               | FULL&UnderBar;SYMBOL(argument(,argument)&ast;)
+# ‌               | FULL&UnderBar;SYMBOL::LOWER&UnderBar;SYMBOL             (For Super & Entity)
+# ‌               | FULL&UnderBar;SYMBOL:FIELDS&UnderBar;BLOCK:LOWER&UnderBar;SYMBOL (For Method & VARQUE Method)
+# ‌    <span class="color-orange">argument </span> <b class="color-red">:=</b> LOWER&UnderBar;SYMBOL = (expression|type)
+# ‌     <span class="color-orange">php&UnderBar;code</span> <b class="color-red">:=</b> <b class="color-red">[</b>^<b class="color-red">]</b>&ast; (Incorrect, some challenging cases are {echo "}";}, {/&ast;}&ast;/}, and {if(0){die();}}.)
+# ‌ <span class="color-orange">foreign&UnderBar;code</span> <b class="color-red">:=</b> <b class="color-red">[</b>^<b class="color-red">]</b>&ast; (Same)
+# \$ <b class="color-white">Super.</b>
+# ‌           <span class="color-orange">super</span> <b class="color-red">:=</b> SUPER <b class="color-red">[</b>extension<b class="color-red">]</b> ((super&UnderBar;signature;)&ast;) {(super&UnderBar;section)&ast;}
+# ‌ <span class="color-orange">super&UnderBar;signature</span> <b class="color-red">:=</b> <b class="color-red">[</b>CONST<b class="color-red">]</b> LOWER&UnderBar;SYMBOL : type <b class="color-red">[</b>= expression<b class="color-red">]</b>
+# ‌   <span class="color-orange">super&UnderBar;section</span> <b class="color-red">:=</b> predicate|s&UnderBar;validation|s&UnderBar;type|marshal|unmarshal
+# ‌       <span class="color-orange">predicate</span> <b class="color-red">:=</b> PREDICATE {php&UnderBar;code}
+# ‌    <span class="color-orange">s&UnderBar;validation</span> <b class="color-red">:=</b> VALIDATION {php&UnderBar;code}
+# ‌          <span class="color-orange">s&UnderBar;type</span> <b class="color-red">:=</b> TYPE<SUPER&UnderBar;TARGET> {foreign&UnderBar;code}
+# ‌         <span class="color-orange">marshal</span> <b class="color-red">:=</b> MARSHAL<SUPER&UnderBar;TARGET> {foreign&UnderBar;code}
+# ‌       <span class="color-orange">unmarshal</span> <b class="color-red">:=</b> UNMARSHAL<SUPER&UnderBar;TARGET> {foreign&UnderBar;code}
+# \$ <b class="color-white">Entity.</b>
+# ‌           <span class="color-orange">entity</span> <b class="color-red">:=</b> ENTITY <b class="color-red">[</b>extension<b class="color-red">]</b> ((entity&UnderBar;signature;)&ast;) {(entity&UnderBar;section)&ast;}
+# ‌ <span class="color-orange">entity&UnderBar;signature</span> <b class="color-red">:=</b> LOWER&UnderBar;SYMBOL : type <b class="color-red">[</b>= expression<b class="color-red">]</b>
+# ‌   <span class="color-orange">entity&UnderBar;section</span> <b class="color-red">:=</b> indexes|e&UnderBar;validation|override
+# ‌          <span class="color-orange">indexes</span> <b class="color-red">:=</b> INDEXES {(index&UnderBar;signature;)&ast;}
+# ‌     <span class="color-orange">e&UnderBar;validation</span> <b class="color-red">:=</b> VALIDATION {php&UnderBar;code}
+# ‌         <span class="color-orange">override</span> <b class="color-red">:=</b> OVERRIDE<ENTITY&UnderBar;METHOD&UnderBar;NAME> {php&UnderBar;code}
+# ‌  <span class="color-orange">index&UnderBar;signature</span> <b class="color-red">:=</b> ((<b class="color-red">[</b>-<b class="color-red">]</b>LOWER&UnderBar;SYMBOL)+)<b class="color-red">[</b>&ast;<b class="color-red">]</b>
+# \$ <b class="color-white">Method.</b>
+# ‌                <span class="color-orange">method</span> <b class="color-red">:=</b> <b class="color-red">[</b>VISIBILITY<b class="color-red">]</b> METHOD <b class="color-red">[</b>extension<b class="color-red">]</b> {(method&UnderBar;section)&ast;}
+# ‌        <span class="color-orange">method&UnderBar;section</span> <b class="color-red">:=</b> request|response|body
+# ‌               <span class="color-orange">request</span> <b class="color-red">:=</b> REQUEST {(method&UnderBar;item&UnderBar;signature;)&ast;}
+# ‌              <span class="color-orange">response</span> <b class="color-red">:=</b> RESPONSE {(method&UnderBar;item&UnderBar;signature;)&ast;}
+# ‌                  <span class="color-orange">body</span> <b class="color-red">:=</b> BODY {php&UnderBar;code}
+# ‌ <span class="color-orange">method&UnderBar;item&UnderBar;signature</span> <b class="color-red">:=</b> <b class="color-red">[</b>CONST<b class="color-red">]</b> LOWER&UnderBar;SYMBOL : type <b class="color-red">[</b>= expression<b class="color-red">]</b>
+# \$ <b class="color-white">Varque Method.</b>
+# ‌         <span class="color-orange">varque&UnderBar;method</span> <b class="color-red">:=</b> @TODO Kamyar Mirzavaziri
+# \$ <b class="color-white">Interface.</b>
+# ‌ <span class="color-orange">interface</span> <b class="color-red">:=</b> INTERFACE <b class="color-red">[</b>extension<b class="color-red">]</b> {php&UnderBar;code}
+# \$ <b class="color-white">Expression.</b>
+# ‌ <span class="color-orange">expression</span> <b class="color-red">:=</b> NUMBER
+# ‌             | STRING
+# ‌             | TRILEAN
+# ‌             | SEMI&UnderBar;FULL&UnderBar;SYMBOL::UPPER&UnderBar;SYMBOL
+# ‌             | array
+# ‌             | map
+# ‌             | expression + expression
+# ‌             | expression - expression
+# ‌             | expression &ast; expression
+# ‌             | expression ^ expression
+# ‌             | expression / expression
+# ‌             | expression // expression
+# ‌             | expression % expression
+# ‌             | - expression
+# ‌      <span class="color-orange">array</span> <b class="color-red">:=</b> <b class="color-red">[</b>(expression,)&ast;<b class="color-red">]</b>
+# ‌             | <b class="color-red">[</b>expression(,expression)&ast;<b class="color-red">]</b>
+# ‌        <span class="color-orange">map</span> <b class="color-red">:=</b> <b class="color-red">[</b>(STRING: expression,)&ast;<b class="color-red">]</b>
+# ‌             | <b class="color-red">[</b>STRING: expression(,STRING: expression)&ast;<b class="color-red">]</b>
+# \$ <b class="color-white">Tokens.</b>
+# ‌             NUMBER <b class="color-red">:=</b> (Integers, decimals, scientific notation, binaries, hexes, octals, etc.)
+# ‌             STRING <b class="color-red">:=</b> ".&ast;"|'.&ast;' (Incorrect, the challenge is rejecting "a"b" while accepting "a\"b".)
+# ‌            TRILEAN <b class="color-red">:=</b> TRUE|FALSE|NULL
+# ‌       LOWER&UnderBar;SYMBOL <b class="color-red">:=</b> <b class="color-red">[</b>a-z<b class="color-red">]</b><b class="color-red">[</b>a-zA-Z0-9&UnderBar;<b class="color-red">]</b>&ast;
+# ‌       UPPER&UnderBar;SYMBOL <b class="color-red">:=</b> <b class="color-red">[</b>A-Z<b class="color-red">]</b><b class="color-red">[</b>A-Z0-9&UnderBar;<b class="color-red">]</b>&ast;
+# ‌        FULL&UnderBar;SYMBOL <b class="color-red">:=</b> <b class="color-red">[</b>A-Z<b class="color-red">]</b><b class="color-red">[</b>a-zA-Z0-9&UnderBar;<b class="color-red">]</b>&ast;(\\<b class="color-red">[</b>A-Z<b class="color-red">]</b><b class="color-red">[</b>a-zA-Z0-9&UnderBar;<b class="color-red">]</b>&ast;)&ast;
+# ‌   SEMI&UnderBar;FULL&UnderBar;SYMBOL <b class="color-red">:=</b> <b class="color-red">[</b>A-Z<b class="color-red">]</b><b class="color-red">[</b>a-zA-Z0-9&UnderBar;<b class="color-red">]</b>&ast;
+# ‌         VISIBILITY <b class="color-red">:=</b> PUBLIC|PRIVATE
+# ‌       SUPER&UnderBar;TARGET <b class="color-red">:=</b> PHP|DATABASE|DART|JAVASCRIPT|TYPESCRIPT|JAVA|KOTLIN|OBJECTIVEC|SWIFT
+# ‌ ENTITY&UnderBar;METHOD&UnderBar;NAME <b class="color-red">:=</b> INITIALIZE|GETONE|STORE|DELETE|GETMANY|DELETEMANY
+# ‌        VARQUE&UnderBar;MODE <b class="color-red">:=</b> VIEW|ADJUST|REMOVE|QUERY|UPDATE|ELIMINATE
+# ‌       FIELDS&UnderBar;BLOCK <b class="color-red">:=</b> REQUEST|RESPONSE|FIELDS
+# </div></html>
