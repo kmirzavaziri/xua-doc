@@ -36,9 +36,9 @@
 
 # There is also a fourth block called Interface, which is in the frontline of the back-end application. There is a specific interface called URPI responsible for connecting its requests to Methods, but the programmer can define other interfaces as well and fill them with pure PHP codes. There is also a file called `routes.xrml` (`xrml` stands for Xua's routes minimal language) which defines that what Interface should be called based on the request method (such as `POST`, `GET`, `OPTIONS`) and the request URI, which are HTTP protocol concepts (Which is the protocol Xua and front-end communicate with).
 
-# Xua advocates the single block policy. A `.xua` file can contain one block at most, and the block can be Method, Entity, Super, or Interface. However, having more than one block in a file is permitted only for documentation purposes, and it should not affect the server project. So there are only four types of `.xua` files. One can also inject native scripts under the name of _Services_) and assets and other files (under the name of _Public Resource Files_) into the project.
+# Xua advocates the single block policy. A `.xua` file can contain one block at most, and the block can be Method, Entity, Super, or Interface. However, having more than one block in a file is permitted only for documentation purposes, and it should not affect the server project. So there are only four types of `.xua` files. One can also inject native scripts under the name of _Services_) and assets and other files (under the name of _Resource Files_) into the project.
 
-# So a Xua project is a combination of specifications (__Methods__, __Entities__, __Supers__, __Interfaces__, __Services__, and __PRFs__ to be specific) that will result in generating a server project (known as _Xua Server_), a front-end library (known as _Marshal Library_), and a complete set of documentations (known as _Documentations_).
+# So a Xua project is a combination of specifications (__Methods__, __Entities__, __Supers__, __Interfaces__, __Services__, and __Resource Files__ to be specific) that will result in generating a server project (known as _Xua Server_), a front-end library (known as _Marshal Library_), and a complete set of documentations (known as _Documentations_).
 
 # The detailed Xua architecture is a little frustrating compared to the simplified version we have just provided, but we only mention it here. There is no need to master it entirely for now.
 
@@ -64,7 +64,7 @@
 #    │  │  ├─ JavaScript
 #    │  │  └─ └─ (.js files)
 #    │  └─ (...)
-#    ├─ (Public Resource Files ...)
+#    ├─ (Resource Files ...)
 #    ├─ routes.xrml
 #    └─ config.xml
 
