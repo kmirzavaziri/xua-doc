@@ -11,82 +11,15 @@
     # @python doc.renderCodes = "pure"
 
 # -- #########################################
+# # Introduction
+# This documentation is tended to be a reference for those who want to use Xua as a tool. However, in this chapter, we focus on the implementation of the Xua engine, which is helpful for developers who want to contribute to the project.
+
+# -- #########################################
 # # Context-Free Grammar
+# There are four types of `.xua` files, Super, Entity, Method, and Interface. In this section, we cover the context-free grammar of these blocks.
 
-# <iframe src="https://docs.google.com/document/d/e/2PACX-1vSXgdLZLJhZRam7PT3QK8s7hESVGcswHmpthoAoVPDKNu2D9ZEabcowcUn9TkN2FsXvy8vuwOs3WjHJ/pub?embedded=true" style="width: 100%; height: 930px; border: none;"></iframe>
+# <iframe src="https://docs.google.com/document/d/e/2PACX-1vSXgdLZLJhZRam7PT3QK8s7hESVGcswHmpthoAoVPDKNu2D9ZEabcowcUn9TkN2FsXvy8vuwOs3WjHJ/pub?embedded=true" style="width: 100%; height: 1050px; border: none;"></iframe>
 
-# @python doc.renderComments = "none"
-
-# <html><div class="html-code">\$ <b class="color-white">General.</b>
-# ‌     <span class="color-orange">xua&UnderBar;file</span> <b class="color-red">:=</b> <b class="color-red">[</b><span class="color-orange">use&UnderBar;block</span><b class="color-red">]</b> <b class="color-red">[</b><span class="color-orange">main&UnderBar;block</span><b class="color-red">]</b>
-# ‌    <span class="color-orange">use&UnderBar;block</span> <b class="color-red">:=</b> <b class="color-red">(</b><b class="color-blue">USE</b> <span class="color-green">FULL&UnderBar;SYMBOL</span> <b class="color-red">[</b><b class="color-blue">AS</b> <span class="color-green">SEMI&UnderBar;FULL&UnderBar;SYMBOL</span><b class="color-red">]</b><b class="color-blue">;</b><b class="color-red">)</b><b class="color-red">&ast;</b>
-# ‌   <span class="color-orange">main&UnderBar;block</span> <b class="color-red">:=</b> <span class="color-orange">super</span><b class="color-red">|</b><span class="color-orange">entity</span><b class="color-red">|</b><span class="color-orange">method</span><b class="color-red">|</b><span class="color-orange">interface</span>
-# ‌    <span class="color-orange">extension</span> <b class="color-red">:=</b> <b class="color-blue">EXTENDS</b> <span class="color-green">FULL&UnderBar;SYMBOL</span>
-# ‌         <span class="color-orange">type</span> <b class="color-red">:=</b> <span class="color-green">FULL&UnderBar;SYMBOL</span><b class="color-blue">(</b><b class="color-red">(</b><span class="color-orange">argument</span><b class="color-blue">,</b><b class="color-red">)</b><b class="color-red">&ast;</b><b class="color-blue">)</b>
-# ‌               <b class="color-red">|</b> <span class="color-green">FULL&UnderBar;SYMBOL</span>(argument(,argument)<b class="color-red">&ast;</b>)
-# ‌               <b class="color-red">|</b> <span class="color-green">FULL&UnderBar;SYMBOL</span>::LOWER&UnderBar;SYMBOL             <span class="color-yellow">(For Super & Entity)</span>
-# ‌               <b class="color-red">|</b> <span class="color-green">FULL&UnderBar;SYMBOL</span>:FIELDS&UnderBar;BLOCK:LOWER&UnderBar;SYMBOL <span class="color-yellow">(For Method & VARQUE Method)</span>
-# ‌    <span class="color-orange">argument </span> <b class="color-red">:=</b> LOWER&UnderBar;SYMBOL = (expression<b class="color-red">|</b>type)
-# ‌     <span class="color-orange">php&UnderBar;code</span> <b class="color-red">:=</b> <b class="color-red">[</b>^<b class="color-red">]</b><b class="color-red">&ast;</b> (Incorrect, some challenging cases are {echo "}";}, {/<b class="color-red">&ast;</b>}<b class="color-red">&ast;</b>/}, and {if(0){die();}}.)
-# ‌ <span class="color-orange">foreign&UnderBar;code</span> <b class="color-red">:=</b> <b class="color-red">[</b>^<b class="color-red">]</b><b class="color-red">&ast;</b> (Same)
-# \$ <b class="color-white">Super.</b>
-# ‌           <span class="color-orange">super</span> <b class="color-red">:=</b> SUPER <b class="color-red">[</b>extension<b class="color-red">]</b> ((super&UnderBar;signature;)<b class="color-red">&ast;</b>) {(super&UnderBar;section)<b class="color-red">&ast;</b>}
-# ‌ <span class="color-orange">super&UnderBar;signature</span> <b class="color-red">:=</b> <b class="color-red">[</b>CONST<b class="color-red">]</b> LOWER&UnderBar;SYMBOL : type <b class="color-red">[</b>= expression<b class="color-red">]</b>
-# ‌   <span class="color-orange">super&UnderBar;section</span> <b class="color-red">:=</b> predicate<b class="color-red">|</b>s&UnderBar;validation<b class="color-red">|</b>s&UnderBar;type<b class="color-red">|</b>marshal<b class="color-red">|</b>unmarshal
-# ‌       <span class="color-orange">predicate</span> <b class="color-red">:=</b> PREDICATE {php&UnderBar;code}
-# ‌    <span class="color-orange">s&UnderBar;validation</span> <b class="color-red">:=</b> VALIDATION {php&UnderBar;code}
-# ‌          <span class="color-orange">s&UnderBar;type</span> <b class="color-red">:=</b> TYPE<SUPER&UnderBar;TARGET> {foreign&UnderBar;code}
-# ‌         <span class="color-orange">marshal</span> <b class="color-red">:=</b> MARSHAL<SUPER&UnderBar;TARGET> {foreign&UnderBar;code}
-# ‌       <span class="color-orange">unmarshal</span> <b class="color-red">:=</b> UNMARSHAL<SUPER&UnderBar;TARGET> {foreign&UnderBar;code}
-# \$ <b class="color-white">Entity.</b>
-# ‌           <span class="color-orange">entity</span> <b class="color-red">:=</b> ENTITY <b class="color-red">[</b>extension<b class="color-red">]</b> ((entity&UnderBar;signature;)<b class="color-red">&ast;</b>) {(entity&UnderBar;section)<b class="color-red">&ast;</b>}
-# ‌ <span class="color-orange">entity&UnderBar;signature</span> <b class="color-red">:=</b> LOWER&UnderBar;SYMBOL : type <b class="color-red">[</b>= expression<b class="color-red">]</b>
-# ‌   <span class="color-orange">entity&UnderBar;section</span> <b class="color-red">:=</b> indexes<b class="color-red">|</b>e&UnderBar;validation<b class="color-red">|</b>override
-# ‌          <span class="color-orange">indexes</span> <b class="color-red">:=</b> INDEXES {(index&UnderBar;signature;)<b class="color-red">&ast;</b>}
-# ‌     <span class="color-orange">e&UnderBar;validation</span> <b class="color-red">:=</b> VALIDATION {php&UnderBar;code}
-# ‌         <span class="color-orange">override</span> <b class="color-red">:=</b> OVERRIDE<ENTITY&UnderBar;METHOD&UnderBar;NAME> {php&UnderBar;code}
-# ‌  <span class="color-orange">index&UnderBar;signature</span> <b class="color-red">:=</b> ((<b class="color-red">[</b>-<b class="color-red">]</b>LOWER&UnderBar;SYMBOL)+)<b class="color-red">[</b><b class="color-red">&ast;</b><b class="color-red">]</b>
-# \$ <b class="color-white">Method.</b>
-# ‌                <span class="color-orange">method</span> <b class="color-red">:=</b> <b class="color-red">[</b>VISIBILITY<b class="color-red">]</b> METHOD <b class="color-red">[</b>extension<b class="color-red">]</b> {(method&UnderBar;section)<b class="color-red">&ast;</b>}
-# ‌        <span class="color-orange">method&UnderBar;section</span> <b class="color-red">:=</b> request<b class="color-red">|</b>response<b class="color-red">|</b>body
-# ‌               <span class="color-orange">request</span> <b class="color-red">:=</b> REQUEST {(method&UnderBar;item&UnderBar;signature;)<b class="color-red">&ast;</b>}
-# ‌              <span class="color-orange">response</span> <b class="color-red">:=</b> RESPONSE {(method&UnderBar;item&UnderBar;signature;)<b class="color-red">&ast;</b>}
-# ‌                  <span class="color-orange">body</span> <b class="color-red">:=</b> BODY {php&UnderBar;code}
-# ‌ <span class="color-orange">method&UnderBar;item&UnderBar;signature</span> <b class="color-red">:=</b> <b class="color-red">[</b>CONST<b class="color-red">]</b> LOWER&UnderBar;SYMBOL : type <b class="color-red">[</b>= expression<b class="color-red">]</b>
-# \$ <b class="color-white">Varque Method.</b>
-# ‌         <span class="color-orange">varque&UnderBar;method</span> <b class="color-red">:=</b> @TODO Kamyar Mirzavaziri
-# \$ <b class="color-white">Interface.</b>
-# ‌ <span class="color-orange">interface</span> <b class="color-red">:=</b> INTERFACE <b class="color-red">[</b>extension<b class="color-red">]</b> {php&UnderBar;code}
-# \$ <b class="color-white">Expression.</b>
-# ‌ <span class="color-orange">expression</span> <b class="color-red">:=</b> NUMBER
-# ‌             <b class="color-red">|</b> STRING
-# ‌             <b class="color-red">|</b> TRILEAN
-# ‌             <b class="color-red">|</b> SEMI&UnderBar;<span class="color-green">FULL&UnderBar;SYMBOL</span>::UPPER&UnderBar;SYMBOL
-# ‌             <b class="color-red">|</b> array
-# ‌             <b class="color-red">|</b> map
-# ‌             <b class="color-red">|</b> expression + expression
-# ‌             <b class="color-red">|</b> expression - expression
-# ‌             <b class="color-red">|</b> expression <b class="color-red">&ast;</b> expression
-# ‌             <b class="color-red">|</b> expression ^ expression
-# ‌             <b class="color-red">|</b> expression / expression
-# ‌             <b class="color-red">|</b> expression // expression
-# ‌             <b class="color-red">|</b> expression % expression
-# ‌             <b class="color-red">|</b> - expression
-# ‌      <span class="color-orange">array</span> <b class="color-red">:=</b> <b class="color-red">[</b>(expression,)<b class="color-red">&ast;</b><b class="color-red">]</b>
-# ‌             <b class="color-red">|</b> <b class="color-red">[</b>expression(,expression)<b class="color-red">&ast;</b><b class="color-red">]</b>
-# ‌        <span class="color-orange">map</span> <b class="color-red">:=</b> <b class="color-red">[</b>(STRING: expression,)<b class="color-red">&ast;</b><b class="color-red">]</b>
-# ‌             <b class="color-red">|</b> <b class="color-red">[</b>STRING: expression(,STRING: expression)<b class="color-red">&ast;</b><b class="color-red">]</b>
-# \$ <b class="color-white">Tokens.</b>
-# ‌             NUMBER <b class="color-red">:=</b> (Integers, decimals, scientific notation, binaries, hexes, octals, etc.)
-# ‌             STRING <b class="color-red">:=</b> ".<b class="color-red">&ast;</b>"<b class="color-red">|</b>'.<b class="color-red">&ast;</b>' (Incorrect, the challenge is rejecting "a"b" while accepting "a\"b".)
-# ‌            TRILEAN <b class="color-red">:=</b> TRUE<b class="color-red">|</b>FALSE<b class="color-red">|</b>NULL
-# ‌       LOWER&UnderBar;SYMBOL <b class="color-red">:=</b> <b class="color-red">[</b>a-z<b class="color-red">]</b><b class="color-red">[</b>a-zA-Z0-9&UnderBar;<b class="color-red">]</b><b class="color-red">&ast;</b>
-# ‌       UPPER&UnderBar;SYMBOL <b class="color-red">:=</b> <b class="color-red">[</b>A-Z<b class="color-red">]</b><b class="color-red">[</b>A-Z0-9&UnderBar;<b class="color-red">]</b><b class="color-red">&ast;</b>
-# ‌        <span class="color-green">FULL&UnderBar;SYMBOL</span> <b class="color-red">:=</b> <b class="color-red">[</b>A-Z<b class="color-red">]</b><b class="color-red">[</b>a-zA-Z0-9&UnderBar;<b class="color-red">]</b><b class="color-red">&ast;</b>(\\<b class="color-red">[</b>A-Z<b class="color-red">]</b><b class="color-red">[</b>a-zA-Z0-9&UnderBar;<b class="color-red">]</b><b class="color-red">&ast;</b>)<b class="color-red">&ast;</b>
-# ‌   SEMI&UnderBar;<span class="color-green">FULL&UnderBar;SYMBOL</span> <b class="color-red">:=</b> <b class="color-red">[</b>A-Z<b class="color-red">]</b><b class="color-red">[</b>a-zA-Z0-9&UnderBar;<b class="color-red">]</b><b class="color-red">&ast;</b>
-# ‌         VISIBILITY <b class="color-red">:=</b> PUBLIC<b class="color-red">|</b>PRIVATE
-# ‌       SUPER&UnderBar;TARGET <b class="color-red">:=</b> PHP<b class="color-red">|</b>DATABASE<b class="color-red">|</b>DART<b class="color-red">|</b>JAVASCRIPT<b class="color-red">|</b>TYPESCRIPT<b class="color-red">|</b>JAVA<b class="color-red">|</b>KOTLIN<b class="color-red">|</b>OBJECTIVEC<b class="color-red">|</b>SWIFT
-# ‌ ENTITY&UnderBar;METHOD&UnderBar;NAME <b class="color-red">:=</b> INITIALIZE<b class="color-red">|</b>GETONE<b class="color-red">|</b>STORE<b class="color-red">|</b>DELETE<b class="color-red">|</b>GETMANY<b class="color-red">|</b>DELETEMANY
-# ‌        VARQUE&UnderBar;MODE <b class="color-red">:=</b> VIEW<b class="color-red">|</b>ADJUST<b class="color-red">|</b>REMOVE<b class="color-red">|</b>QUERY<b class="color-red">|</b>UPDATE<b class="color-red">|</b>ELIMINATE
-# ‌       FIELDS&UnderBar;BLOCK <b class="color-red">:=</b> REQUEST<b class="color-red">|</b>RESPONSE<b class="color-red">|</b>FIELDS
-# </div></html>
+# -- #########################################
+# # Some Examples
+# @TODO
