@@ -1,0 +1,15 @@
+# Xua Documentation - Methods
+# Kamyar Mirzavaziri
+# Winter 1399
+
+# Doc Constants
+    # @python doc.constants.TITLE = "Methods;"
+    # @python doc.constants.SUBTITLE = "Tiny Blocks of Computation"
+
+# Doc Configurations
+    # @python doc.renderComments = "doc"
+    # @python doc.renderCodes = "pure"
+
+# -- #########################################
+# # Introduction
+# @TODO
