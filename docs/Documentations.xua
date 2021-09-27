@@ -4,7 +4,7 @@
 
 # Doc Constants
     # @python doc.constants.TITLE = "Documentations;"
-    # @python doc.constants.SUBTITLE = "TODO"
+    # @python doc.constants.SUBTITLE = "@TODO"
 
 # Doc Configurations
     # @python doc.renderComments = "doc"
