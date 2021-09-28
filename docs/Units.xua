@@ -56,7 +56,7 @@
 # Let us talk about types first. One can think of a type as a set, for example the type `Integer` is actually the set $\mathbb{Z} = \{0, 1, -1, 2, -2, \dots \}$ and when we say that $42$ is of type `Integer`, this means that $42 \in \mathbb{Z}$, which is written $42 : \mathbb{Z}$ in Xua's syntax.
 # We know that there is a one-to-one correspondence between sets and predicates. Having a predicate $P$, we can define the corresponding set to be $S = \{ x | P(x) \}$, and having a set $S$, we can define the corresponding predicate to be $P(x) := x \in S$. Since implementing predicates as boolean functions is more practical in computers, we use predicates to define types.
 
-# However, there are some features that types usually have that sets do not. In Xua's definition of type, a type is a set equipped with three functions `NativeType`, `Marshal`, and `Unmarshal`. We express a type by the 4-tuple $(P, T, M, U)$, where $P$ is the characteristic function of the type's set. These functions make a type dependent on the target language. For example, if we are willing to use the integer type in Java language, we need to write these functions in Java language.
+# However, there are some features that types usually have that sets do not. In Xua's definition of type, a type is a set equipped with three functions `NativeType`, `Marshal`, and `Unmarshal`. We express a type by the 4-tuple $(P, Y, M, U)$, where $P$ is the characteristic function of the type's set. These functions make a type dependent on the target language. For example, if we are willing to use the integer type in Java language, we need to write these functions in Java language.
 
 # Note that predicate can only be defined in the PHP language. But others are stack-based, meaning that they can be written in any of Xua's supported languages and also for the database.
 
@@ -84,7 +84,7 @@ Type<Database>{
 
 # Now note that for the stack-based functions, the server project includes only two stacks, database, and PHP. Functions for other stacks are included in the corresponding Marshal Libraries. 
 
-# So there must be two $T$s, in the PHP generated class. The database-targeted function is called `databaseType`, and the PHP-targeted function is called `phpType`. 
+# So there must be two $Y$s, in the PHP generated class. The database-targeted function is called `databaseType`, and the PHP-targeted function is called `phpType`. 
 #    var_dump($genderType->databaseType()); \\ dumps 'INT'
 #    var_dump($genderType->phpType()); \\ dumps 'int'
 
@@ -107,7 +107,7 @@ Type<Database>{
 # ##### A Little Formalism on Super Types 
 # The set of boolean values, i.e., $\{0, 1\}$ is shown by $\mathbb{B}$.
 
-# The set of all single-argument predicates is shown by $\mathbb{P}$, all type functions by $\mathbb{Y}$, all marshal functions by $\mathbb{M}$, and all unmarshal functions by $\mathbb{U}$.
+# The set of all single-argument predicates is shown by $\mathbb{P}$, all Native Type functions by $\mathbb{Y}$, all marshal functions by $\mathbb{M}$, and all unmarshal functions by $\mathbb{U}$.
 
 # The set of all types (the so-called 4-tuples) is shown by $\mathbb{T}$.
 
@@ -125,10 +125,10 @@ Type<Database>{
 
 # So we can formally say that a Super is a function $S: \mathbb{K} \times \mathbb{D} \to \mathbb{T}$.
 
-# But we technically define a super to be the 5-tuple $\mathfrak{S} =(\mathfrak{P}, \mathfrak{T}, \mathfrak{M}, \mathfrak{U}, \mathfrak{V})$, where $\mathfrak{P}: \mathbb{D} \to \mathbb{P}$, $ \mathfrak{T}: \mathbb{K} \times \mathbb{D} \to \mathbb{Y}$, $ \mathfrak{M}: \mathbb{K} \times \mathbb{D} \to \mathbb{M}$, $ \mathfrak{U}: \mathbb{K} \times \mathbb{D} \to \mathbb{U}$, and finally $ \mathfrak{V}: \mathbb{D} \to \mathbb{B}$ (We discuss the $\mathfrak{V}$ later). The correspondence is the following.
+# But we technically define a super to be the 5-tuple $\mathfrak{S} =(\mathfrak{P}, \mathfrak{Y}, \mathfrak{M}, \mathfrak{U}, \mathfrak{V})$, where $\mathfrak{P}: \mathbb{D} \to \mathbb{P}$, $ \mathfrak{Y}: \mathbb{K} \times \mathbb{D} \to \mathbb{Y}$, $ \mathfrak{M}: \mathbb{K} \times \mathbb{D} \to \mathbb{M}$, $ \mathfrak{U}: \mathbb{K} \times \mathbb{D} \to \mathbb{U}$, and finally $ \mathfrak{V}: \mathbb{D} \to \mathbb{B}$ (We discuss the $\mathfrak{V}$ later). The correspondence is the following.
 # \begin{eqnarray*}
 # \begin{cases}
-#   S(K, D) = (\mathfrak{P}(D), \mathfrak{T}(K, D), \mathfrak{M}(K, D), \mathfrak{U}(K, D)) & \mathfrak{V}(D) \\
+#   S(K, D) = (\mathfrak{P}(D), \mathfrak{Y}(K, D), \mathfrak{M}(K, D), \mathfrak{U}(K, D)) & \mathfrak{V}(D) \\
 #   S(K, D) \textit{ raises error} & \neg \mathfrak{V}(D)
 # \end{cases}
 # \end{eqnarray*}
