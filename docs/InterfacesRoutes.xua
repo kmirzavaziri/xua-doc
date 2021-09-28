@@ -21,13 +21,15 @@
 # ## Structure
 # An Interface block has the following structure.
 
-#    # Path\To\Interface\InterfaceName
-#     
-#    # Description of this Interface, probably in markdown formatting
-#     
-#    Interface [extends Path\To\Another\Interface\InterfaceName] {
-#      INTERFACE_BODY
-#    }
+# @python doc.renderComments = "pure"
+# Path\To\Interface\InterfaceName
+ 
+# Description of this Interface, probably in markdown formatting
+ 
+Interface [extends Path\To\Another\Interface\InterfaceName] {
+  INTERFACE_BODY
+}
+# @python doc.renderComments = "doc"
 
 # Note that there is no name for the Interface. An Interface name is its file path. Each file can contain at most one block, and the block inherits its name from the file. It's a good practice to have a comment in the first line of the file describing where the file is located.
 
