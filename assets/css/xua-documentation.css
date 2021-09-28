@@ -1010,10 +1010,10 @@ img.figure {
 }
 
 .toc-icon {
-    opacity: .6;
+    opacity: .8;
     font-size: 16px !important;
 }
 
 .toc-icon.success {
-    color: #689F38;
+    color: #38326d;
 }
