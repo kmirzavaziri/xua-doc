@@ -1,0 +1,13 @@
+{
+    "projects": {
+        "doc/html": {
+            "default-template": "templates/template.html",
+            "gen-pdf": false,
+            "build-dir": "build/html",
+            "quick": true,
+            "paths-to-copy": [
+                "assets"
+            ]
+        }
+    }
+}
