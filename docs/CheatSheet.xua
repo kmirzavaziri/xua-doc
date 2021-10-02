@@ -45,9 +45,3 @@
 
 # Build all projects.
 #    xua build all [PATH] [-c]
-
-# -- #########################################
-# # Methods as Commands
-# XUA extension made it possible to call XUA methods as commands via cli. To call a method on specific environment, use
-#    xua-ext call [ENV] Path.To.Method.MethodName argName0=actualValue0 ... argNameN=actualValueN
-# If `ENV` is not specified, the command will run on local host.
