@@ -1,4 +1,4 @@
-# XUA Documentation - Entities
+# Xua Documentation - Entities
 # Kamyar Mirzavaziri
 # Winter 1399
 
@@ -12,10 +12,10 @@
 
 # -- #########################################
 # # Introduction
-# XUA can be configured to communicate with a database server (usually MySQL), but the programmer needs to specify the database structure. To do so, XUA offers Entity Blocks. Read [Entities](Units.html#Entities) section under [Units](Units.html) chapter for theoretical explanations. In this chapter, we focus on practical details of defining and using entities.
+# Xua can be configured to communicate with a database server (usually MySQL), but the programmer needs to specify the database structure. To do so, Xua offers Entity Blocks. Read [Entities](Units.html#Entities) section under [Units](Units.html) chapter for theoretical explanations. In this chapter, we focus on practical details of defining and using entities.
 
 # ## Effects on the projects
-# XUA will generate a PHP class extending a XUA abstract class called `\XUA\Entity` for each Entity Block the programmer creates. these Entity classes are in a one-to-one relationship with database tables. Each row of the table then, can be corresponded by an instance of the table’s corresponding class.
+# Xua will generate a PHP class extending a Xua abstract class called `\Xua\Entity` for each Entity Block the programmer creates. these Entity classes are in a one-to-one relationship with database tables. Each row of the table then, can be corresponded by an instance of the table’s corresponding class.
 
 # Also the same happens in the marshal library with respect to the language. But the front-end clone of the entities only contains method signatures, and the bodies are just network calls.
 
@@ -90,7 +90,7 @@
 
 # Note that there is no name for the entity. An entity name is it's file path. Each file can contain at most 1 block and the block name is inherited form the file. It's a good practice to have a comment in first line of file, describing where the file is located.
 
-# __Note:__ All entities have a read-only field called `id`, of type integer, that is defined implicitly. The field `id` is used in some underlying XUA codes and cannot be removed.
+# __Note:__ All entities have a read-only field called `id`, of type integer, that is defined implicitly. The field `id` is used in some underlying Xua codes and cannot be removed.
 
 # ## Fields
 # Each entity represents an object class and is used to store properties of an object instance as data in database. The object can have different properties each with their own type and default value. each of these properties is called a field and should be defined with it's type and default value in the fields part.
@@ -104,7 +104,7 @@
 # The `Validation` block is responsible to check if an instance of the entity is valid, and in case of invalid data, an `EntityValidationException` must be thrown. For example assume we have a table of restaurants in an entity called `Restaurant`. This entity has two fields `title` and `active`. The `title` field is unique but it's not possible to mark it as unique index in `Indexes`, because we can have many inactive rows sharing a same title, and the title is unique among the active restaurants. We can check this in `Validation` block and throw a `EntityValidationException` if the title is duplicate.
 
 # ## Overriding Methods
-# XUA generates a PHP class from each entity, extending `\XUA\Entity`. This class have many methods which are possible to override. Here is a list of these methods, with the PHP method that is actually being overridden.
+# Xua generates a PHP class from each entity, extending `\Xua\Entity`. This class have many methods which are possible to override. Here is a list of these methods, with the PHP method that is actually being overridden.
 #    Override<newInstance>  => protected static newInstance(string $caller);
 #    Override<getOne>       => protected static _getOne(string $caller, Condition $condition, Order $order);
 #    Override<store>        => protected _store(string $caller);
@@ -132,7 +132,7 @@
 # Also the fields and indexes of child entity override the ones in parent. This override includes type and default value. Also it's possible to add new fields or indexes to the type, but it's not possible to remove existing fields. Read [Examples](#Examples) for more details.
 
 # ## Visibility
-# The visibility of entities is controlled by overriding methods. There is an additional variable accessible in all methods including validation, called `$caller`. This variable contains an string telling what module called this method. The values are accessible as class constants in class `XUA\Tools\Visibility`. These values are `Visibility::CALLER_PHP`,
+# The visibility of entities is controlled by overriding methods. There is an additional variable accessible in all methods including validation, called `$caller`. This variable contains an string telling what module called this method. The values are accessible as class constants in class `Xua\Tools\Visibility`. These values are `Visibility::CALLER_PHP`,
 # `Visibility::CALLER_DART`, etc.
 
 # So it's possible to block foreign callers like the following.
@@ -160,7 +160,7 @@
 # In addition to defined supers that can be called to generate type for field types, there are some auto-generated supers developers can use.
 
 # ### Relational Supers
-# For each entity block that is defined, a relational super is implicitly generated by XUA. This Super has the following signature.
+# For each entity block that is defined, a relational super is implicitly generated by Xua. This Super has the following signature.
 #    EntityName (
 #      relation : EntityRelationType();
 #      cardinalName : Symbol(nullable = true) = null;
@@ -172,18 +172,18 @@
 # These Supers create a relation between two entities. The first argument can only have one of the following values, and based on that, there are some limitations for other arguments.
 # | Relation                | Title        | Limitations                                    |
 # | ----------------------- | :----------: | ---------------------------------------------- |
-# | `XUA\EntityRelation::II`| One to One   | `CardinalName = null; invCardinalName = null;` |
-# | `XUA\EntityRelation::IN`| One to Many  | `nullable = false; invCardinalName = null;`    |
-# | `XUA\EntityRelation::NI`| Many to One  | `CardinalName = null; invnullable = false;`    |
-# | `XUA\EntityRelation::NN`| Many to Many | `nullable = false; invnullable = false;`       |
+# | `Xua\EntityRelation::II`| One to One   | `CardinalName = null; invCardinalName = null;` |
+# | `Xua\EntityRelation::IN`| One to Many  | `nullable = false; invCardinalName = null;`    |
+# | `Xua\EntityRelation::NI`| Many to One  | `CardinalName = null; invnullable = false;`    |
+# | `Xua\EntityRelation::NN`| Many to Many | `nullable = false; invnullable = false;`       |
 
 # Let’s say in `LeftEntity`, there is a filed called `relationalField` of type `RightEntity`. The following default values are provided for `cardinalName`, `invName`, and `invCardinalName`, under the mentioned conditions.
 
 # | Argument | Default Value | Conditions |
 # | -------- | ------------- | ---------- |
-# | `cardinalName` | `'relationalField' + 'Count'` | `relation == XUA\EntityRelation::IN  or relation == XUA\EntityRelation::NN` |
+# | `cardinalName` | `'relationalField' + 'Count'` | `relation == Xua\EntityRelation::IN  or relation == Xua\EntityRelation::NN` |
 # | `invName` | `'inv' + 'RelationalField'` (Note CamelCasing the `relationalField`) | Any conditions |
-# | `invCardinalName` | `invName + 'Count'` | `relation == XUA\EntityRelation::NI or relation == XUA\EntityRelation::NN` |
+# | `invCardinalName` | `invName + 'Count'` | `relation == Xua\EntityRelation::NI or relation == Xua\EntityRelation::NN` |
 
 # ### Virtual Field Supers
 
@@ -201,7 +201,7 @@
 
 # -- #########################################
 # # Usage
-# It's possible to use a defined entity in both server project (PHP language) and front-end native codes via marshal library, but not in XUA language.
+# It's possible to use a defined entity in both server project (PHP language) and front-end native codes via marshal library, but not in Xua language.
 
 # ## Inside PHP
 
@@ -275,8 +275,8 @@
 # ### Database Type
 # The function `DatabaseType` is a function with no arguments that returns an string which tells the database how the type values must be stored. And is hardly useful in programming.
 
-# ## Inside XUA
-# The main usage of supers is to declare types for XUA super arguments, entity fields, and method request and response signatures. To mention a type, one must call a super and give it arguments. The type then, can be used for type declaration. The syntax is the following.
+# ## Inside Xua
+# The main usage of supers is to declare types for Xua super arguments, entity fields, and method request and response signatures. To mention a type, one must call a super and give it arguments. The type then, can be used for type declaration. The syntax is the following.
 #    Path\To\Super\SuperName(
 #        argName0 = constant0,
 #        ...,
@@ -330,7 +330,7 @@ Super (
 #        }
 #        return true;
 #    }
-# Note that it's OK to fill the $reason when the return value is `true`. XUA automatically clears the `$message` in that case.
+# Note that it's OK to fill the $reason when the return value is `true`. Xua automatically clears the `$message` in that case.
 
 
 # #### Marshal and Unmarshal
@@ -471,7 +471,7 @@ Super extends Supers\Integers\Range (
 # First, Let's define a type that accepts the range $[10, 30)$. We use the `EfficientRange`.
 #    $type = new Supers\Integers\EfficientRange(['start' => 10, 'end' => 30]);
 
-# Let's see what how XUA stringifies this type.
+# Let's see what how Xua stringifies this type.
 #    var_dump($type->toString());
 # This code dumps `Supers\Integers\EfficientRange(start = 10, end = 30)`.
 
@@ -523,10 +523,10 @@ Super extends Supers\Integers\Range (
 
 # We know that the storing in the database is done by marshalling. The marshaled values are in $[0, 20)$.
 #    var_dump($type->DatabaseType()); # Dumps 'INT(6)'
-# In this case there is no efficiency since the original values would only need `6` bits to. Although we could make this better if we shifted the center of the range to zero instead of starting point. That way we would have range $[-10, 10)$ which needs only $5$ bits ro store. Any way none of this is useful because MySQL occupies at least a byte which is `8` bits. And there is no difference between `5` and `6` in practice. Although this method of marshaling may come handy for big values, XUA's official `Range` does not use it because of the ambiguity.
+# In this case there is no efficiency since the original values would only need `6` bits to. Although we could make this better if we shifted the center of the range to zero instead of starting point. That way we would have range $[-10, 10)$ which needs only $5$ bits ro store. Any way none of this is useful because MySQL occupies at least a byte which is `8` bits. And there is no difference between `5` and `6` in practice. Although this method of marshaling may come handy for big values, Xua's official `Range` does not use it because of the ambiguity.
 
 
-# #### Inside XUA
+# #### Inside Xua
 # We may use a super to define another super.
 # @python doc.renderComments = "pure"
 # Supers\Gender
@@ -546,8 +546,8 @@ Super (
 }
 # @python doc.renderComments = "doc"
 
-# Note how we set the `$message` without caring about the return value. XUA automatically clears the `$message` if the return value is `true`.
+# Note how we set the `$message` without caring about the return value. Xua automatically clears the `$message` if the return value is `true`.
 
 # -- #########################################
 # # Good News
-# Although defining a simple super seems easy, defining a complete super with all features in many languages, seems exhausting. The good news is, XUA provides a set of predefined supers that cover almost any need. We discuss them in the next chapter. 
+# Although defining a simple super seems easy, defining a complete super with all features in many languages, seems exhausting. The good news is, Xua provides a set of predefined supers that cover almost any need. We discuss them in the next chapter. 

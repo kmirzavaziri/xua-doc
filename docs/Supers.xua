@@ -65,7 +65,7 @@ Super [extends Path\To\Another\Super\SuperName] {
 # It is possible to define some arguments as constant, which means the programmer cannot pass that argument to the Super. This feature is useful when defining a child super. Read more in [Hierarchy](#Hierarchy).
 
 # @python doc.renderComments = "pure"
-# \XUA\Supers\Universal
+# \Xua\Supers\Universal
 Super {
     Predicate {
         return true;
@@ -163,7 +163,7 @@ Super {
 
 # -- #########################################
 # # Usage
-# It is possible to use a defined super in both PHP and XUA languages, but not in Marshal library.
+# It is possible to use a defined super in both PHP and Xua languages, but not in Marshal library.
 
 # ## Inside PHP
 # Although it is not usually helpful to work with supers inside PHP codes, it is possible.
@@ -251,7 +251,7 @@ Super {
 # ### Native Type
 # The functions `phpType` `databaseType` have no arguments and return a string that declares the type in PHP and database engine syntax. `phpType` is mostly used in PHPDocs to declare the classes properties type, while `databaseType` is mostly used to tell the database server how the type values must be stored. These functions are hardly helpful in programming.
 
-# ## Inside XUA
+# ## Inside Xua
 # The main usage of Supers is to declare types for Xua Super arguments, Entity fields, and Method request and response signatures (and Method field signatures for VARQUE Methods). To mention a type, one must call a Super and give it arguments. The type then can be used for type declaration. The syntax is the following.
 #    Path\To\Super\SuperName(
 #        argName0 = constant0,
@@ -468,7 +468,7 @@ Super extends Range {
 # First, Let's define a type that accepts the range $[10, 30)$. We use the `EfficientRange`.
 #    $type = new EfficientRange(['start' => 10, 'end' => 30]);
 
-# Let's see how XUA stringifies this type.
+# Let's see how Xua stringifies this type.
 #    var_dump($type->toString());
 # This code dumps `Supers\Integers\EfficientRange(start = 10, end = 30)`.
 
@@ -520,9 +520,9 @@ Super extends Range {
 
 # We know that the storing in the database is done by marshaling. The marshaled values are in $[0, 20)$.
 #    var_dump($type->DatabaseType()); # Dumps 'INT(6)'
-# In this case, there is no efficiency since the original values would only need `6` bits too. Although we could make this better if we shifted the center of the range to zero instead of starting point. That way, we would have the range $[-10, 10)$ which needs only $5$ bits to store. By the way, none of this is useful because MySQL occupies at least a byte which is `8` bits, and there is no difference between `5` and `6` in practice. Although this marshaling method may come in handy for big values, XUA's official `Range` does not use it because of the ambiguity.
+# In this case, there is no efficiency since the original values would only need `6` bits too. Although we could make this better if we shifted the center of the range to zero instead of starting point. That way, we would have the range $[-10, 10)$ which needs only $5$ bits to store. By the way, none of this is useful because MySQL occupies at least a byte which is `8` bits, and there is no difference between `5` and `6` in practice. Although this marshaling method may come in handy for big values, Xua's official `Range` does not use it because of the ambiguity.
 
-# #### Inside XUA
+# #### Inside Xua
 # We may use a Super to define another Super.
 
 # @python doc.renderComments = "pure"
@@ -542,8 +542,8 @@ Super {
 }
 # @python doc.renderComments = "doc"
 
-# Note how we set the `$message` without caring about the return value. XUA automatically clears the `$message` if the return value is `true`.
+# Note how we set the `$message` without caring about the return value. Xua automatically clears the `$message` if the return value is `true`.
 
 # -- #########################################
 # # Good News
-# Although defining a simple Super seems easy, defining a complete Super with all features in many languages seems exhausting. The good news is, XUA provides a set of predefined supers that cover almost any need. We discuss them in the next chapter.
+# Although defining a simple Super seems easy, defining a complete Super with all features in many languages seems exhausting. The good news is, Xua provides a set of predefined supers that cover almost any need. We discuss them in the next chapter.

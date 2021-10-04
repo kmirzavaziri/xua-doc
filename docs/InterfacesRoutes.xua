@@ -60,7 +60,7 @@ Interface [extends Path\To\Another\Interface\InterfaceName] {
 
 # There are two ways to define Interfaces. One is to define an Interface for each HTTP method, in which case if the request method is not defined, the Route Service will throw a Route Exception. However, if one wants to set an Interface for all methods without specifying them, they can just set the Interface without any methods provided; this way, the Route Service will divert all requests on that URL to the defined Interface regardless of the HTTP method.
 
-# In the example above, Route Service will divert all requests to `localhost:8000/404` to the `XUA\NotFoundInterface`.
+# In the example above, Route Service will divert all requests to `localhost:8000/404` to the `Xua\NotFoundInterface`.
 
 # ## Variables & Priorities
 # Assume the client sends a GET request to `localhost:8000/media/post/12/delete`. The result of exploding this URL would be the list `['media', 'post', '12', 'delete']`. The Route Service gets the subtree with `post` as root, and in that tree, it can't find any route equal to the literal string `'12'`, but instead, there is the route `{id}` with opening and closing braces indicating a variable. This way, the Route Service knows it can match any string with that route, and it'll save the string `'12'` under the variable name, which is `id`. The Route Service will process further until it finds the Interface `Post\RemoveOne`. Now the variable is available in the body of that Interface as `RouteService::$routeArgs['id']`.

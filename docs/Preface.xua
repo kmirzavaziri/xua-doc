@@ -75,7 +75,7 @@
 # -- #########################################
 # # Practicalities
 # ## System Requirements
-# Currently, XUA is only available on Linux.
+# Currently, Xua is only available on Linux.
 
 # - Python 3 is required to build projects and make templates.
 
@@ -98,7 +98,7 @@
 #    xua
 
 # it should output something like this
-#    XUA: A PHP Code Generator
+#    Xua: A PHP Code Generator
 #    
 #    ██╗░░██╗██╗░░░██╗░█████╗░
 #    ╚██╗██╔╝██║░░░██║██╔══██╗

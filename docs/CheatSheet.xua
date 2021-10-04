@@ -1,4 +1,4 @@
-# XUA Documentation - Cheat Sheet
+# Xua Documentation - Cheat Sheet
 # Kamyar Mirzavaziri
 # Winter 1399
 
@@ -12,23 +12,23 @@
 
 # -- #########################################
 # # Templates
-# Create a new XUA project in the current directory.
+# Create a new Xua project in the current directory.
 #    xua new project PROJECT_NAME
 
-# Create a new super file in current directory's XUA project.
+# Create a new super file in current directory's Xua project.
 #    xua new super SUPER_NAME
 
-# Create a new entity file in current directory's XUA project.
+# Create a new entity file in current directory's Xua project.
 #    xua new entity ENTITY_NAME
 
-# Create a new method file in current directory's XUA project.
+# Create a new method file in current directory's Xua project.
 #    xua new method METHOD_NAME
 
-# Create a new service file for a specific language in current directory's XUA project.
+# Create a new service file for a specific language in current directory's Xua project.
 #    xua new service SERVICE-NAME [-l LANGUAGE]
 # where `LANGUAGE` can be Dart, PHP, Java, JavaScript, Kotlin, Objective-C, or Swift.
 
-# Create a new interface file in current directory's XUA project.
+# Create a new interface file in current directory's Xua project.
 #    xua new interface
 
 # -- #########################################

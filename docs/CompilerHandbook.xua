@@ -1,4 +1,4 @@
-# XUA Documentation - Compiler Handbook
+# Xua Documentation - Compiler Handbook
 # Kamyar Mirzavaziri
 # Winter 1399
 
@@ -15,7 +15,7 @@
 # $\text{ADRESS}$, $\text{ID}$, $number$, $string$, $\mathbf{true}$, $\mathbf{false}$, $\mathbf{null}$, brackets, parenthesis, comma, semi-colon, colon, etc.
 
 # -- #########################################
-# # XUA Syntax
+# # Xua Syntax
 
 # ## Shared Syntax
 # $$\begin{eqnarray}
