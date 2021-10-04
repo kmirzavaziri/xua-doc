@@ -12,21 +12,21 @@
 
 # -- #########################################
 # # Introduction
-# Super types or simply supers are actually parametric types. Read [Super Types](Units.html#Super_Types) section under [Units](Units.html) chapter for theoretical explanations. In this chapter, we focus on practical details of defining and using supers.  
+# Super types or simply supers are parametric types. Read [Super Types](Units.html#Super_Types) section under [Units](Units.html) chapter for theoretical explanations. In this chapter, we focus on practical details of defining and using supers.
 
 # ## Effects on the projects
-# Each super results in a PHP class in the server project, extending the abstract class `\XUA\Super` or another super.
+# Each super results in a PHP class in the Server project, extending the abstract class `Super` or another Super.
 
-# Also the same happens in the marshal library with respect to the language. But the front-end clone of the super only contains two methods, marshal and unmarshal, and even these methods are only accessible in the MUU (Marshal/Unmarshal Unit).  
+# Also, the same happens in the Marshal library with respect to the language. However, the front-end clone of the super does not contain the predicate and is only accessible in the MUU (Marshal/Unmarshal Unit).  
 
 # ## Terminology
-# Assume $A$ is a set, the predicate $P$ is called characteristic predicate of $A$ if $P(x) \iff x \in A$. We can use set $A$ and predicate $P$ alternatively, since they both carrying the same concept.
+# Assume $A$ is a set, the predicate $P$ is called characteristic predicate of $A$ if $P(x) \iff x \in A$. We can use set $A$ and predicate $P$ alternatively since they both carry the same concept.
 
-# A type is a set occupied with functions $M$, $U$, and string $D$. Read [Super Types](Units.html#Super_Types) section under [Units](Units.html) chapter to see what these objects are. We usually show a type's set by it's characteristic predicate instead of the set itself.
+# A type is a set occupied with functions $M$, $U$, and $T$. Read [Super Types](Units.html#Super_Types) section under [Units](Units.html) chapter to see what these objects are. We usually show a type set by its characteristic predicate instead of the set itself.
 
-# Assume $T = (P, M, U, D)$. We say type $T$ explicitly accepts value $x$ if $P(x)$ is true, and say type $T$ implicitly accepts value $x$, if $P(x)$ is true or $P(U(x))$ is true. If type $T$ explicitly (implicitly) accepts $x$, we say $x$ explicitly (implicitly) fits in $T$. As a convention, when we say $T$ accept $x$, we mean $T$ implicitly accepts $x$, and the same is true for fitting.
+# Assume $T = (P, Y, M, U)$. We say type $T$ explicitly accepts value $x$ if $P(x)$ is true, and say type $T$ implicitly accepts value $x$, if $P(x)$ is true or $P(U(x))$ is true. If type $T$ explicitly (implicitly) accepts $x$, we say $x$ explicitly (implicitly) fits in $T$. As a convention, when we say $T$ accept $x$, we mean $T$ implicitly accepts $x$, and the same is true for fitting.
 
-# A super type or simply super is a function that receives some arguments and returns a type. This type is called an instance of the super type.
+# A Super Type or simply Super is a function that receives some arguments and returns a type. This type is called an instance of the Super Type.
 
 # -- #########################################
 # # Definition
@@ -34,59 +34,62 @@
 # ## Structure
 # A super block definition has the following structure.
 
-#    # Path\To\Super\SuperName
-#     
-#    # Description of this super, probably in markdown formatting.
-#    # etc.
-#     
-#    Super [extends Path\To\Another\Super\SuperName] (
-#      [const] argName0 : Type0 [= DEFAULT_0]; # Description of argName0
-#      ...                                   ; # ...
-#      [const] argNameN : TypeN [= DEFAULT_N]; # Description of argNameN
-#    ) {
-#      [ Validation { VALIDATION_BODY } ]
-#      Predicate { PREDICATE_BODY }
-#      [ Marshal<TARGET_0> { MARSHAL_0_BODY } ]
-#      [ Unmarshal<TARGET_0> { UNMARSHAL_0_BODY } ]
-#      ...
-#      [ Marshal<TARGET_N> { MARSHAL_N_BODY } ]
-#      [ Unmarshal<TARGET_N> { UNMARSHAL_N_BODY } ]
-#      [DatabaseType { DATABASE_TYPE_BODY } ]
-#    }
+# @python doc.renderComments = "pure"
+# Path\To\Super\SuperName
+ 
+# Description of this Super, probably in markdown formatting
+ 
+Super [extends Path\To\Another\Super\SuperName] {
+  [arguments {
+    [const] argName0 : Type0 [= DEFAULT_0]; # Description of argName0
+    ...                                   ; # ...
+    [const] argNameN : TypeN [= DEFAULT_N]; # Description of argNameN      
+  }]
+  [ validation { VALIDATION_BODY } ]
+  predicate { PREDICATE_BODY }
+  [ type<TARGET_0> { TYPE_0_BODY } ]
+  [ marshal<TARGET_0> { MARSHAL_0_BODY } ]
+  [ unmarshal<TARGET_0> { UNMARSHAL_0_BODY } ]
+  ...
+  [ type<TARGET_N> { TYPE_N_BODY } ]
+  [ marshal<TARGET_N> { MARSHAL_N_BODY } ]
+  [ unmarshal<TARGET_N> { UNMARSHAL_N_BODY } ]
+}
+# @python doc.renderComments = "doc"
 
-# Note that there is no name for the super. A super name is it's file path. Each file can contain at most 1 block and the block name is inherited form the file. It's a good practice to have a comment in first line of file, describing where the file is located.
+# Note that there is no name for the Super. An Interface name is its file path. Each file can contain at most one block, and the block inherits its name from the file. It is a good practice to have a comment in the first line of the file describing where the file is located.
 
 # ## Arguments
-# It's possible to define a set of arguments for a super. The resulting type is based on those arguments. For each argument, it's possible to set a default value, and it's mandatory to set a type. But the only way to mention a type is to call a super that returns a type. And we need types to define supers. So how to define the first super? The answer is we do not _NEED_ types to define a super since we do not need the super to have an argument. This leads us to the very first super, called `Universal`.
+# It is possible to define a set of arguments for a Super. The resulting type is based on those arguments. For each argument, it is possible to set a default value, and it is mandatory to set a type. However, the only way to mention a type is to call a super that returns a type, and we need types to define supers. So how to define the first Super? The answer is we do not _NEED_ types to define a super since we do not need the super to have any argument. This fact leads us to the very first Super, called `Universal`.
 
-# It's possible to define some arguments constant, which means the argument can't be passed to the super. This feature is useful when defining a child super. Read more in [Hierarchy](#Hierarchy).
+# It is possible to define some arguments as constant, which means the programmer cannot pass that argument to the Super. This feature is useful when defining a child super. Read more in [Hierarchy](#Hierarchy).
 
 # @python doc.renderComments = "pure"
 # \XUA\Supers\Universal
-Super () {
+Super {
     Predicate {
         return true;
     }
 }
 # @python doc.renderComments = "doc"
 
-# After this, we may use `Universal` super to define other supers. Although we may define many supers without using arguments, such as `Integer`, `String`, etc.
+# After this, we may use the `Universal` Super to define other Supers. Although, we may define other Supers without using arguments, such as `Boolean` and `Trilean`.
 
 # ## Validation
-# The `Validation` block is responsible to check if arguments passed to the super, meet desired conditions. It’s an optional Block and if it’s not provided, any argument which fits in the corresponding type will be accepted.
+# The `validation` block is responsible for checking if arguments passed to the Super meet desired conditions. It is an optional Block, and if it is not provided, any argument that fits in the corresponding type will be accepted.
 
 # The body is written in pure PHP. All super arguments are available as PHP variables
-# `$this->argName0`,
-# ...,
+# `$this->argName0`, ...,
 # `$this->argNameN`,
-# If some wanted conditions are not met by the arguments, a `SuperValidationException` must be thrown.
+# There is also another available variable
+# `$exception`,
+# which has a method called `setError`, and one can use it to add an error if some wanted conditions are not met.
 
 # ## Predicate
 # The `Predicate` is the main and only required block of a super. This block defines the characteristic predicate.
 
 # The body is written in pure PHP. All super arguments are available as PHP variables
-# `$this->argName0`,
-# ...,
+# `$this->argName0`, ...,
 # `$this->argNameN`,
 # along with two extra variables
 # `$input`
@@ -98,69 +101,72 @@ Super () {
 # `$input`
 # explicitly fits in the type, and `false` otherwise.
 
-# When returning `false`, it's possible to provide a reason of why
+# When returning `false`, it is possible to provide a reason of why
 # `$input`
-# failed to fit in the type. This reason can be stored in
-# `$message`.
+# failed to fit in the type. The
+# `$message`
+# variable is responsible for storing this reason.
 
 # ## Marshal & Unmarshal
-# Blocks `Marshal` and `Unmarshal` can be written for any supported language. Therefore these block names are valid. `Marshal<dart>`, `Marshal<php>`, `Marshal<java>`, `Marshal<javascript>`, `Marshal<kotlin>`, `Marshal<objectivec>`, and `Marshal<swift>`. There is also one other `TARGET` called `database`, the body of this target is written in PHP but the methods are used for database store and restore procedures.
+# Blocks `Marshal` and `Unmarshal` can be written for any supported language. Therefore these block names are valid: `marshal<php>`, `marshal<database>`, `marshal<dart>`, `marshal<php>`, `marshal<java>`, `marshal<javascript>`, `marshal<kotlin>`, `marshal<objectivec>`, and `marshal<swift>`. The body of `database` blocks, is written in PHP, but the methods are used for database store and restore procedures.
 
 # Any unwritten block is assumed to be the identity function.
 
-# The function of `Marshal` block is to cast a given value into a value that is capable to be transmitted on network, or storable in database (usually string, integer, or a stream of bytes), in an invertible way. The `Unmarshal` does the inverse of `Marshal` function.
+# The function of the `marshal` block is to cast a given value into a value that can be transmitted on the network or stored in the database (usually string, integer, or a stream of bytes) in an invertible way. The `unmarshal` does the inverse of the `marshal` function.
 
-# When the language is PHP, all super arguments are available as PHP variables
+# When the language is PHP (target is `php` or `database`), all Super arguments are available as PHP variables
 # `$this->argName0`,
 # ...,
 # `$this->argNameN`,
 # along with an extra variable
 # `$input`,
-# and the marshalled/unmarshalled data must be returned. When calling `Marshal`, it is guaranteed that
+# and the marshaled/unmarshaled data must be returned. When calling `Marshal`, it is guaranteed that
 # `$input`
-# explicitly fits in the type. But when calling `Unmarshal`, it's possible that
+# explicitly fits in the type. But when calling `unmarshal`, it is possible that
 # `$input`
-# is not a valid input, in that case, the convention is to return the input value itself.
+# is not a valid input; in that case, the convention is to return the input value itself.
 
 # For other languages, the same concept holds with respect to the language syntax.
 
-# ## Database Type
-# We may use some types (result of supers), to specify the type of an entity field. For this manner, we must tell the database server, what type of field we're trying to store. This is the job of `DatabaseType` block to do so. All super arguments are available as PHP variables
+# ## Native Type
+# There are some scenarios where we need to declare a type (the result of calling a Super) in another language. For example, if we use a type as the type of an Entity field, we must tell the database server to store the values. This declaration is the job of the `Type` block. All super arguments are available as PHP variables
 # `$this->argName0`,
 # ...,
 # `$this->argNameN`.
-# The block must either return a string identifying the database type (for example `VARCHAR(100)`), or `null` value, which means the type is not available to be a database field type. If the block is not provided, `null` return value is assumed.
+# And the block must either return a string identifying the database type (for example, `VARCHAR(100)`) or `null` value, which means the type is not available in the specified target. If the block is not provided, the `null` return value is assumed.
 
 # ## Hierarchy
-# Supers can come in a hierarchy just like PHP classes, and each block is a class method. It's possible to call parent method in the child method since the block's content are written in PHP. It's also possible to call parent methods in non-PHP blocks with respect to the language syntax.
+# Supers can come in a hierarchy just like PHP classes, and each block is a class method. It is possible to call the parent method in the child method since the block's content is written in PHP. It is also possible to call parent methods in non-PHP blocks with respect to the language syntax.
 
 # To do so, it's mandatory to know the name of the class method generated by each block. Here is a list of blocks with corresponding methods.
 #    # PHP Blocks
-#    Validation            => protected _validation()
+#    Validation            => protected _validation(SuperValidationException $exception)
 #    Predicate             => protected _predicate($input, string &$message)
 #    Marshal<database>     => protected _marshalDatabase($input)
 #    Unmarshal<database>   => protected _unmarshalDatabase($input)
 #    Marshal<php>          => protected _marshal($input)
 #    Unmarshal<php>        => protected _unmarshal($input)
-#    DatabaseType          => protected _databaseType()
+#    Type<database>          => protected _databaseType()
+#    Type<php>          => protected _phpType()
 #    # non-PHP Blocks
 #    Marshal<FRONT_LANG>   => protected _marshal($input)
 #    Unmarshal<FRONT_LANG> => protected _unmarshal($input)
-# So for example if you need to call parent predicate in php, you may call it by `parent::predicate($input)`.
+#    Type<FRONT_LANG>          => protected _type()
+# So for example if one needs to call parent predicate in php, they may write `parent::predicate($input)`.
 
-# Also the arguments of child super override the ones in parent. This override includes type, default value, and being constant. Also it's possible to add new arguments to the type. Read [Examples](#Examples) for more details.
+# Also, the arguments of child super override the ones in the parent. This override includes type, default value, and being constant. It is also possible to add new arguments to the type. Read [Examples](#Examples) for more details.
 
 # ## Visibility
-# The visibility of supers is controlled by marshal and unmarshal methods. Although the supers are never accessible in the front-end project, but the Marshal library can use these methods for sending and receiving values of a type. But if the methods are not available, this obviously means we don't want the Marshal library to be able to use them.
+# The visibility of supers is controlled via the Marshal and Unmarshal blocks. Although the supers are never accessible in the front-end project, the Marshal library can use these methods to send and receive values of a type. However, if the methods are not available, this means that we do not want the Marshal library to be able to use them.
 
-# However, there is usually no point in controlling super's visibility. 
+# By the way, there is usually no point in controlling Super's visibility.
 
 # -- #########################################
 # # Usage
-# It's possible to use a defined super in both PHP and XUA languages, but not in marshal library.
+# It is possible to use a defined super in both PHP and XUA languages, but not in Marshal library.
 
 # ## Inside PHP
-# Although it's not usually helpful to work with supers inside PHP codes, it's possible.
+# Although it is not usually helpful to work with supers inside PHP codes, it is possible.
 
 # ### Make a type
 # The following code makes a type by giving arguments to a super.
@@ -171,12 +177,22 @@ Super () {
 #    ]);
 
 # ### Determine a type
-# Assume a type is given in a variable and we need to know what type is it. We can try to find the class of the object but what about arguments? It's almost impossible to get the type accurate unless we have a method for that. The following method returns a string that describes the type.
+# Assume a type is given in a variable and we need to know what type is it. We can try to find the class of the object but what about arguments? The `parameters` method returns the array that was given to the Super at first place, and the `toString` method returns a string that describes the type.
+#    var_dump(get_class($type));
+#    var_dump($type->parameters());
 #    var_dump($type->toString());
-# This code dumps `'Path\To\Super\SuperName(argName0 = value0, ..., argNameN = valueN)'`.
+
+# This code dumps the following.
+#    string "Path\To\Super\SuperName"
+#    [
+#        argName0 => value0,
+#        ...,
+#        argNameN => valueN
+#    ]
+#    string "Path\To\Super\SuperName(argName0 = value0, ..., argNameN = valueN)"
 
 # ### Accepts, Implicit & Explicit
-# There are three `accepts` functions for a type.
+# There are three `accepts` functions defined on a type.
 
 # #### explicitlyAccepts
 # This function will return true only if the value explicitly fits in the type. The second argument is optional, and if the return value is false, the function may fill it with a reason.
@@ -184,14 +200,16 @@ Super () {
 #        var_dump($value);
 #        echo 'is of type ' . $type->toString();
 #    } else {
-#        echo 'rejected because of' . $reason;
+#        echo 'Rejected, because:' . $reason;
 #    }
 
-# #### implicitlyAccepts
-# This function will return true if the value explicitly fits in the type or, fits in the type after unmarshaling. The unmarshaling methods must be determined by caller. The function tries the value itself first, then tries to unmarshal and check if the value fits by given methods, one by one. If not passed to the function, the default value `['unmarshal', 'unmarshalDatabase']` is assumed.
-#    if ($type->implicitlyAccepts($value, $reasons, ['unmarshal'])) {
+# #### implicitlyAaccepts
+# This function will return true if the value explicitly fits in the type, or fits after unmarshaling. The unmarshaling methods must be determined by the caller. The function tries the value itself first, then tries to unmarshal and check if the value fits by given methods, one by one. If not passed to the function, the default value `[self::METHOD_IDENTITY, self::METHOD_UNMARSHAL, self::METHOD_UNMARSHAL_DATABASE]
+` is assumed.
+#    if ($type->implicitlyAccepts($value, $reasons, [self::METHOD_IDENTITY, self::METHOD_UNMARSHAL
+])) {
 #        var_dump($value);
-#        echo 'kinda fits in type ' . $type->toString();
+#        echo 'kinda fits in the type ' . $type->toString();
 #    } else {
 #        echo 'fully rejected because of the following reasons';
 #        var_dump($reasons);
@@ -200,7 +218,8 @@ Super () {
 # #### accepts
 # This function does the same job of `implicitlyAccepts`, but may alter the original value while trying to fit it in the type.
 #    $originalValue = $value;
-#    if ($type->accepts($value, $reasons, ['unmarshal'])) {
+#    if ($type->accepts($value, $reasons, [self::METHOD_IDENTITY, self::METHOD_UNMARSHAL
+])) {
 #        var_dump($originalValue);
 #        echo 'was changed to';
 #        var_dump($value);
@@ -216,24 +235,24 @@ Super () {
 # #### Network transmissions
 # Functions `marshal` and `unmarshal` are responsible to marshal and unmarshal values for purpose of network transmissions.
 #    $marshaledValue = $type->marshal($value);
-#    $reversedValue = $type->unmarshal($marshaledValue);
-#    if ($value !== $reversedValue) {
+#    $originalValue = $type->unmarshal($marshaledValue);
+#    if ($value !== $originalValue) {
 #        var_dump('something is wrong with marshal/unmarshal functions of ' . $type->toString());
 #    }
 
 # #### Database Storing & Restoring
 # Functions `marshalDatabase` and `unmarshalDatabase` are responsible to marshal and unmarshal values for purpose of storing and restoring into/from database.
 #    $marshaledValue = $type->marshalDatabase($value);
-#    $reversedValue = $type->unmarshalDatabase($marshaledValue);
-#    if ($value !== $reversedValue) {
+#    $originalValue = $type->unmarshalDatabase($marshaledValue);
+#    if ($value !== $originalValue) {
 #        var_dump('something is wrong with marshalDatabase/unmarshalDatabase functions of ' . $type->toString());
 #    }
 
-# ### Database Type
-# The function `DatabaseType` is a function with no arguments that returns an string which tells the database how the type values must be stored. And is hardly useful in programming.
+# ### Native Type
+# The functions `phpType` `databaseType` have no arguments and return a string that declares the type in PHP and database engine syntax. `phpType` is mostly used in PHPDocs to declare the classes properties type, while `databaseType` is mostly used to tell the database server how the type values must be stored. These functions are hardly helpful in programming.
 
 # ## Inside XUA
-# The main usage of supers is to declare types for XUA super arguments, entity fields, and method request and response signatures. To mention a type, one must call a super and give it arguments. The type then, can be used for type declaration. The syntax is the following.
+# The main usage of Supers is to declare types for Xua Super arguments, Entity fields, and Method request and response signatures (and Method field signatures for VARQUE Methods). To mention a type, one must call a Super and give it arguments. The type then can be used for type declaration. The syntax is the following.
 #    Path\To\Super\SuperName(
 #        argName0 = constant0,
 #        ...,
@@ -244,56 +263,70 @@ Super () {
 # # Examples
 
 # ## Range
-# In this section, we want to work with a super type that accepts a range of integers $[a, b)$.
+# In this section, we want to work with a Super that accepts the range of integers in $[a, b)$.
 
 # ### Definition
-# First of all, we need to define the super. we put it in the file `Supers/Integers/Range.xua`.
+# First of all, we need to define the Super. We put it in the file `Supers/Integers/Range.xua`.
+
+# #### Extension
+# A value of this type needs to be an integer so we can reuse marshal, unmarshal, and native type methods of the `Integer` Super, and also the predicate of that Super would be useful to check if the value is an integer. So it seems like a good idea to extend the Super `Integer`.
+#    Super extends Integer
 
 # #### Arguments
-# We need to have two arguments determining start and end of the range. The arguments must be integer themselves.
+# We need to have two arguments determining the start and end of the range. The arguments must be integer themselves.
 
 # @python doc.renderComments = "pure"
 # Supers\Integers\Range
-Super (
-    start : Supers\Integers\Integer();
-    end   : Supers\Integers\Integer();
-) {
-    # TODO implement
+Super extends Integer {
+    arguments {
+        start : Integer();
+        end   : Integer();
+    }
+    validation {
+        # TODO implement
+    }
+    predicate {
+        # TODO implement
+    }
 }
 # @python doc.renderComments = "doc"
 
 # #### Validation
-# For the validation, we must check that the second number is not less than the first one. Note that we do not need to check if the type of arguments is integer since we already declared their type so the type checking is automated.
-#    Validation {
+# For the validation, we must check that the second number is not less than the first one. Note that we do not need to check if the type of arguments is integer since we already declared their type so the type checking is automatically done.
+#    validation {
 #        if ($this->end < $this->start) {
-#            throw new SuperValidationException('Argument end cannot be less than start.');
+#            $exception->setError('end', 'The argument `end` cannot be less than the argument `start`.');
 #        }
 #    }
 
 # #### Predicate
-# We can just simply check if the `$input` value is in the range.
+# We can just simply check if the `$input` is an Integer and is in the range.
 #    Predicate {
-#        return $this->start <= $input && $input < $this->end;
+#        return parent::_predicate($input) and $this->start <= $input and $input < $this->end;
 #    }
+
 # But we can make it a little more sophisticated by providing a reason of why the value may fail to fit.
 #    Predicate {
-#        if (!($this->start <= $input)) {
+#        if (!parent::_validation($input, $message)) {
+#            // The message is already filled here by the parent _validation
+#            return false;
+#        }
+#        if ($input < $this->start) {
 #            $message = $input . ' is less than ' . $this->start;
 #            return false;
 #        }
-#        if (!($input < $this->end)) {
+#        if ($input >= $this->end) {
 #            $message = $input . ' is not less than ' . $this->end;
 #            return false;
 #        }
 #        return true;
 #    }
-# Note that it's OK to fill the $reason when the return value is `true`. XUA automatically clears the `$message` in that case.
-
+# Note that it is OK to fill the $message when the return value is `true`. Xua automatically clears the `$message` in that case.
 
 # #### Marshal and Unmarshal
-# Since the integers are possible to store and transmit, we can leave the marshal and unmarshal functions identity. But for the purpose of this documentation, we define a network transmit marshaling system, and leave the database store marshaling identity.
+# The defined Super is ready-to-go with no further modifications; since the `Integer` Super includes the desired Marshal and Unmarshal functions and `Range` inherits them. However, for the purpose of this documentation, we override them with a new network transmit marshaling system.
 
-# The silly idea is to shift starting number to zero to have smaller integers which are easier to transmit (it's not). For example The range $[1000, 1100)$ can be shifted to $[0, 100)$.
+# The silly idea is to shift starting number to zero to have smaller integers which are easier to transmit (practically useless). For example The range $[1000, 1100)$ can be shifted to $[0, 100)$.
 #    Marshal<php> {
 #        return $input - $this->start;
 #    }
@@ -307,10 +340,10 @@ Super (
 #        return input + this.args.start;
 #    }
 
-# #### Database Type
-# This is an interesting part of the definition, since we can actually determine the length of MySQL `INT` by the range limits.
+# #### Native Type
+# The PHP type is inherited and returns `int`, which is great. However, the database type is an interesting part of the definition since we can determine the length of MySQL `INT` by the range limits.
 
-# We know that `INT(n)` can store values in range $[-2^{n-1}, 2^{n-1}]$. So we need to find the least $n$ such that this range contains our range. First, we find the maximum absolute value that can fit in the type.
+# We know that `INT(n)` can store values in range $[-2^{n-1}, 2^{n-1}]$. So it is efficient to find the least $n$ such that this range contains our range. First, we find the maximum absolute value that can fit in the type.
 #    $min = $this->start;
 #    $max = $this->end - 1;
 #    $absMax = max(abs($min), abs($max));
@@ -325,8 +358,8 @@ Super (
 # Do the minimum value of $n$ is when $n = \lceil \log_2(M) \rceil + 1$.
 #    $n = ceil(log($absMax, 2)) + 1;
 
-# This leads us to the following `DatabaseType`.
-#    DatabaseType {
+# This leads us to the following database type.
+#    type<database> {
 #        $min = $this->start;
 #        $max = $this->end - 1;
 #        $absMax = max(abs($min), abs($max));
@@ -334,39 +367,44 @@ Super (
 #        return "INT($n)";
 #    }
 
-# #### Hierarchy
-# Assume that we want another super with same features, but only for positive values. We can just extend what we already have.
+# #### Further Hierarchy
+# ##### Validation
+# Assume that we want another Super with the same features, but only for positive values. We can extend again what we already have.
 
 # @python doc.renderComments = "pure"
 # Supers\Integers\PositiveRange
-Super extends Supers\Integers\Range () {
-    Validation {
-        if ($this->start<= 0) {
-            throw new SuperValidationException('The range must be positive');
-        }
+Super extends Range () {
+    validation {
         parent::validation();
+        if ($this->start<= 0) {
+            $exception->setError('start', 'The range must be positive.');
+        }
     }
 }
 # @python doc.renderComments = "doc"
 
+# ##### Constant Arguments
 # Or assume we want a range super that can only start at zero.
 
 # @python doc.renderComments = "pure"
 # Supers\Integers\NaturalUpperLimit
-Super extends Supers\Integers\Range (
-    const start : Supers\Integers\Integer() = 0;
-) {}
+Super extends Range {
+    arguments {
+        const start : Integer() = 0;
+    }
+}
 # @python doc.renderComments = "doc"
 
 # Note the way we overrode the `start` with default value, but also set it constant so the caller cannot change it.
-#    $type = new Supers\Integers\NaturalUpperLimit(['start' => 1, 'end' => 2]);
-# This code will result in uncaught `SuperValidationException`.
+#    $type = new NaturalUpperLimit(['start' => 1, 'end' => 2]);
+# This code will result in an uncaught `SuperValidationException`.
 
-# But better than these, assume we use the network transmit marshaling procedures for database which can really make an impact. And also remove the silly network transmit marshaling procedure. But we must override the `DatabaseType` as well.
+# ##### Marshaling
+# But better than these, assume we use the network transmit marshaling procedures for the database, which actually impacts the table size. Furthermore, we can remove the silly network transmit marshaling procedure. Also, note that we must override the `type<database>` as well.
 
 # @python doc.renderComments = "pure"
 # Supers\Integers\EfficientRange
-Super extends Supers\Integers\Range () {
+Super extends Range () {
     Marshal<php> {
         return $input;
     }
@@ -379,7 +417,6 @@ Super extends Supers\Integers\Range () {
     Unmarshal<javascript> {
         return $input;
     }
-
     Marshal<database> {
         return $input - $this->start;
     }
@@ -394,20 +431,22 @@ Super extends Supers\Integers\Range () {
 }
 # @python doc.renderComments = "doc"
 
-# Another example is when we want to add arguments to a super. For example assume we want an `step` argument. By default the step is one. but if we set step to three, then the type accepts `start` and every third number.
+# ##### New Arguments
+# Another example is when we want to add arguments to a Super. For example, assume we want a `step` argument. By default, the step is one, but if we set the `step` to three, the type accepts `start` and every third number.
 
 # @python doc.renderComments = "pure"
 # Supers\Integers\StepRange
-Super extends Supers\Integers\Range (
-    step : Supers\Integers\Integer() = 1;
-) {
-    Validation {
+Super extends Range {
+    arguments {
+        step : Integer() = 1;
+    }
+    validation {
         parent::validation();
         if (step < 1) {
-            throw new SuperValidationException('step must be at least 1.');
+            $exception->setError('step', 'The step must be at least 1.');
         }
     }
-    Predicate {
+    predicate {
         if (!parent::predicate($input, $message)) {
             return false;
         }
@@ -422,13 +461,13 @@ Super extends Supers\Integers\Range (
 
 
 # ### Usage
-# After defining a super, we can use it to define types, and use them.
+# After defining a super, we can use it to define types and use them.
 
 # #### Inside PHP
 # First, Let's define a type that accepts the range $[10, 30)$. We use the `EfficientRange`.
-#    $type = new Supers\Integers\EfficientRange(['start' => 10, 'end' => 30]);
+#    $type = new EfficientRange(['start' => 10, 'end' => 30]);
 
-# Let's see what how XUA stringifies this type.
+# Let's see how XUA stringifies this type.
 #    var_dump($type->toString());
 # This code dumps `Supers\Integers\EfficientRange(start = 10, end = 30)`.
 
@@ -442,7 +481,7 @@ Super extends Supers\Integers\Range (
 #    $value = 25;
 #    var_dump($type->implicitlyAccepts($value)); # dumps true
 
-# We know value `15` is ambiguous. It can be interpreted as `15` itself, a value in range, or the result of marshaling `25`. Let's call accept and check the result.
+# We know that value `15` is ambiguous. It can be interpreted as `15` itself, a value in range, or the result of marshaling `25`. Let's call accept and check the result.
 #    $value = 15;
 #    var_dump($type->accepts($value)); # dumps true
 #    var_dump($value); # dumps 15
@@ -470,35 +509,34 @@ Super extends Supers\Integers\Range (
 #        'unmarshal' => '30 is not less than 30',
 #        'unmarshalDatabase' => '40 is not less than 30',
 #    ]
-# The `$reason` variable can work like a log, for example we try the code above with `5`, and get the following.
+# The `$reason` variable can work as a log; for example, we try the code above with `5` and get the following.
 #    [
 #        'identity' => '5 is less than 10',
 #        'unmarshal' => '5 is less than 10',
 #        'unmarshalDatabase' => null,
 #    ]
-# We can see there is no reason for the `unmarshalDatabase`, and it makes sense since the value fitted.
+# We can see there is no reason for the `unmarshalDatabase`, and it makes sense since the value fits using this unmarshal method.
 
-# We know that the storing in the database is done by marshalling. The marshaled values are in $[0, 20)$.
+# We know that the storing in the database is done by marshaling. The marshaled values are in $[0, 20)$.
 #    var_dump($type->DatabaseType()); # Dumps 'INT(6)'
-# In this case there is no efficiency since the original values would only need `6` bits to. Although we could make this better if we shifted the center of the range to zero instead of starting point. That way we would have range $[-10, 10)$ which needs only $5$ bits ro store. Any way none of this is useful because MySQL occupies at least a byte which is `8` bits. And there is no difference between `5` and `6` in practice. Although this method of marshaling may come handy for big values, XUA's official `Range` does not use it because of the ambiguity.
-
+# In this case, there is no efficiency since the original values would only need `6` bits too. Although we could make this better if we shifted the center of the range to zero instead of starting point. That way, we would have the range $[-10, 10)$ which needs only $5$ bits to store. By the way, none of this is useful because MySQL occupies at least a byte which is `8` bits, and there is no difference between `5` and `6` in practice. Although this marshaling method may come in handy for big values, XUA's official `Range` does not use it because of the ambiguity.
 
 # #### Inside XUA
-# We may use a super to define another super.
+# We may use a Super to define another Super.
+
 # @python doc.renderComments = "pure"
 # Supers\Gender
-Super (
-    possibilities : Supers\Integers\Range(start = 2, end = 4) = 2;
-) {
-    Predicate {
+Super {
+    arguments {
+        possibilities : Range(start = 2, end = 4) = 2;
+    }
+    predicate {
         $choices = ['male', 'female'];
         if ($this->possibilities == 3) {
-            $choices = ['male', 'female', 'third'];
+            $choices = ['male', 'female', 'non-binary'];
         }
-
         $message = '$input is not in ' . implode(", ", $choices);
         return in_array($input, $choices);
-
     }
 }
 # @python doc.renderComments = "doc"
@@ -507,4 +545,4 @@ Super (
 
 # -- #########################################
 # # Good News
-# Although defining a simple super seems easy, defining a complete super with all features in many languages, seems exhausting. The good news is, XUA provides a set of predefined supers that cover almost any need. We discuss them in the next chapter.
+# Although defining a simple Super seems easy, defining a complete Super with all features in many languages seems exhausting. The good news is, XUA provides a set of predefined supers that cover almost any need. We discuss them in the next chapter.
