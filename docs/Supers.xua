@@ -368,6 +368,7 @@ Super extends Integer {
 #    }
 
 # #### Further Hierarchy
+
 # ##### Validation
 # Assume that we want another Super with the same features, but only for positive values. We can extend again what we already have.
 
