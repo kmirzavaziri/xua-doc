@@ -72,50 +72,55 @@
 
 # In this documentation, we try to cover all of these units. By visiting the page [Architecture](Architecture.html) and clicking on a unit, you will be redirected to the documentation section of that unit. Note that the Units documentation mainly contains information about why a unit exists and what it does in a more theoretical way. For details on how (instead of why) to create a Xua block (syntax), read the corresponding chapter.
 
-# @python doc.renderComments = "none"
 # -- #########################################
 # # Practicalities
-
 # ## System Requirements
-
-# Currently, XUA tools are only available on linux.
+# Currently, XUA is only available on Linux.
 
 # - Python 3 is required to build projects and make templates.
 
-# - The PHP Engine and a PHP Server is recommended for test and debug on local server.
+# - The PHP Engine and a PHP Server is recommended for test and debug on the local server.
 
-# - MySQL Server is recommended for test and debug on local server.
+# - MySQL Server is recommended for test and debug on the local server.
 
 # - DataGrip is recommended for monitoring data to test and debug.
 
-# - VSCode, is recommended with XUA extension installed to code in XUA language. Although it's not
-# a necessity, but the extension will help with code correction and autocomplete as well as making the build, deploy, and clean processes easier. 
+# - Visual Studio Code is recommended with Xua extension installed to code in Xua language. Although it's unnecessary, the extension will help with code correction and autocomplete and make the build processes easier.
 
 # ## Getting Started
-
 # ### Installation
+# Installing the VSCode Xua extension will automatically install requirements and the Xua CLI tool. Still, if you're not willing to use VSCode, you can clone our repository and install from that.
+#    git clone https://github.com/kmirzavaziri/xua-cli.git
+#    cd xua-cli
+#    sudo ./install.sh
 
-# Installing VSCode XUA extension will automatically install requirements and XUA tools, but if you're not willing to use VSCode,
-# you can clone our repository.
-#    git clone https://github.com/kmirzavaziri/xua.git
+# You can check the `xua` is installed correctly by running the command
+#    xua
 
-# And run 
-#    python3 xua.py install
+# it should output something like this
+#    XUA: A PHP Code Generator
+#    
+#    ██╗░░██╗██╗░░░██╗░█████╗░
+#    ╚██╗██╔╝██║░░░██║██╔══██╗
+#    ░╚███╔╝░██║░░░██║███████║
+#    ░██╔██╗░██║░░░██║██╔══██║
+#    ██╔╝╚██╗╚██████╔╝██║░░██║
+#    ╚═╝░░╚═╝░╚═════╝░╚═╝░░╚═╝
+#              1.0-β
 
 # ### Hello World!
-
 # To create a new project, go to a directory you want to create the project and run
 #    xua new project PROJECT_NAME
 
-# Now build the template project you just created, run,
-#    xua build
-# or alternatively, click on build button that appears in VSCode after installing the plugin.
+# Now go to the project directory and build the template project you just created by running
+#    cd PROJECT_NAME
+#    xua build server/ph
+# or alternatively, click on the build button that appears in VSCode after installing the plugin.
 
-# Set up a PHP server on the build destination location (`public_html` by default)
-#    cd public_html
-#    php -S localhost:8000
-# or alternatively, click on run server button that appears in VSCode after installing the plugin.
+# Set up a PHP server on the build destination location (`build/php/` by default)
+#    cd build/php
+#    php -S localhost:8000 main.php
+# or alternatively, click on the run server button that appears in VSCode after installing the plugin.
 
-# Now you should be able to see the _Hello World!_ page by visiting the [localhost:8000](http://localhost:8000/) page on
+# Now, you should be able to see the _Hello World!_ page by visiting the [localhost:8000](http://localhost:8000/) page on
 # your browser.
-# @python doc.renderComments = "doc"
