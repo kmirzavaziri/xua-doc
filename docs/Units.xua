@@ -62,7 +62,7 @@
 
 # The Native Type function must return a string literal declaring the value type in the native language's syntax. For example, if the type accepts date-times and null value, it must return `?DateTime` for PHP language and `DATETIME NULL` for MySQL.
 
-# __Note__: The database functions are written on PHP syntax, for example, for the MySQL Native Type one can write
+# __Note.__ The database functions are written on PHP syntax, for example, for the MySQL Native Type one can write
 Type<Database>{
     return "DATETIME NULL";
 }
@@ -95,7 +95,7 @@ Type<Database>{
 # At last, $U$ functions `unmarshal` and `unmarshalDatabase`.
 #    var_dump($genderType->unmarshal(1)); \\ dumps 'female'
 
-# __Note__: The marshal and unmarshal functions of Xua's official Enum are both the identity function; this is just an example.
+# __Note.__ The marshal and unmarshal functions of Xua's official Enum are both the identity function; this is just an example.
 
 # There is also another member of a type that returns the parameters given to it when constructed.
 #    $genderType->parameters();
@@ -164,7 +164,7 @@ Type<Database>{
 # ### Universal Resources Pool Interface (URPI)
 # Accessing resources on the same project is as easy as before; one unit can call a resource internally, and there is no complexity. Although accessing a resource from other machines needs a protocol, the client needs to marshal the request in a data-type that is available for transmitting on the network, then we need to unmarshal the request in a way that is meaningful for Universal Resource Pool, this is done by a predefined interface called URPI. The client tells URPI what resource is needed, URPI calls the resource, prepares the result for network transmitting, and sends the result back to the client, where the result can be unmarshalled and used.
 
-# __Note__: The URPI is an Interface existing in the interfaces directory of the template project. The URPI is a Xua source file, meaning it is not generated when building the project; it has been generated only once when making a new project from Xua's default template. Therefore this unit is modifiable and even removable.
+# __Note.__ The URPI is an Interface existing in the interfaces directory of the template project. The URPI is a Xua source file, meaning it is not generated when building the project; it has been generated only once when making a new project from Xua's default template. Therefore this unit is modifiable and even removable.
 
 # ### Route Detection Unit
 # The programmer can map URIs on the website to [interfaces](#Interfaces) using a file called `routes.xrml` (Xua's routes minimal language). This way, when a user or client sends a request to the server, it is the job of RDU to detect which route matches the requested URI and method (such as POST, GET, OPTIONS, etc.). After the route is detected, Xua will call the corresponding interface, and then the script inside that interface returns the desired response.

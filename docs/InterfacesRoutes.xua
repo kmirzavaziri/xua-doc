@@ -54,7 +54,7 @@ Interface [extends Path\To\Another\Interface\InterfaceName] {
 
 # Assume the client sends a GET request to `localhost:8000/media/post`. The result of exploding this URL would be the list `['media', 'post']`. The Route Service then looks into the `routes.xrml` as a tree, finds the node matching the list's first item, and gets the subtree. Then looks for the list's second item in the subtree and continues the process until it finishes the list. Then looks into the Interfaces provided for that line and chooses the one matching the request method, `Post\GetAll`. If it can't find such an Interface, it throws an Exception called `RouteException`, which the `ExceptoinService` will handle.
 
-# __Note__: the `/` route is only valid on the root tree, and no subtree can contain such a node. Violating this rule will result in a `RouteDefinitionException`.
+# __Note.__ the `/` route is only valid on the root tree, and no subtree can contain such a node. Violating this rule will result in a `RouteDefinitionException`.
 
 # ## All Methods At Once
 
@@ -65,6 +65,6 @@ Interface [extends Path\To\Another\Interface\InterfaceName] {
 # ## Variables & Priorities
 # Assume the client sends a GET request to `localhost:8000/media/post/12/delete`. The result of exploding this URL would be the list `['media', 'post', '12', 'delete']`. The Route Service gets the subtree with `post` as root, and in that tree, it can't find any route equal to the literal string `'12'`, but instead, there is the route `{id}` with opening and closing braces indicating a variable. This way, the Route Service knows it can match any string with that route, and it'll save the string `'12'` under the variable name, which is `id`. The Route Service will process further until it finds the Interface `Post\RemoveOne`. Now the variable is available in the body of that Interface as `RouteService::$routeArgs['id']`.
 
-# __Note__: If one of the siblings of a variable matches the desired route section, Route Service processes that node since literal route sections have a higher priority than the variable route sections; but if further processing the route would result in Route Exception, the Route Service would come back until the latest variable and processes the route in that direction, if it can't find the route in that direction either, it goes back and does the same procedure until possible.
+# __Note.__ If one of the siblings of a variable matches the desired route section, Route Service processes that node since literal route sections have a higher priority than the variable route sections; but if further processing the route would result in Route Exception, the Route Service would come back until the latest variable and processes the route in that direction, if it can't find the route in that direction either, it goes back and does the same procedure until possible.
 
-# __Note__: There can't be two variable route sections as siblings, as this will result in a `RouteDefinitionException`.
+# __Note.__ There can't be two variable route sections as siblings, as this will result in a `RouteDefinitionException`.

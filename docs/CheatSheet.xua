@@ -41,7 +41,7 @@
 
 # Build projects that are labeled as `quick` in `config.json`.
 #    xua build quick [PATH] [-c]
-# __Note:__ If you have the plugin installed, when you hit the save button (`Ctrl+S`) the plugin automatically quick-builds the file that is being saved.
+# __Note.__ If you have the plugin installed, when you hit the save button (`Ctrl+S`) the plugin automatically quick-builds the file that is being saved.
 
 # Build all projects.
 #    xua build all [PATH] [-c]
