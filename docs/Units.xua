@@ -105,7 +105,7 @@ Type<Database>{
 #    ]
 
 # ##### A Little Formalism on Super Types 
-# The set of boolean values, i.e., $\{0, 1\}$ is shown by $\mathbb{B}$.
+# The set of boolean values, i.e., $\{\mathsf{0}, \mathsf{1}\}$ is shown by $\mathbb{B}$.
 
 # The set of all single-argument predicates is shown by $\mathbb{P}$, all Native Type functions by $\mathbb{Y}$, all marshal functions by $\mathbb{M}$, and all unmarshal functions by $\mathbb{U}$.
 
