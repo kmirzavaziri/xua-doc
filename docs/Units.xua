@@ -117,7 +117,7 @@ Type<Database>{
 
 # The set of all values possible to store in a variable is shown by $\mathbb{X}$.
 
-# A dictionary is a partial function $D: \mathbb{L} \to \mathbb{X}$ and is usually expressed by all of its records. The set of all dictionaries is shown by $\mathbb{D}$.
+# A _Dictionary_ is a partial function $D: \mathbb{L} \to \mathbb{X}$ and is usually expressed by all of its records. The set of all dictionaries is shown by $\mathbb{D}$.
 
 # For example, Let $D$ be a dictionary with domain $\{\mathsf{name}, \mathsf{gender}\}$, $D(\mathsf{name}) = \mathsf{Kamyar}$, and $D(\mathsf{gender}) = \mathsf{male}$. We can express $D$ as `{name: 'Kamyar', gender: 'male'}`.
 
