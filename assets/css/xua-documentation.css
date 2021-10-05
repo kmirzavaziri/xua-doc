@@ -11,6 +11,21 @@ body {
     background-position: bottom;
 }
 
+@media print {
+    body{
+        background-image: none;
+    }
+    #header{
+        display: none;
+    }
+
+}
+
+@page {
+    size: A4;
+    margin: 1cm;
+}
+
 #header {
     background-color: rgba(0, 0, 0, 0.6);
 }
@@ -262,13 +277,9 @@ ul#menu a.hover li  {
     margin: 0px auto;
     font-size: 14px;
     line-height: 22px;
-    /* max-width: 570px; */
     color: black;
-    /* text-align: justify; */
     border-style: plain;
-    /* This might work better after changing back to standard coqdoc: */
     padding-top: 10px;
-    /* padding-top: 18px; */
 }
 
 .quote { 
@@ -440,7 +451,8 @@ code {
 
 pre code { 
     font-family: monospace;
-    line-height: 2em;
+    font-size: 11px;
+    line-height: 20px;
 } 
 
 hr.doublespaceincode {
@@ -695,9 +707,10 @@ html .ui-button.ui-state-disabled:focus {
            font-style : bold;
          }
 
-a:link {text-decoration: none; color:black}
-a:visited {text-decoration: none; color:black}
-a:active {text-decoration: none; color:black}
+a {text-decoration: none; color:#2a2c71}
+a:link {text-decoration: none; color:#2a2c71}
+a:visited {text-decoration: none; color:#2a2c71}
+a:active {text-decoration: none; color:#2a2c71}
 a:hover {text-decoration: none; color: #555555 }
 
 .paragraph {
