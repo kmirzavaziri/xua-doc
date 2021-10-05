@@ -57,7 +57,7 @@ Super [extends Path\To\Another\Super\SuperName] {
 }
 # @python doc.renderComments = "doc"
 
-# Note that there is no name for the Super. An Interface name is its file path. Each file can contain at most one block, and the block inherits its name from the file. It is a good practice to have a comment in the first line of the file describing where the file is located.
+# Note that there is no name for the Super. An Super name is its file path. Each file can contain at most one block, and the block inherits its name from the file. It is a good practice to have a comment in the first line of the file describing where the file is located.
 
 # ## Arguments
 # It is possible to define a set of arguments for a Super. The resulting type is based on those arguments. For each argument, it is possible to set a default value, and it is mandatory to set a type. However, the only way to mention a type is to call a super that returns a type, and we need types to define supers. So how to define the first Super? The answer is we do not _NEED_ types to define a super since we do not need the super to have any argument. This fact leads us to the very first Super, called `Universal`.
