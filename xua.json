@@ -1,13 +1,13 @@
 {
     "projects": {
         "doc/html": {
-            "default-template": "templates/template.html",
             "build-dir": "build/html",
-            "pdf-path": "xua-doc.pdf",
             "quick": true,
             "paths-to-copy": [
                 "assets"
-            ]
+            ],
+            "default-template": "templates/template.html",
+            "pdf-path": "xua-doc.pdf"
         }
     }
 }
