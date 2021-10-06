@@ -1,13 +1,52 @@
 {
     "projects": {
         "doc/html": {
+            "src-dir": "src",
             "build-dir": "build/html",
             "quick": true,
             "paths-to-copy": [
                 "assets"
             ],
             "default-template": "templates/template.html",
-            "pdf-path": "xua-doc.pdf"
+            "pdf-path": "xua-doc.pdf",
+            "toc": {
+                "doc/Preface.xua": {
+                    "title": "Preface"
+                },
+                "doc/Units.xua": {
+                    "title": "Units"
+                },
+                "doc/InterfacesRoutes.xua": {
+                    "title": "Interfaces & Routes"
+                },
+                "doc/Supers.xua": {
+                    "title": "Supers"
+                },
+                "doc/PredefinedSupers.xua": {
+                    "title": "Predefined Supers"
+                },
+                "doc/Entities.xua": {
+                    "title": "Entities"
+                },
+                "doc/Methods.xua": {
+                    "title": "Methods"
+                },
+                "doc/VarqueMethods.xua": {
+                    "title": "VARQUE Methods"
+                },
+                "doc/Services.xua": {
+                    "title": "Services"
+                },
+                "doc/PredefinedServices.xua": {
+                    "title": "Predefined Services"
+                },
+                "doc/Documentations.xua": {
+                    "title": "Documentations"
+                },
+                "doc/Congratulations.xua": {
+                    "title": "Congratulations"
+                }
+            }
         }
     }
 }
