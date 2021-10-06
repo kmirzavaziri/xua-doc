@@ -95,18 +95,18 @@
 #    sudo ./install.sh
 
 # You can check the `xua` is installed correctly by running the command
-#    xua
+#    xua --version
 
 # it should output something like this
-#    Xua: A PHP Code Generator
-#    
-#    ██╗░░██╗██╗░░░██╗░█████╗░
-#    ╚██╗██╔╝██║░░░██║██╔══██╗
-#    ░╚███╔╝░██║░░░██║███████║
-#    ░██╔██╗░██║░░░██║██╔══██║
-#    ██╔╝╚██╗╚██████╔╝██║░░██║
-#    ╚═╝░░╚═╝░╚═════╝░╚═╝░░╚═╝
-#              1.0-β
+#          Xua: A PHP Code Generator
+#          
+#          ██╗░░██╗██╗░░░██╗░█████╗░
+#          ╚██╗██╔╝██║░░░██║██╔══██╗
+#          ░╚███╔╝░██║░░░██║███████║
+#          ░██╔██╗░██║░░░██║██╔══██║
+#          ██╔╝╚██╗╚██████╔╝██║░░██║
+#          ╚═╝░░╚═╝░╚═════╝░╚═╝░░╚═╝
+#                    1.0-β
 
 # ### Hello World!
 # To create a new project, go to a directory you want to create the project and run
