@@ -77,7 +77,7 @@
 # ## System Requirements
 # Currently, Xua is only available on Linux.
 
-# - Python 3 is required to build projects and make templates.
+# - `python3` along with `pip` are required to install `xua` package.
 
 # - The PHP Engine and a PHP Server is recommended for test and debug on the local server.
 
@@ -89,10 +89,15 @@
 
 # ## Getting Started
 # ### Installation
-# Installing the VSCode Xua extension will automatically install requirements and the Xua CLI tool. Still, if you're not willing to use VSCode, you can clone our repository and install from that.
-#    git clone https://github.com/kmirzavaziri/xua-cli.git
-#    cd xua-cli
-#    sudo ./install.sh
+
+# Installing the VSCode Xua extension will automatically install requirements and the Xua CLI tool. Still, if you're not willing to use VSCode, you can install `xua` using `pip` from that.
+
+# - Install `pip`
+#    sudo apt install python3-pip
+# - Add `pip` packages directory to `PATH`
+#    if [[ ":$PATH:" != *":/home/ubuntu/.local/bin:"* ]]; then PATH="/home/ubuntu/.local/bin${PATH:+":$PATH"}"; fi
+# - Install `xua`
+#    pip install -e git+https://github.com/kmirzavaziri/xua-cli/#egg=xua
 
 # You can check the `xua` is installed correctly by running the command
 #    xua --version
