@@ -74,6 +74,7 @@
 
 # -- #########################################
 # # Practicalities
+
 # ## System Requirements
 # Currently, Xua is only available on Linux.
 
@@ -88,6 +89,7 @@
 # - Visual Studio Code is recommended with Xua extension installed to code in Xua language. Although it's unnecessary, the extension will help with code correction and autocomplete and make the build processes easier.
 
 # ## Getting Started
+
 # ### Installation
 
 # Installing the VSCode Xua extension will automatically install requirements and the Xua CLI tool. Still, if you're not willing to use VSCode, you can install `xua` using `pip` from that.
