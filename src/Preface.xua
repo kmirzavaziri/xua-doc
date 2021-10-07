@@ -24,7 +24,7 @@
 
 # Generally, most multi-user applications (such as social networks, messengers, online games, websites) have the following architecture. (except for those which are peer-to-peer or using chains and other similar concepts).
 
-# ![Simple Multi-User Architecture]({{ROOT}}/assets/images/simpleMultiUser.png =300x)
+# ![Simple Multi-User Architecture]({{ROOT}}/assets/images/simpleMultiUser.png)
 
 # This architecture is called client-server. The shared data is stored in a central core (usually called the server), and users (usually called clients) can read, modify, and delete specific data based on their permissions. From Xua's perspective, we can think of the connection between the data storage and each user as a series of interfaces, each one communicating with the next and previous interfaces on a specific platform.
 
