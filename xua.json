@@ -10,40 +10,40 @@
             "default-template": "templates/template.html",
             "pdf-path": "xua-doc.pdf",
             "toc": {
-                "doc/Preface.xua": {
+                "Preface.xua": {
                     "title": "Preface"
                 },
-                "doc/Units.xua": {
+                "Units.xua": {
                     "title": "Units"
                 },
-                "doc/InterfacesRoutes.xua": {
+                "InterfacesRoutes.xua": {
                     "title": "Interfaces & Routes"
                 },
-                "doc/Supers.xua": {
+                "Supers.xua": {
                     "title": "Supers"
                 },
-                "doc/PredefinedSupers.xua": {
+                "PredefinedSupers.xua": {
                     "title": "Predefined Supers"
                 },
-                "doc/Entities.xua": {
+                "Entities.xua": {
                     "title": "Entities"
                 },
-                "doc/Methods.xua": {
+                "Methods.xua": {
                     "title": "Methods"
                 },
-                "doc/VarqueMethods.xua": {
+                "VarqueMethods.xua": {
                     "title": "VARQUE Methods"
                 },
-                "doc/Services.xua": {
+                "Services.xua": {
                     "title": "Services"
                 },
-                "doc/PredefinedServices.xua": {
+                "PredefinedServices.xua": {
                     "title": "Predefined Services"
                 },
-                "doc/Documentations.xua": {
+                "Documentations.xua": {
                     "title": "Documentations"
                 },
-                "doc/Congratulations.xua": {
+                "Congratulations.xua": {
                     "title": "Congratulations"
                 }
             }
