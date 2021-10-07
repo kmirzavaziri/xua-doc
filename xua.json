@@ -10,6 +10,14 @@
             "default-template": "templates/template.html",
             "pdf-path": "xua-doc.pdf",
             "toc": {
+                "Title.xua": {
+                    "title": "Title",
+                    "hide-in-toc": true
+                },
+                "TableOfContents.xua": {
+                    "title": "Table of Contents",
+                    "hide-in-toc": true
+                },
                 "Preface.xua": {
                     "title": "Preface"
                 },
