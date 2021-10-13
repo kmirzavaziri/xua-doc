@@ -115,32 +115,32 @@ Entity [extends Path\To\Another\Entity\EntityName] {
 
 # ## Overriding Methods
 # Xua generates a PHP class from each entity, extending `Entity`. This class have many methods which are possible to override. Here is a list of these methods, with the PHP method that is actually being overridden.
-#    Override<initialize> => protected static _initialize(string $caller);
-#    Override<getOne>     => protected static _getOne(Condition $condition, Order $order, string $caller);
-#    Override<store>      => protected _getStoreQueryBinds(string $caller);
-#    Override<delete>     => protected _delete(string $caller);
-#    Override<getMany>    => protected static _getMany(Condition $condition, Order $order, Pager $pager, string $caller);
-#    Override<countMany>  => protected static _countMany(Condition $condition, Order $order, Pager $pager, string $caller);
-#    Override<deleteMany> => protected static _deleteMany(Condition $condition, Order $order, Pager $pager, string $caller);
-#    Override<setMany>    => protected static _setMany(array $changes, Condition $condition, Order $order, Pager $pager, string $caller);
+#    Override<initialize>         => protected static _initialize(string $caller);
+#    Override<getOne>             => protected static _getOne(Condition $condition, Order $order, string $caller);
+#    Override<getStoreQueryBinds> => protected _getStoreQueryBinds(string $caller);
+#    Override<delete>             => protected _delete(string $caller);
+#    Override<getMany>            => protected static _getMany(Condition $condition, Order $order, Pager $pager, string $caller);
+#    Override<countMany>          => protected static _countMany(Condition $condition, Order $order, Pager $pager, string $caller);
+#    Override<deleteMany>         => protected static _deleteMany(Condition $condition, Order $order, Pager $pager, string $caller);
+#    Override<setMany>            => protected static _setMany(array $changes, Condition $condition, Order $order, Pager $pager, string $caller);
 
 # Xua provides final methods that include the actual logic, which one can use when overriding a method. Here is a list of these method names. 
 
-# | Name in `.xua` file | Original Method               |
-# | ------------------- |------------------------------ |
-# | `<initialize>`      | &#95;x&#95;initialize         |
-# | `<getOne>`          | &#95;x&#95;getOne             |
-# | `<store>`           | &#95;x&#95;getStoreQueryBinds |
-# | `<delete>`          | &#95;x&#95;delete             |
-# | `<getMany>`         | &#95;x&#95;getMany            |
-# | `<countMany>`       | &#95;x&#95;countMany          |
-# | `<deleteMany>`      | &#95;x&#95;deleteMany         |
-# | `<setMany>`         | &#95;x&#95;setMany            |
+# | Name in `.xua` file    | Original Method               |
+# | ---------------------- |------------------------------ |
+# | `<initialize>`         | &#95;x&#95;initialize         |
+# | `<getOne>`             | &#95;x&#95;getOne             |
+# | `<getStoreQueryBinds>` | &#95;x&#95;getStoreQueryBinds |
+# | `<delete>`             | &#95;x&#95;delete             |
+# | `<getMany>`            | &#95;x&#95;getMany            |
+# | `<countMany>`          | &#95;x&#95;countMany          |
+# | `<deleteMany>`         | &#95;x&#95;deleteMany         |
+# | `<setMany>`            | &#95;x&#95;setMany            |
 
 
 
-# So, as an example, one can override the `store` procedure like this.
-#    Override<store> {
+# So, as an example, one can override the `getStoreQueryBinds` procedure like this.
+#    Override<getStoreQueryBinds> {
 #        if (isset(static::fieldSignatures()['updatedAt'])) {
 #            $this->updatedAt = DateTimeService::now();
 #        }
