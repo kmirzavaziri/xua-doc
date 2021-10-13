@@ -145,7 +145,7 @@ Entity [extends Path\To\Another\Entity\EntityName] {
 #            $this->updatedAt = DateTimeService::now();
 #        }
 #        try {
-#            $qb = static::_x_getStoreQueryBinds(); // original Xua's store logic
+#            $qb = $this->_x_getStoreQueryBinds(); // original Xua's store logic
 #            LogService::logDatabaseChange($this);
 #        } catch (Exception as $e) {
 #            LogService::logDatabaseException($e);
