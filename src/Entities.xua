@@ -117,7 +117,7 @@ Entity [extends Path\To\Another\Entity\EntityName] {
 # Xua generates a PHP class from each entity, extending `Entity`. This class have many methods which are possible to override. Here is a list of these methods, with the PHP method that is actually being overridden.
 #    Override<initialize> => protected static _initialize(string $caller);
 #    Override<getOne>     => protected static _getOne(Condition $condition, Order $order, string $caller);
-#    Override<store>      => protected _store(string $caller);
+#    Override<store>      => public _store(string $caller);
 #    Override<delete>     => protected _delete(string $caller);
 #    Override<getMany>    => protected static _getMany(Condition $condition, Order $order, Pager $pager, string $caller);
 #    Override<countMany>  => protected static _countMany(Condition $condition, Order $order, Pager $pager, string $caller);
@@ -145,11 +145,12 @@ Entity [extends Path\To\Another\Entity\EntityName] {
 #            $this->updatedAt = DateTimeService::now();
 #        }
 #        try {
-#            static::_x_store(); // original Xua's store logic
+#            $return = static::_x_store(); // original Xua's store logic
 #            LogService::logDatabaseChange($this);
 #        } catch (Exception as $e) {
 #            LogService::logDatabaseException($e);
 #        }
+#        return $return;
 #    }
 # Usually, the original methods suffice, and there is no need to override them, but in case of necessity, be careful not to corrupt the functionality.
 
