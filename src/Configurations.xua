@@ -47,7 +47,7 @@
 # Node `quick`, is an optional boolean node, determining if the project is labeled as `quick`. If a project is labeled as `quick`, it is included in list of projects the commands `xua build quick` and `xua-ext deploy quick` will work on. For more information, read [Cheat Sheet](CheatSheet.html).
 
 # ## resources
-# Node `resources`, is an optional array or map, determining folders that are considered as `resources`. The default value for each project is written in the project section. Any file in the resulting project is generated from a source file, is a Xua base file added to project by Xua itself, or is a resource. Any other file will be deleted when cleaning the project, so it's very important to mention any directory you don't wanna get deleted under this node.
+# Node `resources`, is an optional array or map, determining folders that are considered as `resources`. The default value for each project is written in the project section. Any file in the resulting project is generated from a source file, is a Xua base file added to project by Xua itself, or is a resource. Any other file will be deleted when cleaning the project, so it is very important to mention any directory you don't wanna get deleted under this node.
 
 # Server project `resources` node has two children `public`, and `private`, each of them is an array. Read more about the difference in section [Resource Files](Units.html#Resource_Files). But other projects only contain an array of `resources`, and there is no dividing into `public`, and `private`. The directory addresses are relative to the `destination-dir`. 
 
@@ -71,7 +71,7 @@
 # Most nodes has been explained under [Common Nodes](#Common_Nodes), the remaining node are explained here.
 
 # ## services
-# services and are only project source file without `.xua` extension, and are copied to the project as they are. It's important to mark these files as `services`, or they won't get copied to the project. There can be only one directory of services, but it can contain multiple subdirectories.
+# services and are only project source file without `.xua` extension, and are copied to the project as they are. It is important to mark these files as `services`, or they won't get copied to the project. There can be only one directory of services, but it can contain multiple subdirectories.
 
 # -- #########################################
 # # Marshal
@@ -88,7 +88,7 @@
 # Most nodes has been explained under [Common Nodes](#Common_Nodes), the remaining node are explained here.
 
 # ## services
-# Just like PHP services, we can write native codes for client-side projects. these files do not come with `.xua` extension, and are copied to the project as they are. It's important to mark these files as `services`, or they won't get copied to the project. There can be only one directory of services, but it can contain multiple subdirectories.
+# Just like PHP services, we can write native codes for client-side projects. these files do not come with `.xua` extension, and are copied to the project as they are. It is important to mark these files as `services`, or they won't get copied to the project. There can be only one directory of services, but it can contain multiple subdirectories.
 
 # -- #########################################
 # # Doc
@@ -106,7 +106,7 @@
 # ## default-template
 # As described in section [Documentations](Units.html#Documentations), the documentations are file-to-file, meaning that for each source file, there exists a .html or .tex file and vice versa. For each source file, Xua generates an string containing, comments, auto-generated content, etc. This string then needs to be put in a template file. The template file must contain the variable `{{ XUA-DOC-HOLDER }}`. The Xua doc engine replaces it with the generated content, and saves the result in the corresponding path.
 
-# It's possible to override the `default-template` in a single file, and use another customized template. For more information read the main chapter of [Documentations](Documentations.html).
+# It is possible to override the `default-template` in a single file, and use another customized template. For more information read the main chapter of [Documentations](Documentations.html).
 
 # ## build-pdf
 # Node `build-pdf`is an optional boolean node, determining if the the build procedure must build a pdf from generated documentation.

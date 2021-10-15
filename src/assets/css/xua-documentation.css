@@ -18,7 +18,7 @@ body {
     #header {
         display: none;
     }
-    #toc, #page-title {
+    #toc, #page-title, #page {
         page-break-after: always;
     }
     #main {

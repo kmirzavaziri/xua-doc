@@ -15,7 +15,7 @@
 # Xua can be configured to communicate with a database server (usually MySQL), but the programmer must specify the database structure. To do so, Xua offers Entity Blocks. Read [Entities](Units.html#Entities) section under [Units](Units.html) chapter for theoretical explanations. In this chapter, we focus on practical details of defining and using entities.
 
 # ## Effects on the projects
-# Xua will generate a PHP class extending a Xua abstract class called `Entity` for each Entity Block the programmer creates. These Entity classes are in a one-to-one relationship with database tables, and each row of the table can be corresponded by an instance of the table's corresponding class.
+# Xua will generate a PHP class extending a Xua abstract class called `Entity` for each Entity Block the programmer creates. These Entity classes are in a one-to-one correspondence with database tables, and each row of the table can be corresponded by an instance of the table's corresponding class.
 
 # Also, the same happens in the Marshal Library with respect to the language. However, the front-end clone of the entities only contains method signatures, and the bodies are just network calls.
 
@@ -58,13 +58,13 @@
 # ### MySQL Side
 # A _database_ is a set of _table_s; each table has a _structure_ consisting of _column_s, and a set of _row_s as _data_.
 
-# _insert_ is the action of adding new rows to a table.
+# `insert` is the action of adding new rows to a table.
 
-# _select_ is the action of retrieving table rows on some specific conditions.
+# `select` is the action of retrieving table rows on some specific conditions.
 
-# _update_ is the action of modifying some table rows on some specific conditions.
+# `update` is the action of modifying some table rows on some specific conditions.
 
-# _delete_ is the action of removing some table rows on some specific conditions.
+# `delete` is the action of removing some table rows on some specific conditions.
 
 # ### Correspondence
 # Each _table_ is in one-to-one correspondence with an _Entity Class_. Methods of these classes can communicate with the database server to select, insert, update, and delete data. _Field_s of the entity class represent the _column_s of the table, and _instance_s of the class represent the _row_s of the table. 
@@ -111,7 +111,7 @@ Entity [extends Path\To\Another\Entity\EntityName] {
 # ## Validation
 # The body of the `validation` block is written in pure PHP. 
 
-# The `validation` block is responsible for checking if an instance of the Entity is valid, and in case of invalid data, an `EntityFieldException` must be thrown. For example, assume we have a table of restaurants in an entity called `Restaurant`. This Entity has two fields, `title` and `active`. The `title` field is unique, but it is impossible to mark it as a unique index in `indexes` because we may have many inactive records sharing the same title, and the title is unique among the active restaurants. (there is a workaround here to solve this problem only using `indexes`, but for the purpose of this documentation, we assume there is not.) We can check this in the `validation` block and throw an `EntityFieldException` if the title is duplicate.
+# The `validation` block is responsible for checking if an instance of the Entity is valid, and in case of invalid data, an `EntityFieldException` must be thrown. For example, assume we have a table of restaurants in an entity called `Restaurant`. This Entity has two fields, `title` and `active`. The `title` field is unique, but it is impossible to mark it as a unique index in `indexes` because we may have many inactive records sharing the same title, and the title is unique among the active restaurants. (There is a workaround here to solve this problem only using `indexes`, but for the purpose of this documentation, we assume there is not.) We can check this in the `validation` block and throw an `EntityFieldException` if the title is duplicate.
 
 # ## Overriding Methods
 # Xua generates a PHP class from each entity, extending `Entity`. This class have many methods which are possible to override. Here is a list of these methods, with the PHP method that is actually being overridden.
@@ -166,12 +166,12 @@ Entity [extends Path\To\Another\Entity\EntityName] {
 # The visibility of entities is controlled by overriding methods. There is an additional variable accessible in all methods, including validation, called `$caller`. This variable contains a string telling what party called this method. The values are accessible as class constants in the class `\Xua\Tools\Visibility`. These values are `Visibility::CALLER_PHP`,
 # `Visibility::CALLER_DART`, etc.
 
-# So it's possible to block foreign callers like the following.
+# So it is possible to block foreign callers like the following.
 #    if ($caller != Visibility::CALLER_PHP) {
 #        throw AccessForbiddenException();
 #    }
 
-# But there is more than this. It's possible to customize procedures according to the caller. For example
+# But there is more than this. It is possible to customize procedures according to the caller. For example
 #    if ($caller != Visibility::CALLER_PHP) {
 #        if ($this->id) {
 #            if (!UserService::hasAccess(AccessService::MODIFY_SOME_ENTITY)) {
@@ -288,7 +288,7 @@ Entity [extends Path\To\Another\Entity\EntityName] {
 
 # Note that one cannot set a database virtual field, and therefore there is no setter method available on this field.
 
-# Note that another method argument is available called `params`, which is used to pass some extra parameters into the getter method. We discuss it in more depth in the Example section.
+# Note that another method argument is available called `params`, which is used to pass some extra parameters into the getter method. We discuss it in more details in the Example section.
 
 # #### Database Virtual Field Example
 # Let us say that we have an entity called `City`, and we need a field that tells if the city is a town or a big city. At the moment, we consider cities that have a population of less than a million to be town, but this might change; either the population may change, or we may think of the area as an item, or we can have a more complicated way that involves both population and area of a city. So we cannot calculate the field `isTown` each time we need it somewhere (this may result in duplicate code). Instead, we need a field that does this so we can change it later and the change affect all usages. We can do this by defining the field `isTown` this way.
@@ -463,9 +463,9 @@ distance : DatabaseVirtualField (
 #    $r = new RightEntity();
 #    // $r->invRel is the set of all instances of LeftEntity $l s.t. $l is in relation with $r.
 
-# __Note.__ in the X-to-one cases, the result of retrieving a field is not a set but instead a value that can be an empty Entity in optional cases.
+# __Note.__ In the X-to-one cases, the result of retrieving a field is not a set but instead a value that can be an empty Entity in optional cases.
 
-# __Note.__ the `invName` argument is optional, and if it is not provided, the Xua engine does not generate the implicit inverse field.
+# __Note.__ The `invName` argument is optional, and if it is not provided, the Xua engine does not generate the implicit inverse field.
 
 # #### Constant Arguments
 # `EntityRelation` offers a set of constant arguments calculated based on the relation class, that help with recognizing a relation better. The names are pretty explanatory by themselves, but here we provide the way we calculate each.
@@ -536,7 +536,7 @@ distance : DatabaseVirtualField (
 #    Restaurant::F_distance()->p()     == null;
 #    // We can modify the parameters of a field by calling the method `p` on its signature.
 #    Restaurant::F_distance()->p(['here' => (object)['lat' => 42, 'long' => 59]]); // https://en.wikipedia.org/wiki/Khwarazm
-#    // Now it's set.
+#    // Now it is set.
 #    Restaurant::F_distance()->p()     == ['here' => (object)['lat' => 42, 'long' => 59]];
 
 # ## Conditional Field Class
@@ -549,7 +549,7 @@ distance : DatabaseVirtualField (
 # So the `SomeEntity::C_field()`
 # is actually `new ConditionField(SomeEntity::F_field())`, an instance of `ConditionField` based on the field signature.
 
-# The critical feature of this class is the `rel` method, which makes it possible to access fields on the related tables. We cover this in the following sections.
+# The critical feature of this class is the `rel` method, which makes it possible to access fields on the related tables. We cover this in the Condition and Order sections.
 
 # The methods `name` and `joins` are not usually helpful for the Xua programmer and are used in the Xua core. So we do not cover them here.
 
@@ -566,11 +566,11 @@ distance : DatabaseVirtualField (
 # # Practicalities
 
 # ## Deploy & Alters
-# When a new entity is created, or an entity is modified, these changes should be synced with the mysql server. The deploy procedure adds new created entities as tables to the database, and also generates `ALTER` queries for modified entities. The deploy procedure does not run the alters by itself, instead, it prints out the alters; which are possible to run by the programmer or another person in charge. It's possible to complete the deploy process with the undone alters. This process is called _force deploy_, and the alters which are possible to ignore while deploying are called _force-friendly alters_.
+# When a new entity is created, or an entity is modified, these changes should be synced with the mysql server. The deploy procedure adds new created entities as tables to the database, and also generates `ALTER` queries for modified entities. The deploy procedure does not run the alters by itself, instead, it prints out the alters; which are possible to run by the programmer or another person in charge. It is possible to complete the deploy process with the undone alters. This process is called _force deploy_, and the alters which are possible to ignore while deploying are called _force-friendly alters_.
 
 # -- #########################################
 # # Usage
-# It's possible to use a defined entity in both server project (PHP language) and front-end native codes via marshal library, but not in Xua language.
+# It is possible to use a defined entity in both server project (PHP language) and front-end native codes via marshal library, but not in Xua language.
 
 # ## Inside PHP
 
@@ -583,9 +583,10 @@ distance : DatabaseVirtualField (
 #    ]);
 
 # ### Determine a type
-# Assume a type is given in a variable and we need to know what type is it. We can try to find the class of the object but what about arguments? It's almost impossible to get the type accurate unless we have a method for that. The following method returns a string that describes the type.
+# Assume a type is given in a variable and we need to know what type is it. We can try to find the class of the object but what about arguments? It is almost impossible to get the type accurate unless we have a method for that. The following method returns a string that describes the type.
 #    var_dump($type->toString());
-# This code dumps `'Path\To\Super\SuperName(argName0 = value0, ..., argNameN = valueN)'`.
+# This code dumps the following.
+#    'Path\To\Super\SuperName(argName0 = value0, ..., argNameN = valueN)'
 
 # ### Accepts, Implicit & Explicit
 # There are three `accepts` functions for a type.
@@ -659,7 +660,7 @@ distance : DatabaseVirtualField (
 # In this section, we want to work with a super type that accepts a range of integers $[a, b)$.
 
 # ### Definition
-# First of all, we need to define the super. we put it in the file `Supers/Integers/Range.xua`.
+# First of all, we need to define the super. We put it in the file `Supers/Integers/Range.xua`.
 
 # #### Arguments
 # We need to have two arguments determining start and end of the range. The arguments must be integer themselves.
@@ -699,13 +700,13 @@ Super (
 #        }
 #        return true;
 #    }
-# Note that it's OK to fill the $reason when the return value is `true`. Xua automatically clears the `$message` in that case.
+# Note that it is OK to fill the $reason when the return value is `true`. Xua automatically clears the `$message` in that case.
 
 
 # #### Marshal and Unmarshal
 # Since the integers are possible to store and transmit, we can leave the marshal and unmarshal functions identity. But for the purpose of this documentation, we define a network transmit marshaling system, and leave the database store marshaling identity.
 
-# The silly idea is to shift starting number to zero to have smaller integers which are easier to transmit (it's not). For example The range $[1000, 1100)$ can be shifted to $[0, 100)$.
+# The silly idea is to shift starting number to zero to have smaller integers which are easier to transmit (it is not). For example The range $[1000, 1100)$ can be shifted to $[0, 100)$.
 #    Marshal<php> {
 #        return $input - $this->args['start'];
 #    }
@@ -727,14 +728,14 @@ Super (
 #    $max = $this->args['end'] - 1;
 #    $absMax = max(abs($min), abs($max));
 
-# Let's say this number is $M$. we must find $n$ such that $M \leq 2^{n-1}$.
+# Let us say this number is $M$. We must find $n$ such that $M \leq 2^{n-1}$.
 # $$\begin{eqnarray}
 # M \leq 2^{n-1} & \iff & \log_2(M) \leq n - 1 \\
 # (\text{Since $n - 1$ is integer}) & \iff & \lceil \log_2(M) \rceil \leq n - 1 \\
 # & \iff & \lceil \log_2(M) \rceil + 1 \leq n \\
 # \end{eqnarray}$$
 
-# Do the minimum value of $n$ is when $n = \lceil \log_2(M) \rceil + 1$.
+# So the minimum value of $n$ is $\lceil \log_2(M) \rceil + 1$.
 #    $n = ceil(log($absMax, 2)) + 1;
 
 # This leads us to the following `DatabaseType`.
@@ -837,10 +838,10 @@ Super extends Supers\Integers\Range (
 # After defining a super, we can use it to define types, and use them.
 
 # #### Inside PHP
-# First, Let's define a type that accepts the range $[10, 30)$. We use the `EfficientRange`.
+# First, Let us define a type that accepts the range $[10, 30)$. We use the `EfficientRange`.
 #    $type = new Supers\Integers\EfficientRange(['start' => 10, 'end' => 30]);
 
-# Let's see what how Xua stringifies this type.
+# Let us see what how Xua stringifies this type.
 #    var_dump($type->toString());
 # This code dumps `Supers\Integers\EfficientRange(start = 10, end = 30)`.
 
@@ -854,17 +855,17 @@ Super extends Supers\Integers\Range (
 #    $value = 25;
 #    var_dump($type->implicitlyAccepts($value)); # dumps true
 
-# We know value `15` is ambiguous. It can be interpreted as `15` itself, a value in range, or the result of marshaling `25`. Let's call accept and check the result.
+# We know value `15` is ambiguous. It can be interpreted as `15` itself, a value in range, or the result of marshaling `25`. Let us call accept and check the result.
 #    $value = 15;
 #    var_dump($type->accepts($value)); # dumps true
 #    var_dump($value); # dumps 15
-# Since the function first tries the explicit, if the value fits explicitly, function doesn't change the value. What about `5` that can only fit implicitly?
+# Since the function first tries the explicit, if the value fits explicitly, function does not change the value. What about `5` that can only fit implicitly?
 #    $value = 5;
 #    var_dump($type->accepts($value)); # dumps true
 #    var_dump($value); # dumps 15
 # This time the function tries to fit the value explicitly and fails, so it goes for unamrshaling, which leads to accept.
 
-# We know the value $5$ doesn't fit explicitly, but we may wonder why. (It's super obvious but is a good way to see how to get the reason from the function.)
+# We know the value $5$ does not fit explicitly, but we may wonder why. (It is super obvious but is a good way to see how to get the reason from the function.)
 #    $value = 5;
 #    var_dump($type->explicitlyAccepts($value, $reason)); # dumps false
 #    var_dump($reason); # dumps '5 is less than 10'
@@ -872,7 +873,7 @@ Super extends Supers\Integers\Range (
 #    $value = 30;
 #    var_dump($type->explicitlyAccepts($value, $reason)); # dumps false
 #    var_dump($reason); # dumps '30 is not less than 30'
-# But we know `30` doesn't even implicitly fit.
+# But we know `30` does not even implicitly fit.
 #    $value = 30;
 #    var_dump($type->accepts($value, $reasons)); # dumps false
 #    var_dump($reasons);

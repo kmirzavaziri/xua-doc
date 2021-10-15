@@ -38,13 +38,13 @@
 # #### Entities
 # [(main chapter)](Entities.html)
 
-# A Xua project can communicate with a database server (usually MySQL), but the programmer must specify the database structure. To do so, Xua offers Entity Blocks. Xua will generate a PHP class extending a Xua abstract class called `Entity` for each Entity Block the programmer creates. These Entity classes are in a one-to-one relationship with database tables. Each row of the table then can be corresponded by an instance of the table’s corresponding class.
+# A Xua project can communicate with a database server (usually MySQL), but the programmer must specify the database structure. To do so, Xua offers Entity Blocks. Xua will generate a PHP class extending a Xua abstract class called `Entity` for each Entity Block the programmer creates. These Entity classes are in a one-to-one correspondence with database tables. Each row of the table then can be corresponded by an instance of the table’s corresponding class.
 
 # To define an Entity, the programmer needs to define a list called `Fields` containing Entity columns with their types. Setting the `Fields` is mandatory, but there are some optional members an Entity may have.
 
 # One member is a list called `Indexes`, which defines the database indexes, that would make select queries faster or force unique values (Read more about database indexes by googling).
 
-# Another is a boolean function (predicate) called `Validation`, which checks if an Entity instance (a row) is valid according to business logic. For example, assume we have two fields, `country` and `city` in the Entity `User`. The Validation function is responsible for checking if the city is inside the country and avoid invalid or inconsistent data.
+# Another is a boolean function (predicate) called `Validation`, which checks if an Entity instance (a row) is valid according to business logic (part of the program that encodes the real-world business rules that determine how data can be created, stored, and changed). For example, assume we have two fields, `country` and `city` in the Entity `User`. The Validation function is responsible for checking if the city is inside the country and avoid invalid or inconsistent data.
 
 # Therefore, an Entity is theoretically a triplet $E = (F, I, V)$. Although one can override database communication methods (functions responsible for reading or modifying data), that is a technical detail, and we do not cover it in this section.
 
@@ -69,7 +69,7 @@ Type<Database>{
 
 # The Marshal and Unmarshal functions are responsible for preparing the values for transmitting or storing. To store a value in the database and read from it, one must write marshaling functions with the database as the target, and for transmitting over the HTTP, PHP and front-end languages are used as the target.
 
-# As an example (that is not quite practical and efficient), let $T$ be the type of integers defined for the MySQL stack. We know $P(42)$ is true; therefore, we can say $42 : T$. It seems that $M$ must be $U^{-1}$, but it is not a necessity. Let us say that $M$ takes an integer and returns its binary representation. therefore $M(42) = '101010'$. The $U$ must be the opposite, so $U('101010') = 42$, but what is $U('42')$, the decimal representation in a string. Can we say this is undefined and the domain of $U$ only accepts binary strings? It is up to the programmer that $U = M^{-1}$ or not, so the programmer needs to define both $M$ and $U$ functions separately. Finally, we can say $T$ must return the string `VARCHAR(100)`. Because the result of our marshal function is a string, and Xua uses that to store data in the database.  
+# As an example (that is not quite practical and efficient), let $T$ be the type of integers defined for the MySQL stack. We know $P(42)$ is true; therefore, we can say $42 : T$. It seems that $M$ must be $U^{-1}$, but it is not a necessity. Let us say that $M$ takes an integer and returns its binary representation. Therefore $M(42) = '101010'$. The $U$ must be the opposite, so $U('101010') = 42$, but what is $U('42')$, the decimal representation in a string. Can we say this is undefined and the domain of $U$ only accepts binary strings? It is up to the programmer that $U = M^{-1}$ or not, so the programmer needs to define both $M$ and $U$ functions separately. Finally, we can say $T$ must return the string `VARCHAR(100)`. Because the result of our marshal function is a string, and Xua uses that to store data in the database.  
 
 # Now, what is a Super Type? A Super Type is a function that takes some parameters and returns a type (Actually returns a list of types for different stacks). A Super Type is an object a whole level above a type. Each Super Type eventually results in a PHP class extending a Xua abstract class called `Super`. Each instance of this class is a type (possible to use different stacks on it), and the class constructor is the function that takes some parameters and creates a type. The parameters are then accessible as attributes. For example, take a look at `Enum` that takes one parameter called `values`.
 #    $genderType = new Enum([
@@ -84,7 +84,7 @@ Type<Database>{
 
 # Now note that for the stack-based functions, the server project includes only two stacks, database, and PHP. Functions for other stacks are included in the corresponding Marshal Libraries. 
 
-# So there must be two $Y$s, in the PHP generated class. The database-targeted function is called `databaseType`, and the PHP-targeted function is called `phpType`. 
+# So there must be two $Y$'s, in the PHP generated class. The database-targeted function is called `databaseType`, and the PHP-targeted function is called `phpType`. 
 #    var_dump($genderType->databaseType()); \\ dumps 'INT'
 #    var_dump($genderType->phpType()); \\ dumps 'int'
 
@@ -140,7 +140,7 @@ Type<Database>{
 
 # some data-types are more than an entity or a Super. Some classes like `DateTime` are neither in an equivalence relation with a database table nor possible to implement with Xua's Super, since the programmer may need methods such as `addDays`, `format`, or `toJalali` from this data-type.
 
-# Also, some procedures need to be implemented somewhere other than Methods, Supers, or Entities. for example, adding a watermark to an image or building a PDF.
+# Also, some procedures need to be implemented somewhere other than Methods, Supers, or Entities. For example, adding a watermark to an image or building a PDF.
 
 # Xua satisfies this need by letting programmers write their native PHP scripts. Although the codes must be written inside classes, the programmer is pretty much free to do everything inside the classes. The Xua engine will copy these native codes to the resulting project as they are.
 
@@ -156,7 +156,7 @@ Type<Database>{
 # ### Interfaces
 # [(main chapter)](Interfaces.html)
 
-# interfaces are the frontline of the project, immediately executed when a user requests on the interface's defined route. We usually avoid writing codes that include business logic; instead, we call a resource responsible for the route. Since we have a specific route called [URPI](#Universal_Resources_Pool_Interface_\(URPI\)) that handles all the direct requests for resources, writing a new interface is only helpful in rendering a website, i.e., we define routes for pages the user visits, and ask a resource (a Method resource) to create an HTML page, and show the page created to the user.
+# interfaces are the frontline of the project, immediately executed when a user requests on the interface's defined route. We usually avoid writing codes that include business logic; instead, we call a resource responsible for the route. Since we have a specific route called [URPI](#Universal_Resources_Pool_Interface_ TODO nested parentheses URPI) that handles all the direct requests for resources, writing a new interface is only helpful in rendering a website, i.e., we define routes for pages the user visits, and ask a resource (a Method resource) to create an HTML page, and show the page created to the user.
 
 # ## Xua Server Generated Units
 # some units exist in the server project that are entirely generated by the Xua engine, and there is no need for a programmer to modify them, but it helps if the programmer knows how they work, and in some cases, the programmer may modify them in a way that is more suitable for the project.
@@ -225,7 +225,7 @@ Type<Database>{
 # Other than including the comments in the documentation, Xua can automatically generate a table of entity fields, with their types, default values, description, etc. The field description is the comment that comes immediately after the field definition; if no comment is found, the description is set to `-`. Xua can also sectionize different parts of an entity, and some other automated functions are also present.
 
 # ## Entities Graph
-# Almost any project has some related entities; for example, we may have an entity called `User` that has a field called `birthPlace` that comes from another Entity called `AdministrativeDivision`, and an entity called `Restaurant` that has a field called `costumers` which comes from `User`, and a field called `city` that comes from `City`. There would be many other entities with relations; these relations can be one-to-one, one-to-many, many-to-many, or many-to-many. Most of these complicated projects have a graph of entities as vertices, showing the relations by edges. Xua is capable of drawing this graph and modify it whenever an entity is modified. 
+# Almost any project has some related entities; for example, we may have an entity called `User` that has a field called `birthPlace` that comes from another Entity called `AdministrativeDivision`, and an entity called `Restaurant` that has a field called `costumers` which comes from `User`, and a field called `city` that comes from `City`. There would be many other entities with relations; these relations can be one-to-one, one-to-many, many-to-many, or many-to-one. Most of these complicated projects have a graph of entities as vertices, showing the relations by edges. Xua is capable of drawing this graph and modify it whenever an entity is modified. 
 
 # ## Methods Documentations
 # Other than including the comments in the documentation, Xua can automatically generate a table of the request parameters, and a table of the response parameters, with their types, default values, description, etc. The description of a field is the comment that comes immediately after the parameter definition; if no comment is found, the description is set to `-`. Xua can also sectionize different parts of a method, and some other automated functions are also present.
@@ -240,14 +240,14 @@ Type<Database>{
 # ## System Resources
 # System resources are usually procedures and scripts not written in PHP, such as cronjobs, shell commands, Redis queues, foreign language codes, etc. However, we may want to use these resources in our project. This use can be done through a service.
 
-# For example, assume we have a coding contest website and want to compile and run some tests on uploaded codes. We may have a foreign judge project written in Python that does this for us; we only need to call it. We can write a service called `JudgeService` and use it in a method. or if we want to manage a queue, we can write a service called `QueuesService` and call it like
+# For example, assume we have a coding contest website and want to compile and run some tests on uploaded codes. We may have a foreign judge project written in Python that does this for us; we only need to call it. We can write a service called `JudgeService` and use it in a method. Or if we want to manage a queue, we can write a service called `QueuesService` and call it like the following.
 #    QueuesService::addToQueue(QueuesService::QUEUE_WAITING_TO_JUDGE_CODES, $uploadedCode)
 
 # ## Libraries
 # There can be some PHP libraries that we do not wish to rewrite, for example, generating a QR Code, reading an excel file, etc. We can have these codes available and write a service to call these for us. It is essential to mark libraries as resource files in `config.json`, or they will be deleted when cleaning the project.
 
 # ## 3rd Party Apps
-# Same as System Resources, and Libraries, we can write services and interfaces to communicate with 3rd Party Apps.
+# Same as System Resources, and Libraries, we can write services and interfaces to communicate with 3rd Party Apps. For example assume we want to use `redis` which is a 3rd party tool, we can write a service that does the low-level communications and offers a set of high-level methods to the Xua project.
 
 # ## Database and Cache Servers
 # The main feature of any server project is communicating with a database server; Entities are configured to do so. However, it is also possible to configure entities to connect to a cache server instead. The cache server then communicates with the database if the data is not available.

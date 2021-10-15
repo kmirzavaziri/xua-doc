@@ -13,7 +13,7 @@
 # -- #########################################
 # # Introduction
 # Interfaces are the frontline of the project and are written in pure PHP language.
-# When the Server project receives a request, The _Route Detection Unit_ which is implemented as a service called `RouteService`, decides what Interface to execute based on a file called `routes.xrml`. The Interface then returns a string as the response.
+# When the Server project receives a request, the _Route Detection Unit_ which is implemented as a service called `RouteService`, decides what Interface to execute based on a file called `routes.xrml`. The Interface then returns a string as the response.
 
 # -- #########################################
 # # Definition
@@ -31,15 +31,15 @@ Interface [extends Path\To\Another\Interface\InterfaceName] {
 }
 # @python doc.renderComments = "doc"
 
-# Note that there is no name for the Interface. An Interface name is its file path. Each file can contain at most one block, and the block inherits its name from the file. It's a good practice to have a comment in the first line of the file describing where the file is located.
+# Note that there is no name for the Interface. An Interface name is its file path. Each file can contain at most one block, and the block inherits its name from the file. It is a good practice to have a comment in the first line of the file describing where the file is located.
 
 # ## Hierarchy
-# Interfaces can come in a hierarchy, just like PHP classes. It's possible to call the parent Interface body in the child Interface since the Interface content is written in PHP. Just note that the method, when compiled to PHP, is called `execute`.
+# Interfaces can come in a hierarchy, just like PHP classes. It is possible to call the parent Interface body in the child Interface since the Interface content is written in PHP. Just note that the method, when compiled to PHP, is called `execute`.
 # So, to execute the parent Interface body, one must write `parent::execute()`.
 
 # -- #########################################
 # # Xua's Route Minimal Language
-# The file `routes.xrml` is written in a specific language called XRML, With the following grammar.
+# The file `routes.xrml` is written in a specific language called XRML, with the following grammar.
 
 # <iframe src="https://docs.google.com/document/d/e/2PACX-1vSeFm_IvFPAH-JOmypfqUpOtS4yEjwsgcJEXWte0bg80IhmheRevoUj9vD12ykvwrtiQjAFueLE0cWT/pub?embedded=true" style="width: 100%; height: 280px; border: none;"></iframe>
 
@@ -54,11 +54,11 @@ Interface [extends Path\To\Another\Interface\InterfaceName] {
 
 # Assume the client sends a GET request to `localhost:8000/media/post`. The result of exploding this URL would be the list `['media', 'post']`. The Route Service then looks into the `routes.xrml` as a tree, finds the node matching the list's first item, and gets the subtree. Then looks for the list's second item in the subtree and continues the process until it finishes the list. Then looks into the Interfaces provided for that line and chooses the one matching the request method, `Post\GetAll`. If it can't find such an Interface, it throws an Exception called `RouteException`, which the `ExceptoinService` will handle.
 
-# __Note.__ the `/` route is only valid on the root tree, and no subtree can contain such a node. Violating this rule will result in a `RouteDefinitionException`.
+# __Note.__ The `/` route is only valid on the root tree, and no subtree can contain such a node. Violating this rule will result in a `RouteDefinitionException`.
 
 # ## All Methods At Once
 
-# There are two ways to define Interfaces. One is to define an Interface for each HTTP method, in which case if the request method is not defined, the Route Service will throw a Route Exception. However, if one wants to set an Interface for all methods without specifying them, they can just set the Interface without any methods provided; this way, the Route Service will divert all requests on that URL to the defined Interface regardless of the HTTP method.
+# There are two ways to define Interfaces. One is to define an Interface for each HTTP method, in which case if the request method is not defined, the Route Service will throw a Route Exception. However, if one wants to set an Interface for all methods without specifying them, they can just set the Interface without any methods provided, so the Route Service will divert all requests on that URL to the defined Interface regardless of the HTTP method.
 
 # In the example above, Route Service will divert all requests to `localhost:8000/404` to the `Xua\NotFoundInterface`.
 

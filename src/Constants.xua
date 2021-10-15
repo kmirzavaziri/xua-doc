@@ -15,7 +15,7 @@
 
 # Constants have really minor usages in Xua e.g. setting default value, passing values to supers, use in config file, or any other situation when we need to mention a value. Constants in Xua are quite similar to what other languages call expressions. But the point of constants is being totally deterministic. Constant values are completely computable by only reading the source code, and nothing will affect the values during runtime. There is no usage of nondeterministic expressions in Xua syntax, and constants help catching more errors during runtime, therefore Xua only supports constants.
 
-# It's possible to configure the project to interpret a directory as constants. Then the json files in that directory are considered as defined constants which we can refer to. There are also some operations available on constants. This may seem redundant since the evaluating value is already known, but this feature helps with cleaner codes. For example it's really cleaner and easier to write and read to say `15 * 60` seconds instead of `900` seconds. So Xua does a tiny bit of computation to multiply `15` by `60`, but actually there is no actual computation and the result is already known.
+# It is possible to configure the project to interpret a directory as constants. Then the json files in that directory are considered as defined constants which we can refer to. There are also some operations available on constants. This may seem redundant since the evaluating value is already known, but this feature helps with cleaner codes. For example it is really cleaner and easier to write and read to say `15 * 60` seconds instead of `900` seconds. So Xua does a tiny bit of computation to multiply `15` by `60`, but actually there is no actual computation and the result is already known.
 
 # Xua constants are available to use in json files, including `config.json` and even the constant files themselves. To use this feature, the value must be provided as a string that starts with `@xua` and then contains an expression.
 
@@ -89,7 +89,7 @@
 #        listItemN
 #    ]
 
-# But it's permitted to leave a comma at the end.
+# But it is permitted to leave a comma at the end.
 #    [
 #        listItem0,
 #        ...,
@@ -115,7 +115,7 @@
 #      "mapKeyN": mapValueN
 #    ]
 
-# Similar to lists, it's permitted to leave a comma at the end.
+# Similar to lists, it is permitted to leave a comma at the end.
 #    [
 #      "mapKey0": mapValue0,
 #      ...,
@@ -138,7 +138,7 @@
 #    path\to\json\file\propertyName\childPropertyName
 
 # ### Example
-# For example let's say that we have a json file `constants/credentials/mysql.json` to manage different credentials on local, demo, and production environments. The content is the following.
+# For example let us say that we have a json file `constants/credentials/mysql.json` to manage different credentials on local, demo, and production environments. The content is the following.
 #    {
 #        "host": {
 #            "name": "localhost",
