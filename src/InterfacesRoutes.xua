@@ -10,12 +10,12 @@
     # @python doc.renderComments = "doc"
     # @python doc.renderCodes = "pure"
 
-# -- #########################################
+# % #########################################
 # # Introduction
 # Interfaces are the frontline of the project and are written in pure PHP language.
 # When the Server project receives a request, the _Route Detection Unit_ which is implemented as a service called `RouteService`, decides what Interface to execute based on a file called `routes.xrml`. The Interface then returns a string as the response.
 
-# -- #########################################
+# % #########################################
 # # Definition
 
 # ## Structure
@@ -37,7 +37,7 @@ Interface [extends Path\To\Another\Interface\InterfaceName] {
 # Interfaces can come in a hierarchy, just like PHP classes. It is possible to call the parent Interface body in the child Interface since the Interface content is written in PHP. Just note that the method, when compiled to PHP, is called `execute`.
 # So, to execute the parent Interface body, one must write `parent::execute()`.
 
-# -- #########################################
+# % #########################################
 # # Xua's Route Minimal Language
 # The file `routes.xrml` is written in a specific language called XRML, with the following grammar.
 

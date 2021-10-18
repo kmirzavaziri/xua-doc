@@ -10,7 +10,7 @@
     # @python doc.renderComments = "doc"
     # @python doc.renderCodes = "pure"
 
-# -- #########################################
+# % #########################################
 # # Introduction
 # Super types or simply supers are parametric types. Read [Super Types](Units.html#Super_Types) section under [Units](Units.html) chapter for theoretical explanations. In this chapter, we focus on practical details of defining and using supers.
 
@@ -28,7 +28,7 @@
 
 # A Super Type or simply Super is a function that receives some arguments and returns a type. This type is called an instance of the Super Type.
 
-# -- #########################################
+# % #########################################
 # # Definition
 
 # ## Structure
@@ -161,7 +161,7 @@ Super {
 
 # By the way, there is usually no point in controlling Super's visibility.
 
-# -- #########################################
+# % #########################################
 # # Usage
 # It is possible to use a defined super in both PHP and Xua languages, but not in Marshal library.
 
@@ -258,7 +258,7 @@ Super {
 #        argNameN = constantN,
 #    )
 
-# -- #########################################
+# % #########################################
 # # Examples
 
 # ## Range
@@ -543,6 +543,6 @@ Super {
 
 # Note how we set the `$message` without caring about the return value. Xua automatically clears the `$message` if the return value is `true`.
 
-# -- #########################################
+# % #########################################
 # # Good News
 # Although defining a simple Super seems easy, defining a complete Super with all features in many languages seems exhausting. The good news is, Xua provides a set of predefined supers that cover almost any need. We discuss them in the next chapter.

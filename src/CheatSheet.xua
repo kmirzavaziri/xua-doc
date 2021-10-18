@@ -10,7 +10,7 @@
     # @python doc.renderComments = "doc"
     # @python doc.renderCodes = "pure"
 
-# -- #########################################
+# % #########################################
 # # Templates
 # Create a new Xua project in the current directory.
 #    xua new project PROJECT_NAME
@@ -31,7 +31,7 @@
 # Create a new interface file in current directory's Xua project.
 #    xua new interface
 
-# -- #########################################
+# % #########################################
 # # Build
 # The argument `PATH` in the following commands can be a file name or directory name, if you leave it empty, the xua engine will build all files inside project, unless you set `-c` or `--changes` flag which builds all the files that are changed from last build.
 

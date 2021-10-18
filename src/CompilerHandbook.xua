@@ -10,11 +10,11 @@
     # @python doc.renderComments = "doc"
     # @python doc.renderCodes = "pure"
 
-# -- #########################################
+# % #########################################
 # # Tokens
 # $\text{ADRESS}$, $\text{ID}$, $number$, $string$, $\mathbf{true}$, $\mathbf{false}$, $\mathbf{null}$, brackets, parenthesis, comma, semi-colon, colon, etc.
 
-# -- #########################################
+# % #########################################
 # # Xua Syntax
 
 # ## Shared Syntax

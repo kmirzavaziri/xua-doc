@@ -10,7 +10,7 @@
     # @python doc.renderComments = "doc"
     # @python doc.renderCodes = "pure"
 
-# -- #########################################
+# % #########################################
 # # Introduction
 # There are different things that a programmer can configure. All of these configurations are done in a file called `config.json` existing in the root of the project. If no such a file exist, or is corrupted, most of the commands including `build` and `clean` would fail. In this chapter we cover all of these configurations in detail.
 
@@ -36,7 +36,7 @@
 
 # The programmer can remove any of these nodes, which means there is no need to generate that project. For example we can remove all of `marshal` children but `javascript`, therefore after building all project, we just get one marshal library in `javascript`. Even we can remove a whole project. For example in case we don't want any marshal library, we can remove the node `marshal`. The current documentation that you're reading is a Xua project, but if you take a look at the config file, you'll see there is no `server` and `marshal` node, since we only want to build `doc` and nothing else.
 
-# -- #########################################
+# % #########################################
 # # Common Nodes
 # There are some nodes that all the projects have in common, we discuss them here once for all.
 
@@ -51,7 +51,7 @@
 
 # Server project `resources` node has two children `public`, and `private`, each of them is an array. Read more about the difference in section [Resource Files](Units.html#Resource_Files). But other projects only contain an array of `resources`, and there is no dividing into `public`, and `private`. The directory addresses are relative to the `destination-dir`. 
 
-# -- #########################################
+# % #########################################
 # # Server
 # The Xua server is only available in PHP, therefore there is only one node under `server`. The structure is the following.
 #    "php": {
@@ -73,7 +73,7 @@
 # ## services
 # services and are only project source file without `.xua` extension, and are copied to the project as they are. It is important to mark these files as `services`, or they won't get copied to the project. There can be only one directory of services, but it can contain multiple subdirectories.
 
-# -- #########################################
+# % #########################################
 # # Marshal
 # Marshal library is available in languages Dart, Java, JavaScript, Kotlin, Objective-C, and Swift. But there is no difference in the nodes, all languages share a same structure. The structure is the following.
 #    "{LANGUAGE}": {
@@ -90,7 +90,7 @@
 # ## services
 # Just like PHP services, we can write native codes for client-side projects. these files do not come with `.xua` extension, and are copied to the project as they are. It is important to mark these files as `services`, or they won't get copied to the project. There can be only one directory of services, but it can contain multiple subdirectories.
 
-# -- #########################################
+# % #########################################
 # # Doc
 # Documentation is available in HTML and LaTeX. But there is no difference in the nodes, both languages share a same structure. The structure is the following.
 #    "{LANGUAGE}": {
@@ -112,7 +112,7 @@
 # Node `build-pdf`is an optional boolean node, determining if the the build procedure must build a pdf from generated documentation.
 
 
-# -- #########################################
+# % #########################################
 # # Etc
 # Any other configuration that is not directly related to one project is stored under the node `etc`.
 
@@ -132,7 +132,7 @@
 #    }
 
 
-# -- #########################################
+# % #########################################
 # # Full Structure
 # After reading about the structure of each part, we reach the full structure of a `config.json` file.
 #    {

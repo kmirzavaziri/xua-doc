@@ -10,7 +10,7 @@
     # @python doc.renderComments = "doc"
     # @python doc.renderCodes = "pure"
 
-# -- #########################################
+# % #########################################
 # # It's Over, It's Done
 
 # Nice to finally meet you here. Congratulations. We are thrilled that you took the time to read this e-book about the Xua Language and wish you to use this tool to build some great back-end applications.

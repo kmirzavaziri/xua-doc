@@ -10,7 +10,7 @@
     # @python doc.renderComments = "doc"
     # @python doc.renderCodes = "pure"
 
-# -- #########################################
+# % #########################################
 # # Introduction
 
 # Constants have really minor usages in Xua e.g. setting default value, passing values to supers, use in config file, or any other situation when we need to mention a value. Constants in Xua are quite similar to what other languages call expressions. But the point of constants is being totally deterministic. Constant values are completely computable by only reading the source code, and nothing will affect the values during runtime. There is no usage of nondeterministic expressions in Xua syntax, and constants help catching more errors during runtime, therefore Xua only supports constants.
@@ -19,7 +19,7 @@
 
 # Xua constants are available to use in json files, including `config.json` and even the constant files themselves. To use this feature, the value must be provided as a string that starts with `@xua` and then contains an expression.
 
-# -- #########################################
+# % #########################################
 # # Syntax
 # Xua follows the json syntax for values.
 

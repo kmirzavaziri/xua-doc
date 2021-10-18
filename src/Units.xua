@@ -10,11 +10,11 @@
     # @python doc.renderComments = "doc"
     # @python doc.renderCodes = "pure"
 
-# -- #########################################
+# % #########################################
 # # Introduction
 # In this chapter, we try to focus on concepts and theories. Reading this chapter helps with understanding the concepts and fundamentals, but turning these theories into practice, needs reading the main chapter of the unit. Only a few units are directly defined by the programmer (namely: [Methods](Methods.html), [Entities](Entities.html), [Supers](Supers.html), [Interfaces](Interfaces.html), [Services](Services.html), [Resource Files](ResourceFiles.html)), and there is a special chapter for each, which you can reach by clicking on them.
 
-# -- #########################################
+# % #########################################
 # # Xua Server
 # Xua generates three projects. Xua Server, Marshal Library, and Documentations. Among these projects, the server is the most important one, which contains all the units that serve logic to the whole project. The role of the server is to be an interface between the front-end application and the database. The server is responsible for reading and modifying the database based on the requests it receives.
 
@@ -176,7 +176,7 @@ Type<Database>{
 
 # It is possible to modify how Xua catches exceptions by modifying a predefined service called `ExceptionService`. For example, one may want to make it possible for developers to see the exact error while users must see a simple error page. Alternatively, one may want to show an error message in JSON instead of showing an HTML page. In these cases or other similar cases, One can modify `ExceptionService` and check if the request is sent by a developer, for example, by checking a special header. Read [ExceptionService](PredefinedServices.html#ExceptionService) for more practical information.
 
-# -- #########################################
+# % #########################################
 # # Marshal Library
 
 # The _Marshal Library_ is a client library that can be built in several front-end languages. The library helps the front-end developers to access resources from the Universal Resources Pool. For example, if there is a method in the pool called `Method\Media\GetOne`, the front-end developer can call it using the following code in Dart.
@@ -207,7 +207,7 @@ Type<Database>{
 # ### Http Connection Unit
 # This is a rather technical unit that sends requests to the server and fetches responses. This unit can also modify requests and responses, for example, adding a user token, API key, etc., to the request. This unit is possible to modify. The programmer must modify a predefined service called `HttpConnectionService`. Read [HttpConnectionService](PredefinedServices.html#HttpConnectionService) for more practical information.
 
-# -- #########################################
+# % #########################################
 # # Documentations
 # [(main chapter)](Documentations.html)
 
@@ -233,7 +233,7 @@ Type<Database>{
 # ## Book
 # Book is the name we call a `.xua` file, or a set of `.xua` files when the file(s) do(es) not affect the Server project or the Marshal library, just like the one you are reading currently.
 
-# -- #########################################
+# % #########################################
 # # Foreign Units
 # Some units are out of our control, they work as they are, but they _are_ our concern since we want to communicate with them.
 
