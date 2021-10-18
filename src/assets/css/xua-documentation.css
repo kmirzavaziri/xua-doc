@@ -15,6 +15,9 @@ body {
     body {
         background-image: none;
     }
+    p.subhead {
+        text-indent: 0 !important;
+    }
     #header {
         display: none;
     }
@@ -301,14 +304,24 @@ ul#menu a.hover li  {
 }
     
 #main h5.h5 { 
-    margin-top: .2em; 
-    background-color: white;
+    margin-top: .2em;
     color: #2a2c71;
     padding-left: 0px; 
     padding-top: 0px; 
     padding-bottom: 0.5em; /* 0px;  */
     font-size : 100%;
-    font-style : bold;
+    font-weight: 800;
+    opacity: .6;
+}
+
+#main h6.h6 { 
+    margin-top: .2em; 
+    color: #2a2c71;
+    padding-left: 0px; 
+    padding-top: 0px; 
+    padding-bottom: 0.5em; /* 0px;  */
+    font-size : 90%;
+    font-weight: 500;
     text-decoration : underline;
 }
 
@@ -492,6 +505,7 @@ pre {
 code {
     background-color: #e9e7ff;
     color: #1e1e1e;
+    font-size: 11px;
 }
 
 :not(pre) > code {
@@ -500,7 +514,6 @@ code {
 
 pre code { 
     font-family: monospace;
-    font-size: 11px;
     line-height: 20px;
 } 
 
@@ -562,7 +575,7 @@ tr.infrulemiddle hr {
 }
 
 #filler {
-    height: 90vh;
+    height: 50vh;
 }
 
 /* ###################################################################### */
