@@ -10,7 +10,7 @@
     # @python doc.renderComments = "doc"
     # @python doc.renderCodes = "pure"
 
-# -- #########################################
+# % #########################################
 # # Introduction
 # Xua can be configured to communicate with a database server (usually MySQL), but the programmer must specify the database structure. To do so, Xua offers Entity Blocks. Read [Entities](Units.html#Entities) section under [Units](Units.html) chapter for theoretical explanations. In this chapter, we focus on practical details of defining and using entities.
 
@@ -69,7 +69,7 @@
 # ### Correspondence
 # Each _table_ is in one-to-one correspondence with an _Entity Class_. Methods of these classes can communicate with the database server to select, insert, update, and delete data. _Field_s of the entity class represent the _column_s of the table, and _instance_s of the class represent the _row_s of the table. 
 
-# -- #########################################
+# % #########################################
 # # Definition
 
 # ## Structure
@@ -187,7 +187,7 @@ Entity [extends Path\To\Another\Entity\EntityName] {
 
 # __Note.__ Accessing The entities through `URPI` is disabled by default, and therefore the `$caller` is always PHP. One can enable this feature, but they must be super careful since it may result in severe vulnerabilities.
 
-# -- #########################################
+# % #########################################
 # # Special Field Types
 # In addition to defined supers that can be called to generate type for field types, Xua offers two categories of unusual types that make the development of a project significantly easier and faster and the resulting project more efficient and more secure. Here we try to cover these two outstanding features of Xua.
 
@@ -288,13 +288,13 @@ Entity [extends Path\To\Another\Entity\EntityName] {
 
 # Note that one cannot set a database virtual field, and therefore there is no setter method available on this field.
 
-# Note that another method argument is available called `params`, which is used to pass some extra parameters into the getter method. We discuss it in more details in the Example section.
+# Note that another method argument is available called `params`, which is used to pass some extra parameters into the getter method. We discuss it in more detail in the Example section.
 
 # #### Database Virtual Field Example
 # Let us say that we have an entity called `City`, and we need a field that tells if the city is a town or a big city. At the moment, we consider cities that have a population of less than a million to be town, but this might change; either the population may change, or we may think of the area as an item, or we can have a more complicated way that involves both population and area of a city. So we cannot calculate the field `isTown` each time we need it somewhere (this may result in duplicate code). Instead, we need a field that does this so we can change it later and the change affect all usages. We can do this by defining the field `isTown` this way.
 #    isTown : DatabaseVirtualField (
 #        getter (City $city, array $params) => {
-#            return "{self::F_population()->name} < 1000000";
+#            return "{Entity::F(self::_POPULATION)->name} < 1000000";
 #        }
 #    )
 
@@ -305,8 +305,8 @@ distance : DatabaseVirtualField (
         $lat0 = "(PI() * {$here->lat} / 180)";
         $long0 = "(PI() * {$here->long} / 180)";
 
-        $lat1 = "(PI() * {self::F_geoLat()->name} / 180)";
-        $long1 = "(PI() * {self::F_geoLong()->name} / 180)";
+        $lat1 = "(PI() * {Entity::F(self::_GEO_LAT)->name} / 180)";
+        $long1 = "(PI() * {Entity::F(self::_GEO_LONG)->name} / 180)";
 
         $a = "(
             POWER(SIN(($lat0 - $lat1) / 2), 2) +
@@ -512,11 +512,11 @@ distance : DatabaseVirtualField (
 
 # __Inverse Name.__ Here, we created a field called `currentCity` that shows us a relation between users and cities, and we can get related cities of a user by `$user->currentCity`, but how can we get related users of a city? The Xua engine generates an implicit field based on the `invName`. So `$city->citizens` gives us the list of all users that their `currentCity` is `$city`.
 
-# -- #########################################
+# % #########################################
 # # Helper Classes
 
 # ## Field Class
-# Each field defined under a name is accessible as the static method `F_{fieldName}()` of the entity class. This property is an instance of a class called `EntityFieldSignature`. This class has the following structure.
+# Each field defined under a name is accessible using the static method `Entity::F({fieldName})` of the entity class. This property is an instance of a class called `EntityFieldSignature`. This class has the following structure.
 #    public string   $entity,
 #    public string   $name,
 #    public Super    $type,
@@ -526,398 +526,308 @@ distance : DatabaseVirtualField (
 # ### Field Class Example
 # Assume the [Database Virtual Field Example](#Database_Virtual_Field_Example) we have provided above. Here we work a little around the field `$restaurant->distance`.
 
-# Notations `Restaurant::fieldSignatures()['distance']` and `Restaurant::F_distance()` both refer to the same value, an instance of class `EntityFieldSignature` describing this field. So we know the following expressions are true.
+# Notations `Restaurant::fieldSignatures()[Restaurant::DISTANCE]` and `Entity::F(Restaurant::_DISTANCE)` both refer to the same value, an instance of class `EntityFieldSignature` describing this field. So we know the following expressions are true.
 
-#    Restaurant::F_distance()->entity  == Restaurant::class;
-#    Restaurant::F_distance()->name    == 'distance';
-#    Restaurant::F_distance()->type    == DatabaseVirtualField (...);
-#    Restaurant::F_distance()->default == null;
+#    Entity::F(Restaurant::_DISTANCE)->entity  == Restaurant::class;
+#    Entity::F(Restaurant::_DISTANCE)->name    == 'distance';
+#    Entity::F(Restaurant::_DISTANCE)->type    == DatabaseVirtualField (...);
+#    Entity::F(Restaurant::_DISTANCE)->default == null;
 #    // The parameters of a field is null by default.
-#    Restaurant::F_distance()->p()     == null;
+#    Entity::F(Restaurant::_DISTANCE)->p()     == null;
 #    // We can modify the parameters of a field by calling the method `p` on its signature.
-#    Restaurant::F_distance()->p(['here' => (object)['lat' => 42, 'long' => 59]]); // https://en.wikipedia.org/wiki/Khwarazm
+#    Entity::F(Restaurant::_DISTANCE)->p(['here' => (object)['lat' => 42, 'long' => 59]]); // https://en.wikipedia.org/wiki/Khwarazm
 #    // Now it is set.
-#    Restaurant::F_distance()->p()     == ['here' => (object)['lat' => 42, 'long' => 59]];
+#    Entity::F(Restaurant::_DISTANCE)->p()     == ['here' => (object)['lat' => 42, 'long' => 59]];
 
 # ## Conditional Field Class
-# The `ConditionField` class is similar to the regular field class but has some features used in defining conditions and orders, which we discuss later. The Condition Field of each field is accessible as the static method `C_{fieldName}()` of the entity class. This class has the following structure.
+# The `ConditionField` class is similar to the regular field class but has some features used in defining conditions and orders, which we discuss later. The Condition Field of each field is accessible as the static method `Entity::C({fieldName})` of the entity class. This class has the following structure.
 #    public function __construct(public EntityFieldSignature $signature);
 #    public function rel(ConditionField $conditionField): static;
 #    public function name() : string;
 #    public function joins(): array;
 
-# So the `SomeEntity::C_field()`
-# is actually `new ConditionField(SomeEntity::F_field())`, an instance of `ConditionField` based on the field signature.
+# So the `Entity::C({fieldName})`
+# is actually `new ConditionField(Entity::F({fieldName}))`, an instance of `ConditionField` based on the field signature.
 
 # The critical feature of this class is the `rel` method, which makes it possible to access fields on the related tables. We cover this in the Condition and Order sections.
 
 # The methods `name` and `joins` are not usually helpful for the Xua programmer and are used in the Xua core. So we do not cover them here.
 
 # ## Condition
-# _Condition_ is a Xua built-in class that we use to create _WHERE expressions_ with. Each instance of Condition is a node in a binary tree. There are two ways two create an instance of this class.
+# _Condition_ is a Xua built-in class that we use to create _`WHERE` expressions_ with.
 
-@TODO Continue from HERE.
+# Theoretically speaking, a condition node is a deciding machine that inputs a row of a specific table and returns a boolean that indicates whether the given row is accepted in the condition or not.
+
+# Each instance of Condition is a node in a semi-binary tree. There are two ways two create an instance of this class. One is to create a new node (a leaf), and the other is to operate on existing nodes.
+
+# ### Leaf Condition
+# There are three common types of leaf conditions: relational leaf, true leaf, and false leaf. However, one can create a custom leaf as a raw leaf.
+
+# #### Relational Leaf
+# The method for creating a relational leaf is the following.
+#    Condition::leaf(ConditionField $field, string $relation, mixed $value = null);
+
+# This method will create a condition asserting that the field `$filedName` must be in `$relation` relation with the value `$value`.
+
+# ##### Field
+# As described above, for each entity, conditional fields are available as instances of `ConditionField` using the static methods of the form `Entity::C({fieldName})`.
+
+# ##### Relation
+# XUA also provides relation constants as class constants of the `Condition` class. These constants are listed below.
+
+# | Name                     | SQL equivalent            | Description                                                                                                                        |
+# | ------------------------ | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+# | `Condition::GRATER`      | `>`                       | Greater than                                                                                                                       |
+# | `Condition::NGRATER`     | `<=`                      | Negation of `GRATER`                                                                                                               |
+# | `Condition::GRATEREQ`    | `>=`                      | Greater than or equal                                                                                                              |
+# | `Condition::NGRATEREQ`   | `<`                       | Negation of `GRATEREQ`                                                                                                             |
+# | `Condition::LESS`        | `<`                       | Less than                                                                                                                          |
+# | `Condition::NLESS`       | `>=`                      | Negation of `LESS`                                                                                                                 |
+# | `Condition::LESSEQ`      | `<=`                      | Less than or equal                                                                                                                 |
+# | `Condition::NLESSEQ`     | `>`                       | Negation of `LESSEQ`                                                                                                               |
+# | `Condition::EQ`          | `=`                       | Equal                                                                                                                              |
+# | `Condition::NEQ`         | `!=`                      | Negation of `EQ`                                                                                                                   |
+# | `Condition::NULLSAFEEQ`  | `<=>`                     | NULL-safe equal                                                                                                                    |
+# | `Condition::NNULLSAFEEQ` | `!(... <=> ...)`          | Negation of `NNULLSAFEEQ`                                                                                                          |
+# | `Condition::BETWEEN`     | `BETWEEN ... AND ...`     | Whether a value is within a range of values (This relation requires the argument `$value` to be an array consisting of two values) |
+# | `Condition::NBETWEEN`    | `NOT BETWEEN ... AND ...` | Negation of `BETWEEN`                                                                                                              |
+# | `Condition::IN`          | `IN`                      | Whether a value is within a set of values (This relation requires the argument `$value` to be an array of values)                  |
+# | `Condition::NIN`         | `NOT IN`                  | Negation of `IN`                                                                                                                   |
+# | `Condition::IS`          | `IS`                      | Test a value against a boolean                                                                                                     |
+# | `Condition::NIS`         | `IS NOT`                  | Negation of `IS`                                                                                                                   |
+# | `Condition::ISNULL`      | `IS NULL`                 | NULL value test (This relation does not depend on value of argument `$value`)                                                      |
+# | `Condition::NISNULL`     | `IS NOT NULL`             | Negation of `ISNULL` (This relation does not depend on value of argument `$value`)                                                 |
+# | `Condition::LIKE`        | `LIKE`                    | Simple pattern matching                                                                                                            |
+# | `Condition::NOT_LIKE`    | `NOT LIKE`                | Negation of `LIKE`                                                                                                                 |
+# | `Condition::REGEXP`      | `REGEXP`                  | Simple regular expression pattern matching                                                                                         |
+# | `Condition::NOT_REGEXP`  | `NOT REGEXP`              | Negation of `REGEXP`                                                                                                               |
+
+# ##### Value
+# The value argument must usually fit in the field type. However, in some cases (some relations), one value does not suffice (e. g. `Condition::BETWEEN`), so we need to provide two values of the field type as an array.
+
+# ##### Condition on Related Entities
+# To create a condition node that presents a condition on one of the related entities, one can use the `rel` method on condition field instances.
+
+# ##### Example
+# For example, a condition node that asserts that a person is born in the '90s would look like the following.
+#    Condition::leaf(
+#        Entity::C(User::_BIRTH_DATE),
+#        Condition::BETWEEN,
+#        [
+#            DateTimeInstance::fromGregorianYmd('1990-1-1'),
+#            DateTimeInstance::fromGregorianYmd('2000-1-1')
+#        ]
+#    )
+# As an other example, assume we want to have a condition that refers to all posts written by people living in Palo Alto. We may use the following node.
+#    Condition::leaf(
+#        Entity::C(Post::AUTHOR)
+#            ->rel(Entity::C(User::_LIVING_IN))
+#            ->rel(Entity::C(AdministrativeDivision::_TITLE)),
+#        Condition::EQ,
+#        'Palo Alto'
+#    )
+
+# #### True Leaf & False Leaf
+# The special leaf methods `Condition::trueLeaf()` and `Condition::falseLeaf()` are always true and false respectively. 
+
+# #### Raw Leaf
+# The raw leaf method is described as follows.
+#    Condition::rawLeaf(string $template, array $parameters = [], array $joins = [])
+
+# This method is used to inject pure and raw SQL script to the WHERE expression in case other leaf methods do not satisfy the programmer's needs. The use of this method is highly discouraged as the other methods are powerful enough to satisfy almost all of the programmer's needs. Still, a somehow funny usage of this method would be the following.
+#    Condition::rawLeaf("RAND() > ?", [0.5])
+
+# We will discuss parameter binding used in the above code in more detail later.
+
+# ### Operations on Conditions
+# In addition to the above methods for creating new leaf nodes, Xua provides some methods to create new nodes using existing nodes.
+
+# #### Logical Operators
+# four logical operators are used to create a new node using existing nodes. These operators are binary-operators AND, OR, XOR, and unary-operator NOT.
+
+# #### Classic Operators
+# The primitive way to create a new node is to provide operands to an operator and receive a new node as the return value. The four methods for this are the followings.
+#    public static function _and_(Condition $leftCondition, Condition $rightCondition): Condition;
+#    public static function _or_(Condition $leftCondition, Condition $rightCondition): Condition;
+#    public static function _xor_(Condition $leftCondition, Condition $rightCondition): Condition;
+#    public static function _not_(Condition $condition): Condition;
+
+
+# #### High-Level Operators
+# Although the described methods can theoretically create any condition, Xua provides some methods to improve code readability. 
+
+# ##### C Operators
+# The first group is called the C (Condition) group. These methods are used on a node to connect it to another node.
+#    public function andC(Condition $condition): Condition;    
+#    public function orC(Condition $condition): Condition
+#    public function xorC(Condition $condition): Condition;
+#    public function not(): Condition;
+
+# For example, take a look at the following code.
+#    $l = Condition::trueLeaf();
+#    // $l is now rendered as 'TRUE'
+#    $l->andC(Condition::falseLeaf());
+#    // $l is now rendered as '(TRUE) AND (FALSE)'
+#    $l->not();
+#    // $l is now rendered as 'NOT ((TRUE) AND (FALSE))'
+
+# ##### Common Operators
+# These methods are used on a node to connect it to a relational node, but the creation of the second node is embedded.
+#    public function and(ConditionField $field, string $relation, mixed $value = null): Condition
+#    {
+#        return $this->andC(Condition::leaf($field, $relation, $value));
+#    }
+#    public function or(ConditionField $field, string $relation, mixed $value = null): Condition
+#    {
+#        return $this->orC(Condition::leaf($field, $relation, $value));
+#    }
+#    public function xor(ConditionField $field, string $relation, mixed $value = null): Condition
+#    {
+#        return $this->xorC(Condition::leaf($field, $relation, $value));
+#    }
+
+# ##### R Operators
+# This group is called the R (Raw) group. These methods are used on a node to connect it to a raw node, but the creation of the second node is embedded.
+#    public function andR(string $template, array $parameters = [], array $joins = []): Condition
+#    {
+#        return $this->andC(Condition::rawLeaf($template, $parameters, $joins));
+#    }
+#    public function orR(string $template, array $parameters = [], array $joins = []): Condition
+#    {
+#        return $this->orC(Condition::rawLeaf($template, $parameters, $joins));
+#    }
+#    public function xorR(string $template, array $parameters = [], array $joins = []): Condition
+#    {
+#        return $this->xorC(Condition::rawLeaf($template, $parameters, $joins));
+#    }
 
 # ## Order
+# _Order_ is a Xua built-in class that is usually used to create _`ORDER BY` expressions_.
+
+# To create an instance of this class, one needs to start with an empty instance and append order expressions. Each new order appended has a lesser priority than the last one. The bootstrap instance is created using the following method.
+#    Order::noOrder(): Order;
+
+# To append a raw order expression in SQL syntax, one may use the following method, but it is highly discouraged.
+#    public function addRaw(string $order): Order;
+
+# To append an order based on an entity field, one may use the following method, which is preferred.
+#    public function add(ConditionField $field, string $direction): Order
+#    {
+#        return $this->addRaw($field->name() . ' ' . $direction);
+#    }
+
+# Note that the direction can be one of the values `Order::ASC` and `Order::DESC`.
+
+# There are some other come in handy methods to use in order to avoid using the `addRaw` method, such as the following.
+#    public function addRandom(): Order
+#    {
+#        return $this->addRaw('RAND()');
+#    }
 
 # ## Pager
+# Pager is a Xua built-in class that is usually used to generate _`LIMIT ... OFFSET ...` expressions_.
 
-# -- #########################################
+# Each class instance contains these arguments (`limit` and `offset`) as properties, but it is a good practice not to modify them manually. The class constructor takes two arguments, `$pageSize` and `$pageIndex`, and calculates the limit and offset values according to them. It is possible to modify these arguments as well. There is also one specific instance accessible using`Pager::unlimited()`, which is used to fetch all rows. The following properties and methods are present in the pager class.
+
+# | Properties                 | Description |
+# | -------------------------- | ----------- |
+# | `private int $pageSize;`   | Page Size   |
+# | `private int $pageNumber;` | Page Number |
+
+# | Methods                                               | Description                                                                                                  |
+# | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+# | `__construct(int $pageSize, int $pageNumber);`        | Creates a new instance with the given data.                                                                  |
+# | `next();`                                             | Goes to the next page.                                                                                       |
+# | `previous();`                                         | Goes to the previous page.                                                                                   |
+# | `getPageSize();`                                      | Returns page size.                                                                                           |
+# | `setPageSize(int $pageSize);`                         | Sets page size.                                                                                              |
+# | `getPageNumber();`                                    | Returns page number.                                                                                         |
+# | `setPageNumber(int $pageNumber);`                     | Sets page number.                                                                                            |
+# | static `pages(Condition $condition, int $pageSize);`  | Returns the number of pages if we store rows of `$entityName` under $condition in pages of size `$pageSize`. |
+
+# __Note.__ The pages start from one.
+
+# % #########################################
 # # Practicalities
 
 # ## Deploy & Alters
-# When a new entity is created, or an entity is modified, these changes should be synced with the mysql server. The deploy procedure adds new created entities as tables to the database, and also generates `ALTER` queries for modified entities. The deploy procedure does not run the alters by itself, instead, it prints out the alters; which are possible to run by the programmer or another person in charge. It is possible to complete the deploy process with the undone alters. This process is called _force deploy_, and the alters which are possible to ignore while deploying are called _force-friendly alters_.
+# When a new Entity is created, or modified, these changes should be synced with the MySQL server. There is a particular service called `EntityAlterService`, which is responsible for doing this. The static method `alters(): string` on this class adds newly created entities as tables to the database by itself and returns `ALTER` queries for modified entities. This method does not run the alters by itself, instead, it prints out the alters; which are possible to run by the programmer or another person in charge.
 
-# -- #########################################
+# The convention is to use this method in the deploy procedure, check for the alters, and generate a warning if the database structure is not synced with the program. It is also a convention to give developers the ability to complete the deploy process with the undone alters. This process is called _force deploy_, and the alters which are possible to ignore while deploying are called _force-friendly alters_.
+
+# % #########################################
 # # Usage
-# It is possible to use a defined entity in both server project (PHP language) and front-end native codes via marshal library, but not in Xua language.
+# It is possible to use a defined entity in both server project (PHP language) and front-end native codes via the Marshal Library, but not in the Xua source codes. The usage in the Marshal Library is controlled via the visibility of entity methods and the modification of URPI, and it is not that different from the PHP usage.
 
-# ## Inside PHP
+# In this section, we try to cover all methods, properties, and constants available on an Entity class.
 
-# ### Make a type
-# The following code makes a type by giving arguments to a super.
-#    $type = new Path\To\Super\SuperName([
-#        'argName0' => $value0,
-#        ...,
-#        'argNameN' => $valueN,
-#    ]);
+# ## Properties & Constants
+# Xua generates a class property and a class constant for each field defined in an entity. The property is defined on each instance and refers to the corresponding value in the database, while the constant (named `_{FIELD_NAME_IN_SCREAMING_SNAKE_CASE}`) contains the field name. For example for field `birthDate` on `User`, Xua generate `$user->birthDate` and `User::_BIRTH_DATE = 'User.birthDate'`. This constant can be used to get Field and Conditional Field instances using `Entity::F(User::_BIRTH_DATE)` and `Entity::C(User::_BIRTH_DATE)` respectively.
 
-# ### Determine a type
-# Assume a type is given in a variable and we need to know what type is it. We can try to find the class of the object but what about arguments? It is almost impossible to get the type accurate unless we have a method for that. The following method returns a string that describes the type.
-#    var_dump($type->toString());
-# This code dumps the following.
-#    'Path\To\Super\SuperName(argName0 = value0, ..., argNameN = valueN)'
+# ## Helpers
+# @TODO
 
-# ### Accepts, Implicit & Explicit
-# There are three `accepts` functions for a type.
+# ### Execute
+# @TODO
 
-# #### explicitlyAccepts
-# This function will return true only if the value explicitly fits in the type. The second argument is optional, and if the return value is false, the function may fill it with a reason.
-#    if ($type->explicitlyAccepts($value, $reason)) {
-#        var_dump($value);
-#        echo 'is of type ' . $type->toString();
-#    } else {
-#        echo 'rejected because of' . $reason;
-#    }
+# ### Field Signatures
+# @TODO
 
-# #### implicitlyAccepts
-# This function will return true if the value explicitly fits in the type or, fits in the type after unmarshaling. The unmarshaling methods must be determined by caller. The function tries the value itself first, then tries to unmarshal and check if the value fits by given methods, one by one. If not passed to the function, the default value `['unmarshal', 'unmarshalDatabase']` is assumed.
-#    if ($type->implicitlyAccepts($value, $reasons, ['unmarshal'])) {
-#        var_dump($value);
-#        echo 'kinda fits in type ' . $type->toString();
-#    } else {
-#        echo 'fully rejected because of the following reasons';
-#        var_dump($reasons);
-#    }
+# ### Indexes
+# @TODO
 
-# #### accepts
-# This function does the same job of `implicitlyAccepts`, but may alter the original value while trying to fit it in the type.
-#    $originalValue = $value;
-#    if ($type->accepts($value, $reasons, ['unmarshal'])) {
-#        var_dump($originalValue);
-#        echo 'was changed to';
-#        var_dump($value);
-#        echo 'to fit in type ' . $type->toString();
-#    } else {
-#        echo 'fully rejected because of the following reasons';
-#        var_dump($reasons);
-#    }
+# ### Fields
+# @TODO
 
-# ### Marshal & Unmarshal
-# There are two types of marshal and unmarshal functions available in the server project.
+# ### Table
+# @TODO
 
-# #### Network transmissions
-# Functions `marshal` and `unmarshal` are responsible to marshal and unmarshal values for purpose of network transmissions.
-#    $marshaledValue = $type->marshal($value);
-#    $reversedValue = $type->unmarshal($marshaledValue);
-#    if ($value !== $reversedValue) {
-#        var_dump('something is wrong with marshal/unmarshal functions of ' . $type->toString());
-#    }
+# ## VARQUE Actions
+# In order to discuss other entity methods, we need to discuss the VARQUE actions first.
 
-# #### Database Storing & Restoring
-# Functions `marshalDatabase` and `unmarshalDatabase` are responsible to marshal and unmarshal values for purpose of storing and restoring into/from database.
-#    $marshaledValue = $type->marshalDatabase($value);
-#    $reversedValue = $type->unmarshalDatabase($marshaledValue);
-#    if ($value !== $reversedValue) {
-#        var_dump('something is wrong with marshalDatabase/unmarshalDatabase functions of ' . $type->toString());
-#    }
+# There are different actions that one can take on a database. We divide these functionalities into three categories: _Select Data Actions_, _Create/Modify Data Actions_, and _Delete Data Actions_. We may also divide the functions based on whether they act on a single row or a group of rows, which takes us to two categories _Singular Actions_ and _Conditional Actions_. This gives us six types of actions, which we name each one as follows.
 
-# ### Database Type
-# The function `DatabaseType` is a function with no arguments that returns an string which tells the database how the type values must be stored. And is hardly useful in programming.
+# |                 | Retrieve | Create/Modify | Delete    |
+# | --------------- | -------- | ------------- | --------- |
+# | __Singular__    | View     | Adjust        | Remove    |
+# | __Conditional__ | Query    | Update        | Eliminate |
 
-# ## Inside Xua
-# The main usage of supers is to declare types for Xua super arguments, entity fields, and method request and response signatures. To mention a type, one must call a super and give it arguments. The type then, can be used for type declaration. The syntax is the following.
-#    Path\To\Super\SuperName(
-#        argName0 = constant0,
-#        ...,
-#        argNameN = constantN,
-#    )
+# These actions are called the __VARQUE__ (__V__iew, __A__djust, __R__emove, __Q__uery, __U__pdate, __E__liminate) actions.
 
-# -- #########################################
-# # Examples
+# ### View
+# Two methods are used to retrieve a single row of a table. The first one has the following signature.
+#    static function getOne(
+#        ?Condition $condition = null,
+#        ?Order $order = null,
+#        string $caller = Visibility::CALLER_PHP
+#    ): static;
 
-# ## Range
-# In this section, we want to work with a super type that accepts a range of integers $[a, b)$.
+# This function takes an instance of the Condition class and an instance of the Order class (both are described before) and returns the first row (ordered by `$order`) that matches the `$condition` criteria. If no such row is found, it returns an empty instance of the entity. To check if an instance of an entity class is empty, one can check if the `id` property is null or not (`$entity->id === null` or not).
 
-# ### Definition
-# First of all, we need to define the super. We put it in the file `Supers/Integers/Range.xua`.
+# The second one is the class constructor.
+#    function __construct(?int $id = null);
 
-# #### Arguments
-# We need to have two arguments determining start and end of the range. The arguments must be integer themselves.
+# This function is just an alias for the following call, designed for simplicity.
 
-# @python doc.renderComments = "pure"
-# Supers\Integers\Range
-Super (
-    start : Supers\Integers\Integer();
-    end   : Supers\Integers\Integer();
-) {
-    # TODO implement
-}
-# @python doc.renderComments = "doc"
+#    EntityName::getOne(
+#        Condition::leaf(
+#            Entity::C(EntityName::_ID),
+#            Condition::EQ,
+#            $id
+#        )
+#    );
 
-# #### Validation
-# For the validation, we must check that the second number is not less than the first one. Note that we do not need to check if the type of arguments is integer since we already declared their type so the type checking is automated.
-#    Validation {
-#        if ($this->args['end'] < $this->args['start']) {
-#            throw new SuperValidationException('Argument end cannot be less than start.');
-#        }
-#    }
+# ### Query
+# @TODO `getMany` and `count`
 
-# #### Predicate
-# We can just simply check if the `$input` value is in the range.
-#    Predicate {
-#        return $this->args['start'] <= $input && $input < $this->args['end'];
-#    }
-# But we can make it a little more sophisticated by providing a reason of why the value may fail to fit.
-#    Predicate {
-#        if (!($this->args['start'] <= $input)) {
-#            $message = $input . ' is less than ' . $this->args['start'];
-#            return false;
-#        }
-#        if (!($input < $this->args['end'])) {
-#            $message = $input . ' is not less than ' . $this->args['end'];
-#            return false;
-#        }
-#        return true;
-#    }
-# Note that it is OK to fill the $reason when the return value is `true`. Xua automatically clears the `$message` in that case.
+# ### Adjust
+# @TODO `store`
 
+# ### Update
+# @TODO `storeMany` and `EntityBuffer`
 
-# #### Marshal and Unmarshal
-# Since the integers are possible to store and transmit, we can leave the marshal and unmarshal functions identity. But for the purpose of this documentation, we define a network transmit marshaling system, and leave the database store marshaling identity.
+# ### Remove
+# @TODO `delete`
 
-# The silly idea is to shift starting number to zero to have smaller integers which are easier to transmit (it is not). For example The range $[1000, 1100)$ can be shifted to $[0, 100)$.
-#    Marshal<php> {
-#        return $input - $this->args['start'];
-#    }
-#    Unmarshal<php> {
-#        return $input + $this->args['start'];
-#    }
-#    Marshal<javascript> {
-#        return input - this.args.start;
-#    }
-#    Unmarshal<javascript> {
-#        return input + this.args.start;
-#    }
-
-# #### Database Type
-# This is an interesting part of the definition, since we can actually determine the length of MySQL `INT` by the range limits.
-
-# We know that `INT(n)` can store values in range $[-2^{n-1}, 2^{n-1}]$. So we need to find the least $n$ such that this range contains our range. First, we find the maximum absolute value that can fit in the type.
-#    $min = $this->args['start'];
-#    $max = $this->args['end'] - 1;
-#    $absMax = max(abs($min), abs($max));
-
-# Let us say this number is $M$. We must find $n$ such that $M \leq 2^{n-1}$.
-# $$\begin{eqnarray}
-# M \leq 2^{n-1} & \iff & \log_2(M) \leq n - 1 \\
-# (\text{Since $n - 1$ is integer}) & \iff & \lceil \log_2(M) \rceil \leq n - 1 \\
-# & \iff & \lceil \log_2(M) \rceil + 1 \leq n \\
-# \end{eqnarray}$$
-
-# So the minimum value of $n$ is $\lceil \log_2(M) \rceil + 1$.
-#    $n = ceil(log($absMax, 2)) + 1;
-
-# This leads us to the following `DatabaseType`.
-#    DatabaseType {
-#        $min = $this->args['start'];
-#        $max = $this->args['end'] - 1;
-#        $absMax = max(abs($min), abs($max));
-#        $n = ceil(log($absMax, 2)) + 1;
-#        return "INT($n)";
-#    }
-
-# #### Hierarchy
-# Assume that we want another super with same features, but only for positive values. We can just extend what we already have.
-
-# @python doc.renderComments = "pure"
-# Supers\Integers\PositiveRange
-Super extends Supers\Integers\Range () {
-    Validation {
-        if ($this->args['start] <= 0) {
-            throw new SuperValidationException('The range must be positive');
-        }
-        parent::validation();
-    }
-}
-# @python doc.renderComments = "doc"
-
-# Or assume we want a range super that can only start at zero.
-
-# @python doc.renderComments = "pure"
-# Supers\Integers\NaturalUpperLimit
-Super extends Supers\Integers\Range (
-    const start : Supers\Integers\Integer() = 0;
-) {}
-# @python doc.renderComments = "doc"
-
-# Note the way we overrode the `start` with default value, but also set it constant so the caller cannot change it.
-#    $type = new Supers\Integers\NaturalUpperLimit(['start' => 1, 'end' => 2]);
-# This code will result in uncaught `SuperValidationException`.
-
-# But better than these, assume we use the network transmit marshaling procedures for database which can really make an impact. And also remove the silly network transmit marshaling procedure. But we must override the `DatabaseType` as well.
-
-# @python doc.renderComments = "pure"
-# Supers\Integers\EfficientRange
-Super extends Supers\Integers\Range () {
-    Marshal<php> {
-        return $input;
-    }
-    Unmarshal<php> {
-        return $input;
-    }
-    Marshal<javascript> {
-        return $input;
-    }
-    Unmarshal<javascript> {
-        return $input;
-    }
-
-    Marshal<database> {
-        return $input - $this->args['start'];
-    }
-    Unmarshal<database> {
-        return $input + $this->args['start'];
-    }
-    DatabaseType {
-        $max = $this->args['end'] - $this->args['start'] - 1;
-        $n = ceil(log($max, 2)) + 1;
-        return "INT($n)";
-    }
-}
-# @python doc.renderComments = "doc"
-
-# Another example is when we want to add arguments to a super. For example assume we want an `step` argument. By default the step is one. but if we set step to three, then the type accepts `start` and every third number.
-
-# @python doc.renderComments = "pure"
-# Supers\Integers\StepRange
-Super extends Supers\Integers\Range (
-    step : Supers\Integers\Integer() = 1;
-) {
-    Validation {
-        parent::validation();
-        if (step < 1) {
-            throw new SuperValidationException('step must be at least 1.');
-        }
-    }
-    Predicate {
-        if (!parent::predicate($input, $message)) {
-            return false;
-        }
-        if ($input - $this->argument['start'] % $this->argument['step'] != 0) {
-            $message = "value {$input} minus starting point {$this->argument['start']} is not devisable by step value {$this->argument['step']}.";
-            return false;
-        }
-        return true;
-    }
-}
-# @python doc.renderComments = "doc"
-
-
-# ### Usage
-# After defining a super, we can use it to define types, and use them.
-
-# #### Inside PHP
-# First, Let us define a type that accepts the range $[10, 30)$. We use the `EfficientRange`.
-#    $type = new Supers\Integers\EfficientRange(['start' => 10, 'end' => 30]);
-
-# Let us see what how Xua stringifies this type.
-#    var_dump($type->toString());
-# This code dumps `Supers\Integers\EfficientRange(start = 10, end = 30)`.
-
-# The value `25` explicitly fits in the type, while the value `5` implicitly fits.
-#    $value = 25;
-#    var_dump($type->explicitlyAccepts($value)); # dumps true
-#    $value = 5;
-#    var_dump($type->implicitlyAccepts($value)); # dumps true
-
-# Of course the value `25` also fits in the type implicitly. This is because the function first checks if the value explicitly fits.
-#    $value = 25;
-#    var_dump($type->implicitlyAccepts($value)); # dumps true
-
-# We know value `15` is ambiguous. It can be interpreted as `15` itself, a value in range, or the result of marshaling `25`. Let us call accept and check the result.
-#    $value = 15;
-#    var_dump($type->accepts($value)); # dumps true
-#    var_dump($value); # dumps 15
-# Since the function first tries the explicit, if the value fits explicitly, function does not change the value. What about `5` that can only fit implicitly?
-#    $value = 5;
-#    var_dump($type->accepts($value)); # dumps true
-#    var_dump($value); # dumps 15
-# This time the function tries to fit the value explicitly and fails, so it goes for unamrshaling, which leads to accept.
-
-# We know the value $5$ does not fit explicitly, but we may wonder why. (It is super obvious but is a good way to see how to get the reason from the function.)
-#    $value = 5;
-#    var_dump($type->explicitlyAccepts($value, $reason)); # dumps false
-#    var_dump($reason); # dumps '5 is less than 10'
-# What about value `30`?
-#    $value = 30;
-#    var_dump($type->explicitlyAccepts($value, $reason)); # dumps false
-#    var_dump($reason); # dumps '30 is not less than 30'
-# But we know `30` does not even implicitly fit.
-#    $value = 30;
-#    var_dump($type->accepts($value, $reasons)); # dumps false
-#    var_dump($reasons);
-# This function fills the `$reasons` with an array, reasoning about each failure.
-#    [
-#        'identity' => '30 is not less than 30',
-#        'unmarshal' => '30 is not less than 30',
-#        'unmarshalDatabase' => '40 is not less than 30',
-#    ]
-# The `$reason` variable can work like a log, for example we try the code above with `5`, and get the following.
-#    [
-#        'identity' => '5 is less than 10',
-#        'unmarshal' => '5 is less than 10',
-#        'unmarshalDatabase' => null,
-#    ]
-# We can see there is no reason for the `unmarshalDatabase`, and it makes sense since the value fitted.
-
-# We know that the storing in the database is done by marshalling. The marshaled values are in $[0, 20)$.
-#    var_dump($type->DatabaseType()); # Dumps 'INT(6)'
-# In this case there is no efficiency since the original values would only need `6` bits to. Although we could make this better if we shifted the center of the range to zero instead of starting point. That way we would have range $[-10, 10)$ which needs only $5$ bits ro store. Any way none of this is useful because MySQL occupies at least a byte which is `8` bits. And there is no difference between `5` and `6` in practice. Although this method of marshaling may come handy for big values, Xua's official `Range` does not use it because of the ambiguity.
-
-
-# #### Inside Xua
-# We may use a super to define another super.
-# @python doc.renderComments = "pure"
-# Supers\Gender
-Super (
-    possibilities : Supers\Integers\Range(start = 2, end = 4) = 2;
-) {
-    Predicate {
-        $choices = ['male', 'female'];
-        if ($this->args['possibilities'] == 3) {
-            $choices = ['male', 'female', 'third'];
-        }
-
-        $message = '$input is not in ' . implode(", ", $choices);
-        return in_array($input, $choices);
-
-    }
-}
-# @python doc.renderComments = "doc"
-
-# Note how we set the `$message` without caring about the return value. Xua automatically clears the `$message` if the return value is `true`.
-
-# -- #########################################
-# # Good News
-# Although defining a simple super seems easy, defining a complete super with all features in many languages, seems exhausting. The good news is, Xua provides a set of predefined supers that cover almost any need. We discuss them in the next chapter. 
+# ### Eliminate
+# @TODO `deleteMany`
