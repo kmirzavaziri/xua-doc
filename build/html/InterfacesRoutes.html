@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="./assets/css/xua-documentation.css" rel="stylesheet" type="text/css" />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+         processEscapes: true
+        }
+      });
+    </script>
+
+    <title>Interfaces & Routes; - Xua Documentation</title>
+</head>
+
+<body>
+
+    <div id="page">
+
+        <div id="header">
+            <div class='booktitleinheader'><a href='./index.html'>Xua Documentation</a></div>
+            <ul id='menu'>
+                <li class='menu-item'><a href='./TableOfContents.html'>Table of Contents</a></li>
+                <li class='menu-item'><a href='./CheatSheet.html'>Cheat Sheet</a></li>
+                <li class='menu-item'><a href='./Architecture.html'>Architecture</a></li>
+                <li class='menu-item'><a href='./HandBook.html'>Hand Book</a></li>
+            </ul>
+        </div>
+
+        <div id="main">
+
+            <h1 class="libtitle">
+                Interfaces & Routes;
+                <span class="subtitle">The Project's frontline</span>
+            </h1>
+
+            <div class = 'comment'><a href='#Introduction'><h2 class='heading h2' id='Introduction'> Introduction</h2></a>
+Interfaces are the frontline of the project and are written in pure PHP language.
+When the Server project receives a request, the <em>Route Detection Unit</em> which is implemented as a service called <code>RouteService</code>, decides what Interface to execute based on a file called <code>routes.xrml</code>. The Interface then returns a string as the response.</div><div class = 'comment'><a href='#Definition'><h2 class='heading h2' id='Definition'> Definition</h2></a></div><div class = 'comment'><a href='#Structure'><h3 class='heading h3' id='Structure'> Structure</h3></a>
+An Interface block has the following structure.</div><pre><code>#&nbsp;Path\To\Interface\InterfaceName<br>&nbsp;<br>#&nbsp;Description&nbsp;of&nbsp;this&nbsp;Interface,&nbsp;probably&nbsp;in&nbsp;markdown&nbsp;formatting<br>&nbsp;<br>Interface&nbsp;[extends&nbsp;Path\To\Another\Interface\InterfaceName]&nbsp;{<br>&nbsp;&nbsp;INTERFACE_BODY<br>}<br></code></pre><div class = 'comment'>Note that there is no name for the Interface. An Interface name is its file path. Each file can contain at most one block, and the block inherits its name from the file. It is a good practice to have a comment in the first line of the file describing where the file is located.</div><div class = 'comment'><a href='#Hierarchy'><h3 class='heading h3' id='Hierarchy'> Hierarchy</h3></a>
+Interfaces can come in a hierarchy, just like PHP classes. It is possible to call the parent Interface body in the child Interface since the Interface content is written in PHP. Just note that the method, when compiled to PHP, is called <code>execute</code>.
+So, to execute the parent Interface body, one must write <code>parent::execute()</code>.</div><div class = 'comment'><a href='#Xua's_Route_Minimal_Language'><h2 class='heading h2' id='Xua's_Route_Minimal_Language'> Xua's Route Minimal Language</h2></a>
+The file <code>routes.xrml</code> is written in a specific language called XRML, with the following grammar.</div><div class = 'comment'><iframe src="https://docs.google.com/document/d/e/2PACX-1vSeFm_IvFPAH-JOmypfqUpOtS4yEjwsgcJEXWte0bg80IhmheRevoUj9vD12ykvwrtiQjAFueLE0cWT/pub?embedded=true" style="width: 100%; height: 280px; border: none;"></iframe></div><div class = 'comment'>An example of this file would be as following.</div><div class = 'comment'><iframe src="https://docs.google.com/document/d/e/2PACX-1vRysai1o0ItpgR9Zcs2Ttk2fe3-ufzh9R-8WbEPKW-uHaZqptYVW7ONEco0E5ysLPpzX5VCmtfP90RN/pub?embedded=true" style="width: 100%; height: 240px; border: none;"></iframe></div><div class = 'comment'>We use this file to explain all of the XRML features step-by-step.</div><div class = 'comment'><a href='#Literal_Routing_&_The_Routes_Tree'><h3 class='heading h3' id='Literal_Routing_&_The_Routes_Tree'> Literal Routing & The Routes Tree</h3></a>
+When the Server project receives a request, the main file asks the <code>RouteService</code> to find the desired Interface. The Route Service then explodes the requested URL into different pieces by the <code>/</code> character.</div><div class = 'comment'>Assume the client sends a GET request to <code>localhost:8000/media/post</code>. The result of exploding this URL would be the list <code>[&#x27;media&#x27;, &#x27;post&#x27;]</code>. The Route Service then looks into the <code>routes.xrml</code> as a tree, finds the node matching the list's first item, and gets the subtree. Then looks for the list's second item in the subtree and continues the process until it finishes the list. Then looks into the Interfaces provided for that line and chooses the one matching the request method, <code>Post\GetAll</code>. If it can't find such an Interface, it throws an Exception called <code>RouteException</code>, which the <code>ExceptoinService</code> will handle.</div><div class = 'comment'><strong>Note.</strong> The <code>/</code> route is only valid on the root tree, and no subtree can contain such a node. Violating this rule will result in a <code>RouteDefinitionException</code>.</div><div class = 'comment'><a href='#All_Methods_At_Once'><h3 class='heading h3' id='All_Methods_At_Once'> All Methods At Once</h3></a></div><div class = 'comment'>There are two ways to define Interfaces. One is to define an Interface for each HTTP method, in which case if the request method is not defined, the Route Service will throw a Route Exception. However, if one wants to set an Interface for all methods without specifying them, they can just set the Interface without any methods provided, so the Route Service will divert all requests on that URL to the defined Interface regardless of the HTTP method.</div><div class = 'comment'>In the example above, Route Service will divert all requests to <code>localhost:8000/404</code> to the <code>Xua\NotFoundInterface</code>.</div><div class = 'comment'><a href='#Variables_&_Priorities'><h3 class='heading h3' id='Variables_&_Priorities'> Variables & Priorities</h3></a>
+Assume the client sends a GET request to <code>localhost:8000/media/post/12/delete</code>. The result of exploding this URL would be the list <code>[&#x27;media&#x27;, &#x27;post&#x27;, &#x27;12&#x27;, &#x27;delete&#x27;]</code>. The Route Service gets the subtree with <code>post</code> as root, and in that tree, it can't find any route equal to the literal string <code>&#x27;12&#x27;</code>, but instead, there is the route <code>{id}</code> with opening and closing braces indicating a variable. This way, the Route Service knows it can match any string with that route, and it'll save the string <code>&#x27;12&#x27;</code> under the variable name, which is <code>id</code>. The Route Service will process further until it finds the Interface <code>Post\RemoveOne</code>. Now the variable is available in the body of that Interface as <code>RouteService::$routeArgs[&#x27;id&#x27;]</code>.</div><div class = 'comment'><strong>Note.</strong> If one of the siblings of a variable matches the desired route section, Route Service processes that node since literal route sections have a higher priority than the variable route sections; but if further processing the route would result in Route Exception, the Route Service would come back until the latest variable and processes the route in that direction, if it can't find the route in that direction either, it goes back and does the same procedure until possible.</div><div class = 'comment'><strong>Note.</strong> There can't be two variable route sections as siblings, as this will result in a <code>RouteDefinitionException</code>.</div>
+
+        </div>
+
+        <div id="footer">
+            This page has been generated by <a href="http://xuarizmi.ir/">xua</a>
+        </div>
+
+        <div id="filler">
+        </div>
+
+    </div>
+
+</body>
+
+</html>
