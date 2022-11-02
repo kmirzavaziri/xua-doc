@@ -116,11 +116,11 @@ Entity [extends Path\To\Another\Entity\EntityName] {
 # ## Overriding Methods
 # Xua generates a PHP class from each entity, extending `Entity`. This class have many methods which are possible to override. Here is a list of these methods, with the PHP method that is actually being overridden.
 #    Override<initialize>   => protected static _initialize();
-#    Override<getOne>       => protected static _getOne(Condition $condition, Order $order, string $caller);
+#    Override<getOne>       => protected static _getOne(Condition $condition, Order $order, string $lock, string $caller);
 #    Override<store>        => protected _store(string $caller);
 #    Override<storeQueries> => protected _storeQueries(string $caller);
 #    Override<delete>       => protected _delete(string $caller);
-#    Override<getMany>      => protected static _getMany(Condition $condition, Order $order, Pager $pager, string $caller);
+#    Override<getMany>      => protected static _getMany(Condition $condition, Order $order, Pager $pager, string $lock, string $caller);
 #    Override<countMany>    => protected static _countMany(Condition $condition, Order $order, Pager $pager, string $caller);
 #    Override<deleteMany>   => protected static _deleteMany(Condition $condition, Order $order, Pager $pager, string $caller);
 #    Override<setMany>      => protected static _setMany(array $changes, Condition $condition, Order $order, Pager $pager, string $caller);
@@ -799,6 +799,7 @@ distance : DatabaseVirtualField (
 #    static function getOne(
 #        ?Condition $condition = null,
 #        ?Order $order = null,
+#        string $lock = EntityLock::DEFAULT,
 #        string $caller = Visibility::CALLER_PHP
 #    ): static;
 
@@ -816,6 +817,8 @@ distance : DatabaseVirtualField (
 #            $id
 #        )
 #    );
+
+# @TODO Lock
 
 # ### Query
 # @TODO `getMany` and `count`
