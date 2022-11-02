@@ -31,7 +31,7 @@ jobs:
         with:
           repository: kmirzavaziri/xua-lp
           path: xua-lp
-          # token: ${{ secrets.KAMYAR_PAT }}
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Assemble
         run:
           sudo mkdir -p ./public
