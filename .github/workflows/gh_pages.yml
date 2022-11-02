@@ -37,6 +37,7 @@ jobs:
           sudo mkdir -p ./public
           sudo cp -a ${{ github.workspace }}/xua-lp/. ./public/
           sudo cp -a ${{ github.workspace }}/xua-doc/build/html/. ./public/docs/
+          cd ./public/docs/ && sudo zip -r xua-doc.zip *
       # - name: Setup Pages
       #   id: pages
       #   uses: actions/configure-pages@v2

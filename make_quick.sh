@@ -1,0 +1,1 @@
+xua build doc/html src --build-dir=build/html
