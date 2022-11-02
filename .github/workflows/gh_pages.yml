@@ -33,7 +33,7 @@ jobs:
           path: xua-lp
           token: ${{ secrets.KAMYAR_PAT }}
       - name: Assemble
-        run:
+        run: |
           sudo mkdir -p ./public
           sudo cp -a ${{ github.workspace }}/xua-lp/. ./public/
           sudo cp -a ${{ github.workspace }}/xua-doc/build/html/. ./public/docs/
